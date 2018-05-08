@@ -135,7 +135,7 @@ FunGuildSpecies$names<-sub(" ","_",FunGuildSpecies$taxon)
 FunToFun_sporeInfo$species%in%FunGuildSpecies$names
 
 
-#Function to read 
+#Function to read (parse FunGuild) which I obtained after a search in google
 
 parse_funguild <- function(url = 'http://www.stbates.org/funguild_db.php', tax_name = TRUE){
   
@@ -184,3 +184,39 @@ parse_funguild <- function(url = 'http://www.stbates.org/funguild_db.php', tax_n
   
   return(db)
 }
+
+####
+#GBIF data
+#GBIF provides data about where and when species have been recorded.
+#This knowledge derives from many sources, including everything from museum specimens
+#collected in the 18th and 19th century to geotagged smartphone photos shared by amateur 
+#naturalists in recent days and weeks. In practice GBIF provides data on:
+
+
+#1.Record (the type of recording of the species, like human observation)
+#2.Event (when the recording was made)
+#3.Location (where the recording was made)
+#4.Ocurrence (I am not sure, but here they include who made the recording)
+#5.Taxon (the taxonomic information from kingdom to species of the recorded species)
+#6.Other
+
+devtools::install_github("ropensci/rgbif")
+library("rgbif")
+
+
+prueba<-occ_search(scientificName = "Lynx lynx", limit = 50)
+
+
+
+key<-name_backbone(name='Acaulospora alpina', kingdom='fungi')$speciesKey
+occ_search(taxonKey=key, limit=20)
+
+
+keys <- sapply(AllFungi$Species_names, function(x) name_backbone(name=x)$speciesKey, USE.NAMES=FALSE)
+prueba<-occ_search(taxonKey=keys[1:20],limit=202)
+prueba$`8226018`
+
+
+splist <- c('Accipiter erythronemius', 'Junco hyemalis', 'Aix sponsa')
+keys <- sapply(splist, function(x) name_backbone(name=x)$speciesKey, USE.NAMES=FALSE)
+occ_search(taxonKey=keys, limit=5, hasCoordinate=TRUE)
