@@ -97,8 +97,24 @@ AMF_All_Copy<-read.csv("C:\\Users\\Carlos\\Documents\\Professional\\Spore Commun
 #3. Compendium of soil fungi data
 
 CompendiumData<-read.csv("CompSoilFungData.csv",header = T,stringsAsFactors = F)
-              
-                            
+
+CompendiumData$Phylum[grep("Mortierella",CompendiumData$Genus)]<-"Mortierellomycotina"
+CompendiumData$Phylum[grep("Mucor",CompendiumData$Genus)]<-"Mucoromycotina"
+CompendiumData$Phylum[grep("Cunninghamella",CompendiumData$Genus)]<-"Mucoromycotina"
+CompendiumData$Phylum[grep("Rhizomucor",CompendiumData$Genus)]<-"Mucoromycotina"
+CompendiumData$Phylum[grep("Rhizopus",CompendiumData$Genus)]<-"Mucoromycotina"
+CompendiumData$Phylum[grep("Syncephalastrum",CompendiumData$Genus)]<-"Mucoromycotina"
+CompendiumData$Phylum[grep("Thamnidium",CompendiumData$Genus)]<-"Mucoromycotina"
+CompendiumData$Phylum[grep("Zygorhynchus",CompendiumData$Genus)]<-"Mucoromycotina"
+CompendiumData$Phylum[grep("Fusarium",CompendiumData$Genus)]<-"Ascomycota"
+CompendiumData$Phylum[grep("Conidiobolus",CompendiumData$Genus)]<-"Ascomycota"
+CompendiumData$Phylum[grep("Conidiobolus",CompendiumData$Genus)]<-"Entomophthoromycotina"
+
+
+CompendiumData$Name[grep("Conidiobolus",CompendiumData$Genus)]
+CompendiumData$Name[is.na(CompendiumData$Phylum)]
+unique(CompendiumData$Phylum)
+
 #4. Merging all data sources into one "AllFungi"            
 
 AllFungi<-rbind(
