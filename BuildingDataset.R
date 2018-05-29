@@ -27,6 +27,10 @@ library(fungaltraits)
 FunToFun_sporeInfo<-fungal_traits()[!is.na(fungal_traits()$spore_length),
                                     c(1,2,3,68,69,70,75,76)]
 
+                    #In this dataset, spore length is always larger than spore width. Thus,
+                    #Equatorial axis = width; polar axis = length.
+
+
 #2. AMF data
 
 AMF_All_Copy<-read.csv("C:\\Users\\Carlos\\Documents\\Professional\\Spore CommunityAnalysis\\SporeSize\\AMF_Spore_Database_Volume.csv",
@@ -97,39 +101,61 @@ AMF_All_Copy<-read.csv("C:\\Users\\Carlos\\Documents\\Professional\\Spore Commun
 #3. Compendium of soil fungi data
 
 CompendiumData<-read.csv("CompSoilFungData.csv",header = T,stringsAsFactors = F)
+                #Fixing some typos and errors
+                CompendiumData$Phylum[grep("Mortierella",CompendiumData$Genus)]<-"Mortierellomycotina"
+                CompendiumData$Phylum[grep("Mucor",CompendiumData$Genus)]<-"Mucoromycotina"
+                CompendiumData$Phylum[grep("Cunninghamella",CompendiumData$Genus)]<-"Mucoromycotina"
+                CompendiumData$Phylum[grep("Rhizomucor",CompendiumData$Genus)]<-"Mucoromycotina"
+                CompendiumData$Phylum[grep("Rhizopus",CompendiumData$Genus)]<-"Mucoromycotina"
+                CompendiumData$Phylum[grep("Syncephalastrum",CompendiumData$Genus)]<-"Mucoromycotina"
+                CompendiumData$Phylum[grep("Thamnidium",CompendiumData$Genus)]<-"Mucoromycotina"
+                CompendiumData$Phylum[grep("Zygorhynchus",CompendiumData$Genus)]<-"Mucoromycotina"
+                CompendiumData$Phylum[grep("Fusarium",CompendiumData$Genus)]<-"Ascomycota"
+                CompendiumData$Phylum[grep("Conidiobolus",CompendiumData$Genus)]<-"Ascomycota"
+                CompendiumData$Phylum[grep("Conidiobolus",CompendiumData$Genus)]<-"Entomophthoromycotina"
 
-CompendiumData$Phylum[grep("Mortierella",CompendiumData$Genus)]<-"Mortierellomycotina"
-CompendiumData$Phylum[grep("Mucor",CompendiumData$Genus)]<-"Mucoromycotina"
-CompendiumData$Phylum[grep("Cunninghamella",CompendiumData$Genus)]<-"Mucoromycotina"
-CompendiumData$Phylum[grep("Rhizomucor",CompendiumData$Genus)]<-"Mucoromycotina"
-CompendiumData$Phylum[grep("Rhizopus",CompendiumData$Genus)]<-"Mucoromycotina"
-CompendiumData$Phylum[grep("Syncephalastrum",CompendiumData$Genus)]<-"Mucoromycotina"
-CompendiumData$Phylum[grep("Thamnidium",CompendiumData$Genus)]<-"Mucoromycotina"
-CompendiumData$Phylum[grep("Zygorhynchus",CompendiumData$Genus)]<-"Mucoromycotina"
-CompendiumData$Phylum[grep("Fusarium",CompendiumData$Genus)]<-"Ascomycota"
-CompendiumData$Phylum[grep("Conidiobolus",CompendiumData$Genus)]<-"Ascomycota"
-CompendiumData$Phylum[grep("Conidiobolus",CompendiumData$Genus)]<-"Entomophthoromycotina"
-
-
-CompendiumData$Name[grep("Conidiobolus",CompendiumData$Genus)]
-CompendiumData$Name[is.na(CompendiumData$Phylum)]
-unique(CompendiumData$Phylum)
+                #Getting spore widht
+                CompendiumData$spore_width<-NaN
+                      CompendiumData$spore_width[which(
+                        CompendiumData$spore_d2<=CompendiumData$spore_d1)]<-CompendiumData$spore_d2[which(
+                        CompendiumData$spore_d2<=CompendiumData$spore_d1)]
+                      #or
+                      CompendiumData$spore_width[which(
+                          CompendiumData$spore_d1<CompendiumData$spore_d2)]<-CompendiumData$spore_d1[which(
+                          CompendiumData$spore_d1<CompendiumData$spore_d2)]
+                #Getting spore length
+                CompendiumData$spore_length<-NaN
+                      CompendiumData$spore_length[which(
+                        CompendiumData$spore_d2>=CompendiumData$spore_d1)]<-CompendiumData$spore_d2[which(
+                          CompendiumData$spore_d2>=CompendiumData$spore_d1)]
+                      #or
+                      CompendiumData$spore_length[which(
+                        CompendiumData$spore_d1>CompendiumData$spore_d2)]<-CompendiumData$spore_d1[which(
+                          CompendiumData$spore_d1>CompendiumData$spore_d2)]
 
 #4. Merging all data sources into one "AllFungi"            
 
 AllFungi<-rbind(
             data.frame(Species_names=AMF_All_Copy[,1],
+                       spore_length=AMF_All_Copy[,34],
+                       spore_width=AMF_All_Copy[,33],
                        SporeArea=AMF_All_Copy[,15],
                        SporeName="Azygospores",
                        Phylum=AMF_All_Copy[,36],
                        Source="Aguilar_etal_2018"),
             data.frame(Species_names=CompendiumData[,4],
+                       spore_length=CompendiumData[,31],
+                       spore_width=CompendiumData[,30],
                       SporeArea=CompendiumData[,17],
                       SporeName=CompendiumData[,7],
                       Phylum=CompendiumData[,27],
                       Source="CompendiumSoilFungi"),
             data.frame(Species_names=FunToFun_sporeInfo[
-                      FunToFun_sporeInfo$studyName=="Bassler_etal_2015",2],
+                        FunToFun_sporeInfo$studyName=="Bassler_etal_2015",2],
+                      spore_length=FunToFun_sporeInfo[
+                        FunToFun_sporeInfo$studyName=="Bassler_etal_2015",4],
+                      spore_width=FunToFun_sporeInfo[
+                        FunToFun_sporeInfo$studyName=="Bassler_etal_2015",6],
                       SporeArea=FunToFun_sporeInfo[
                         FunToFun_sporeInfo$studyName=="Bassler_etal_2015",5],
                       SporeName="Basidiospores",
