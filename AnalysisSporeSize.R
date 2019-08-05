@@ -5,11 +5,11 @@
 
 #packages
 library(tidyverse)
+library(VennDiagram)
 
-#Data
-AllFungi<-read.csv("AllFungi.csv",header = T,stringsAsFactors = F)
 
-#Data in "AllFungi" used, so far, come from three sources:
+
+######Notes on the Data in "AllFungi" used, so far, come from three sources:
 
 #1. FunToFun Database, specifically from basidiospore of basidiomycota
 #fungi from Bassler etal 2015.
@@ -23,87 +23,197 @@ AllFungi<-read.csv("AllFungi.csv",header = T,stringsAsFactors = F)
 #also data on Mucoromycotina (both sexual an asexual spores), some basidio
 #diomycota and oomycota.
 
+#4. Data from Mycobank extractions done by Franz Krah on January 2019 (check
+#CheckSporeData_FromFranzExtc_on_Jan19.R for more details on the dataset)
+
+#All these data sources were standardize and put together as described in the 
+#script BuildingDataset.R
+
 #################################################################################
 
+                    ########################################
+                    ### Number of unique sps in AllFungi ###
+                    ########################################
+
 #Number of species from which we have spore data so far (per major taxonomic group)
+data.frame(table(AllFungi[!duplicated(AllFungi$Species_names),c(6,7)]))%>%
+            filter(Phylum!="Entomophthoromycotina")%>%
+            #data.frame(table(AllFungi$Phylum))%>%
+            ggplot()+
+            aes(x=Phylum,y=Freq,fill=Source)+
+            geom_bar(stat = "identity")+
+            #geom_text(aes(Freq))%>%
+            #geom_text(aes(label=Freq),vjust=-0.3, size=5)+
+            labs(y="Number of species",x="Taxonomic group")+
+            theme(title = element_text(size = 20),
+                  axis.title.x=element_blank(),
+                  axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+                  axis.text.y = element_text(size = 20),
+                  strip.text.x = element_text(size = 20),
+                  legend.text =  element_text(size = 15))+
+                  scale_fill_discrete(name="Data source")
 
-data.frame(table(list(AllFungi$Phylum,AllFungi$Source)))%>%
-#data.frame(table(AllFungi$Phylum))%>%
-  ggplot()+
-  aes(x=X.1,y=Freq,fill=X.2)+
-  geom_bar(stat = "identity")+
-  #geom_text(aes(label=Freq),vjust=-0.3, size=5)+
-  labs(y="Number of species",x="Taxonomic group")+
-  theme(title = element_text(size = 20),
-        axis.title.x=element_blank(),
-        axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
-        axis.text.y = element_text(size = 20),
-        strip.text.x = element_text(size = 20),
-        legend.text =  element_text(size = 15))+
-        scale_fill_discrete(name="Data source")
+#Calculating how many fungi per phylum we have or per datasource
+data.frame(table(AllFungi[!duplicated(AllFungi$Species_names),c(6,7)]))
+data.frame(table(AllFungi[!duplicated(AllFungi$Species_names),6]))
+data.frame(table(AllFungi[!duplicated(AllFungi$Species_names),7]))
+length(AllFungi$Species_names[is.na(AllFungi$Phylum)])#only 7 sps have not assigned a Phylum
 
+
+                  ########################################
+                  ### Spore Size ACCROSS PHYLUM AND    ###
+                  ###           SPORE TYPE             ###
+                  ########################################
 
 #Spore size distribution across major taxonomic groups and spore types (sexual
 #or asexual)
+AllFungi[-c(5240,5607,5658,7283),]%>%#Removing the entries for Bulgaria pura,Torula carbonaria,Gloeosporium succineum, Peziza pura. They reported as ascomycetes with teliospores, which is weird
+          filter(!is.na(Phylum))%>%
+          filter(!is.na(SporeName))%>%
+          filter(Phylum!="Entomophthoromycotina")%>%
+          filter(Phylum!="Oomycota")%>%
+          filter(!duplicated(measure_orig)|is.na(measure_orig))%>%
+          #filter(Phylum!="Glomeromycota")%>%
+          ggplot()+
+          aes(SporeName,SporeArea,fill=Phylum)+
+          scale_fill_brewer(palette="Set1")+
+          geom_jitter(size=0.5, width = 0.3,alpha=1)+
+          geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
+          facet_grid(. ~ Phylum, scales = "free")+
+          scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+          labs(y=expression("Spore size as area ("*mu*"m²)"))+
+          theme(title = element_text(size = 18),
+                axis.title.x=element_blank(),
+                axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+                axis.text.y = element_text(size = 20),
+                strip.text.x = element_text(size = 20),
+                legend.position = "none")#+
+          #ggtitle(label = "Data from Aguilar_18,Comp. Soil Fungi, Bassler_15")
 
+
+                  ########################################
+                  ###           SPORE SHAPE            ###
+                  ########################################
+
+#Spore size of all species
 AllFungi%>%
-  ggplot()+
-  aes(SporeName,SporeArea,fill=Phylum)+
-  geom_jitter(size=0.5, width = 0.3,alpha=1)+
-  geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
-  facet_grid(. ~ Phylum, scales = "free")+
-  scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-  labs(y=expression("Spore size as area ("*mu*"m²)"))+
-  theme(title = element_text(size = 25),
-        axis.title.x=element_blank(),
-        axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
-        axis.text.y = element_text(size = 20),
-        strip.text.x = element_text(size = 20),
-        legend.position = "none")
+        filter(!is.na(Phylum))%>%
+        filter(!is.na(SporeName))%>%
+        filter(Phylum!="Entomophthoromycotina")%>%
+        filter(Phylum!="Oomycota")%>%
+        filter(!duplicated(measure_orig)|is.na(measure_orig))%>%
+        mutate(Phylum_type=paste(Phylum,SporeName))%>%
+        #filter(Phylum!="Glomeromycota")%>%
+        ggplot()+
+        aes(spore_length,spore_width,color=Phylum_type,size=0.3)+
+        geom_point()+
+        scale_color_manual(values = rainbow(14))+
+        scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+        scale_x_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+        labs(y=expression("Spore width ("*mu*"m)"),x=expression("Spore length ("*mu*"m)"))+
+        theme(title = element_text(size = 18),
+              #axis.title.x=element_blank(),
+              axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+              axis.text.y = element_text(size = 20),
+              strip.text.x = element_text(size = 20),
+              legend.text =  element_text(size = 15))+
+      ggtitle(label = "All phyla and spore types (log-log)")
 
-#Matchings with other datasets
+#Spore shape of only sexual spores
+AllFungi%>%
+        filter(!is.na(Phylum))%>%
+        filter(!is.na(SporeName))%>%
+        filter(Phylum!="Entomophthoromycotina")%>%
+        filter(Phylum!="Oomycota")%>%
+        filter(SporeName=="Basidiospores"|SporeName=="ascospores"|SporeName=="zygospores")%>%
+        #filter(SporeName=="Basidiospores")%>%
+        filter(!duplicated(measure_orig)|is.na(measure_orig))%>%
+        #mutate(Phylum_type=paste(Phylum,SporeName))%>%
+        #filter(Phylum!="Glomeromycota")%>%
+        ggplot()+
+        aes(spore_length,spore_width,color=SporeName,shape=SporeName)+
+        geom_point()+
+        scale_color_brewer(palette="Set1")+
+        scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+        scale_x_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+        labs(y=expression("Spore width ("*mu*"m)"),x=expression("Spore length ("*mu*"m)"))+
+        theme(title = element_text(size = 18),
+              #axis.title.x=element_blank(),
+              axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+              axis.text.y = element_text(size = 20),
+              strip.text.x = element_text(size = 20),
+              legend.text =  element_text(size = 15))+
+      ggtitle(label = "Phyla with sexual spores (log-log)")
 
+#Spore shape of asexual spores
+AllFungi%>%
+        filter(!is.na(Phylum))%>%
+        filter(!is.na(SporeName))%>%
+        filter(Phylum!="Entomophthoromycotina")%>%
+        filter(Phylum!="Oomycota")%>%
+        filter(SporeName!="Basidiospores")%>%
+        filter(SporeName!="ascospores")%>%
+        filter(SporeName!="zygospores")%>%
+        filter(!duplicated(measure_orig)|is.na(measure_orig))%>%
+        #mutate(Phylum_type=paste(Phylum,SporeName))%>%
+        #filter(Phylum!="Glomeromycota")%>%
+        ggplot()+
+        aes(spore_length,spore_width,color=SporeName,shape=Phylum)+
+        geom_point()+
+        scale_color_brewer(palette="Set1")+
+        #scale_color_brewer(palette="Paired")+
+        scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+        scale_x_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+        #facet_grid(. ~ Phylum, scales = "free")+
+        labs(y=expression("Spore width ("*mu*"m)"),x=expression("Spore length ("*mu*"m)"))+
+        theme(title = element_text(size = 18),
+              #axis.title.x=element_blank(),
+              axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+              axis.text.y = element_text(size = 20),
+              strip.text.x = element_text(size = 20),
+              legend.text =  element_text(size = 15))+
+      ggtitle(label = "Phyla with asexual spores (log-log")
+
+AllFungi$Species_names[which(AllFungi$spore_length==max(AllFungi$spore_length,na.rm = T))]
+
+
+                  ########################################
+                  ###  MATCHING WITH TEDERSOO DATASET  ###
+                  ########################################
+
+#Tedersoo Dataset (this was sent to me by Jeff Powell sometime in 2018)
 TedersooBlastMatches<-
-  read.table("hits_species.blast.out.txt",header = T,stringsAsFactors = F)
-
+  read.table("hits_species.blast.out.txt",header = T,stringsAsFactors = F);
+  TedersooBlastMatches$species<-sub("_"," ",TedersooBlastMatches$species)
 length(
   which(AllFungi$Species_names%in%TedersooBlastMatches$species))
-
 length(unique(TedersooBlastMatches$species[
   (which(TedersooBlastMatches$species%in%AllFungi$Species_names))]))
 
-length(unique(FunGuildSpecies$names[
-  (which(FunGuildSpecies$names%in%AllFungi$Species_names))]))
-
-length(
-  which(AllFungi$Species_names%in%FunGuildSpecies$names))
-
-library(VennDiagram)
-
 venn.diagram(list(Tederersoo_Matches=TedersooBlastMatches$species,
-                  SporeData=AllFungi$Species_names,
-                  FungGuild_matches=FunGuildSpecies$names),
-             height = 3480 , 
-             width =3480 ,
-             cat.pos = c(-23, 23,180),
-             cex=2,
-             cat.cex= 2,
-             lty = 'blank',
-             filename = "Tedersoo_FunGuild_Spores.png",
-             fill=c("yellow","blue","green"))
+                  SporeData=AllFungi$Species_names),
+                  height = 3480 , 
+                  width =3480 ,
+                  cat.pos = c(-23, 23),
+                  cex=2,
+                  cat.cex= 2,
+                  marging=0.2,
+                  lty = 'blank',
+                  filename = "Tedersoo&Spores.png",
+                  fill=c("yellow","blue"))
 
-venn.diagram(list(Tederersoo_Matches=TedersooBlastMatches$species,
-                  SporeData=AllFungi$Species_names#,
-                  #FungGuild_matches=FunGuildSpecies$names
-                  ),
-             height = 3480 , 
-             width =3480 ,
-             cat.pos = c(-23, 23),
-             cex=2,
-             cat.cex= 2,
-             lty = 'blank',
-             filename = "Tedersoo&Spores.png",
-             fill=c("yellow","blue"))
+
+                ########################################
+                ###      OVERLAP WITH FUNGUILD       ###
+                ###   AND SPORE SIZE ACROSS GUILDS   ###
+                ########################################
+
+# FunToFun_sporeInfo$species%in%FunGuildSpecies$names
+# length(unique(FunGuildSpecies$names[
+#   (which(FunGuildSpecies$names%in%AllFungi$Species_names))]))
+# length(
+#   which(!FranzKrah_sporeValues$Species_names%in%FunGuildSpecies$names))
+# FranzKrah_sporeValues$Species_names[which(!FranzKrah_sporeValues$Species_names%in%FunGuildSpecies$names)]
 
 venn.diagram(list(#Tederersoo_Matches=TedersooBlastMatches$species,
                   SporeData=AllFungi$Species_names,
@@ -118,105 +228,204 @@ venn.diagram(list(#Tederersoo_Matches=TedersooBlastMatches$species,
                   filename = "FungGuild&Spores.png",
                   fill=c("yellow","green"))
 
+#Spore size across Guilds and trophic modes
+left_join(
+  AllFungi[-c(5240,5607,5658,7283),],#Removing the entries for Bulgaria pura,Torula carbonaria,Gloeosporium succineum, Peziza pura. They reported as ascomycetes with teliospores, which is weird
+          FunGuildData%>%
+            #filter(taxonomicLevel=="Genus")%>%
+            filter(taxonomicLevel=="Species")%>%
+            #rename(Genus=taxon)%>%
+            rename(Species_names=taxon)%>%
+            select(#Genus,
+                   Species_names,
+                   trophicMode,guild,host,substrate,Function,Number_of_guilds,Guild_1)
+            # filter(is.na(host))%>%
+            # unique
+          )%>%
+          filter(Number_of_guilds==1)%>%
+          filter(Phylum=="Ascomycota"|Phylum=="Basidiomycota")%>%
+          filter(trophicMode!="Pathotroph-Saprotroph")%>%
+          filter(trophicMode!="Pathotroph-Symbiotroph")%>%
+          #filter(trophicMode!="Saprotroph")%>%
+          ggplot()+
+          aes(trophicMode,SporeArea,fill=Phylum)+
+          geom_jitter(size=0.3, width = 0.3,alpha=1)+
+          geom_boxplot(alpha=0.8)+#, draw_quantiles=c(0.25, 0.5, 0.75))+
+          facet_grid(. ~ Phylum, scales = "free")+
+          scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+          labs(y=expression("Spore size as area ("*mu*"m²)"))+
+          theme(title = element_text(size = 18),
+                axis.title.x=element_blank(),
+                axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+                axis.text.y = element_text(size = 20),
+                strip.text.x = element_text(size = 20),
+                legend.position = "none")
 
 
 
-#FunGuild
-
-install.packages(c("httr", "jsonlite", "lubridate"))
-
-url  <- "http://www.stbates.org/funguild_db.php"
-
-trial<-parse_funguild(url)
-
-FunGuildSpecies<-trial[trial$taxonomicLevel=="Species",]
-FunGuildSpecies$names<-sub(" ","_",FunGuildSpecies$taxon)
-
-FunToFun_sporeInfo$species%in%FunGuildSpecies$names
+                    ########################################
+                    ###      OVERLAP WITH USDA           ###
+                    ###    SPORE SIZE HABITAT RANGE      ###
+                    ########################################
 
 
-#Function to read (parse FunGuild) which I obtained after a search in google
+#Spore size  and host range
+AllFungi[300:1523,]%>%
+            filter(SporeName!="bulbil"&
+                     SporeName!="oospore"&
+                     SporeName!="papulospore")%>%
+            ggplot()+
+            aes(x=log10(SporeArea),y=log10(host_range),col=SporeName)+
+            geom_point()
 
-parse_funguild <- function(url = 'http://www.stbates.org/funguild_db.php', tax_name = TRUE){
-  
-  # require(XML)
-  # require(jsonlite)
-  # require(RCurl)
-  
-  ## Parse data
-  tmp <- XML::htmlParse(url)
-  tmp <- XML::xpathSApply(doc = tmp, path = "//body", fun = XML::xmlValue)
-  
-  ## Read url and convert to data.frame
-  db <- jsonlite::fromJSON(txt=tmp)
-  
-  ## Remove IDs
-  db$`_id` <- NULL
-  
-  if(tax_name == TRUE){
-    
-    ## Code legend
-    ## Taxon Level: A numeral corresponding the correct taxonomic level for the taxon
-    taxons <- c(
-      "keyword",                                                       # 0
-      "Phylum", "Subphylum", "Class", "Subclass", "Order", "Suborder", # 3:8
-      "Family", "Subfamily", "Tribe", "Subtribe", "Genus",             # 9:13
-      "Subgenus", "Section", "Subsection", "Series", "Subseries",      # 15:19
-      "Species", "Subspecies", "Variety", "Subvariety", "Form",        # 20:24
-      "Subform", "Form Species")
-    
-    ## Table with coding
-    taxmatch <- data.frame(
-      TaxID = c(0, 3:13, 15:26),
-      Taxon = factor(taxons, levels = taxons))
-    
-    ## Match taxon codes
-    db$taxonomicLevel <- taxmatch[match(x = db$taxonomicLevel, table = taxmatch$TaxID), "Taxon"]
-  }
-  
-  # remove rows with missing data
-  # which(
-  # 	with(db, trophicMode == "NULL" & guild == "NULL" & growthForm == "NULL" & trait == "NULL" & notes == "NULL")
-  # 	)
-  
-  ## Add database dump date as attributes to the result
-  attr(db, "DownloadDate") <- date()
-  
-  return(db)
-}
-
-####
-#GBIF data
-#GBIF provides data about where and when species have been recorded.
-#This knowledge derives from many sources, including everything from museum specimens
-#collected in the 18th and 19th century to geotagged smartphone photos shared by amateur 
-#naturalists in recent days and weeks. In practice GBIF provides data on:
+#Plot for sexual spores & analysis of the relationship
+AllFungi[300:1523,]%>%
+          filter(!is.na(host_range))%>%
+          filter(SporeName=="ascospores"|
+                  SporeName=="Basidiospores"|
+                  SporeName=="zygospores"
+                   )%>%
+          ggplot()+
+          aes(x=SporeArea,y=host_range,col=SporeName)+
+          geom_point()+
+           scale_x_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+           scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+          labs(y="host range (log species number)",x=expression("Spore size as log area ("*mu*"m²)"))+
+          theme(title = element_text(size = 25),
+            axis.text.x = element_text(size = 20,hjust = 1),
+                axis.text.y = element_text(size = 20),
+                strip.text.x = element_text(size = 20))+
+                
+          scale_size(guide = F)+
+          #geom_abline(slope = 0.4600, intercept=0.3574,size=1.5,col="red")+
+          #geom_abline( slope=(0.4600-0.7740),intercept=(0.3574+0.6359), size=1.5,col="green")+
+          #geom_abline( slope=(0.4600-0.1119 ),intercept=(0.3574-0.5313 ), size=1.5,col="blue")+
+          geom_smooth(method = "lm",formula = y~x)+
+          facet_wrap(~ SporeName,scales = "free_x")+
+          theme(legend.position="none")
 
 
-#1.Record (the type of recording of the species, like human observation)
-#2.Event (when the recording was made)
-#3.Location (where the recording was made)
-#4.Ocurrence (I am not sure, but here they include who made the recording)
-#5.Taxon (the taxonomic information from kingdom to species of the recorded species)
-#6.Other
-
-devtools::install_github("ropensci/rgbif")
-library("rgbif")
-
-
-prueba<-occ_search(scientificName = "Lynx lynx", limit = 50)
+datos1<-
+AllFungi[300:1523,]%>%
+  filter(!is.na(host_range))%>%
+  filter(SporeName=="ascospores"|
+            SporeName=="Basidiospores"|
+            SporeName=="zygospores"
+  )%>%
+  mutate(SporeArea=log10(SporeArea),host_range=log10(host_range))
+  # datos1$SporeArea[which(is.nan(datos1$SporeArea))]=NA
+  # datos1$host_range[which(is.nan(datos1$host_range))]=NA
+  # datos1$SporeArea[which(datos1$SporeArea==Inf)]=NA
+  # datos1$host_range[which(datos1$host_range==Inf)]=NA
+  #datos1$SporeArea[which(datos1$SporeArea==-Inf)]=NA
+  datos1$host_range[which(datos1$host_range==-Inf)]=NA
 
 
 
-key<-name_backbone(name='Acaulospora alpina', kingdom='fungi')$speciesKey
-occ_search(taxonKey=key, limit=20)
+modelForSexualSpores<-lm(host_range~SporeArea*SporeName,data = datos1)#;rm(datos1)
+summary.lm(modelForSexualSpores)
+summary.aov(modelForSexualSpores)
+
+#Note: Just to have it clear, the parameter for the regression lines from this model
+#correspond to the ones drawn by the function geom_smooth in the plot for sexual spores
 
 
-keys <- sapply(AllFungi$Species_names, function(x) name_backbone(name=x)$speciesKey, USE.NAMES=FALSE)
-prueba<-occ_search(taxonKey=keys[1:20],limit=202)
-prueba$`8226018`
+#Plot for asexual spores
+AllFungi[300:1523,]%>%
+  filter(SporeName!="ascospores"&
+           SporeName!="Basidiospores"&
+           SporeName!="zygospores"&
+         SporeName!="bulbil"&
+           SporeName!="oospore"&
+           SporeName!="papulospore")%>%
+  ggplot()+
+  aes(x=SporeArea,y=host_range,col=SporeName)+
+  geom_point()+
+  scale_x_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  labs(y="host range (species number)",x=expression("Spore size as log area ("*mu*"m²)"))+
+  theme(title = element_text(size = 25),
+        axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+        axis.text.y = element_text(size = 20),
+        strip.text.x = element_text(size = 20))+
+        
+  scale_size(guide = F)+
+  #geom_abline(slope = -0.9076 , intercept=3.4565,size=1.5,col="red")+
+  geom_smooth(method = "lm",formula = y~x)+
+  facet_wrap(~ SporeName)+
+  theme(legend.position="none")
 
 
-splist <- c('Accipiter erythronemius', 'Junco hyemalis', 'Aix sponsa')
-keys <- sapply(splist, function(x) name_backbone(name=x)$speciesKey, USE.NAMES=FALSE)
-occ_search(taxonKey=keys, limit=5, hasCoordinate=TRUE)
+datos2<-AllFungi[300:1523,]%>%
+  filter(SporeName!="ascospores"&
+           SporeName!="Basidiospores"&
+           SporeName!="zygospores"&
+           SporeName!="bulbil"&
+           SporeName!="oospore"&
+           SporeName!="papulospore")%>%mutate(SporeArea=log10(SporeArea),host_range=log10(host_range))
+        # datos2$SporeArea[which(is.nan(datos2$SporeArea))]=NA
+        # datos2$host_range[which(is.nan(datos2$host_range))]=NA
+        # datos2$SporeArea[which(datos2$SporeArea==Inf)]=NA
+        # datos2$host_range[which(datos2$host_range==Inf)]=NA
+        # datos2$SporeArea[which(datos2$SporeArea==-Inf)]=NA
+        datos2$host_range[which(datos2$host_range==-Inf)]=NA
+
+
+modelForAsexualSpores<-lm(host_range~SporeArea*SporeName,data = datos2);#rm(datos2)
+summary.lm(modelForAsexualSpores)
+summary.aov(modelForAsexualSpores)
+
+                    ########################################
+                    ###      OVERLAP WITH GBIF           ###
+                    ###   SPORE SIZE LATITUDE-LONGITUD   ###
+                    ########################################
+
+
+
+left_join(AllFungi,
+          GBIF_keys)%>%
+  filter(is.na(GBIF_code))%>%
+  count(Phylum)%>%
+  ggplot()+
+  aes(x=Phylum,y=n)+
+  geom_bar(stat = "identity")
+
+  m <- matrix(1:4, 2)
+  m
+  prop.table(m, 1)
+
+#random stuff
+names(step2)
+
+rownames(OverLap_Usdr)
+
+associations(c("Alternaria porri"),database = "both",
+             clean = TRUE, syn_include = TRUE,
+             spec_type = "fungus", process = TRUE)
+
+associations(rownames(OverLap_Usdr),database = "both",
+             clean = TRUE, syn_include = TRUE,
+             spec_type = "fungus", process = TRUE)
+
+data.frame(rownames(OverLap_Usdr))
+#############################################################################
+
+#Trying to use eggstractor
+
+# Eggxtractor runs in Matlab. You only need to run the demo file,
+# demo_EggShape.m, so long as the Eggxtractor folder is set as the
+# working directory. Please read the comments in the code about
+# modifying the threshold, and please cite our paper,
+# Stoddard et al. 2017, when using the code.
+
+#matlabR
+run_matlab_code("demo_EggShape.m")
+
+#R.matlab
+readMat("demo_EggShape.m")
+
+#Probando_MatLab_1Time!
+
+#Probando_MatLab_1Time!
+
+
