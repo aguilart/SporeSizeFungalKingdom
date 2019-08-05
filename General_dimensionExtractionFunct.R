@@ -2,7 +2,7 @@ library(tidyverse)
 library(stringr)
 
 get_text<-function(txt,start.regex,end.regex){
-    
+  
     ## some character normalizations; mainly changing diverse comma seperations to comma
     txt <- gsub("\u2013", "-", txt) ## en dash to minus
     txt <- gsub("\u2014", "-", txt) ## en dash to minus
@@ -10,6 +10,7 @@ get_text<-function(txt,start.regex,end.regex){
     txt <- gsub("\\s?-\\s?", "-", txt) ## en dash to minus
     txt <- gsub("×", "x", txt)
     txt <- gsub("±", "+-", txt)
+    txt <- gsub('\n', ' ', txt)
     
     #get the start of the text
     starts <- txt %>%
@@ -56,8 +57,7 @@ get_text<-function(txt,start.regex,end.regex){
         
               }
     }else{spore.val.somewhereA<-"Result not found"}
-    
-    
+
     #Remove hymenophore entries: this applies only when extracting conidiophores
     # wds <- lapply(spore.val.somewhereA, word, start = 1, end = 1)
     # if(length(grep("w*ymenophore\\b", spore.val.somewhereA))>0)
