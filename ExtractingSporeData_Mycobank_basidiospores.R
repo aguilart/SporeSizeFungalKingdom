@@ -132,8 +132,6 @@ s<-sapply(t,length)
 temp<-plyr::rbind.fill(lapply(t, function(y) { as.data.frame(t(y)) }))
 
 temp <- apply(temp, 2, function(x)gsub(',', '.', x))
-temp <- apply(temp, 2, function(x)gsub('\\)', '-)', x))
-temp <- apply(temp, 2, function(x)gsub('\\(', '(-', x))
 temp <- apply(temp, 2, function(x)gsub('\\(', '-', x))
 temp <- apply(temp, 2, function(x)gsub('\\)', '-', x))
 temp <- apply(temp, 2, function(x)gsub('--', '-', x))
