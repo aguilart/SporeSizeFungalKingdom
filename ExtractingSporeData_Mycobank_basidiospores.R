@@ -58,9 +58,11 @@ Basidiospores_text<-
 # temp <- Basidiospores_text
 
 Basidiospores_text<-lapply(Basidiospores_text, 
-                           function(x)gsub('\\([a-zA-Z]+\\. [0-9]{+}-[0-9]{1,}\\)', '', x))
+                           function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\-[0-9]+\\)', '', x))
 Basidiospores_text<-lapply(Basidiospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\,[0-9]+\\)', '', x))
+Basidiospores_text<-lapply(Basidiospores_text, 
+                           function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\)', '', x))
 Basidiospores_text<-lapply(Basidiospores_text, 
                            function(x)gsub('－', '-', x))
 Basidiospores_text<-lapply(Basidiospores_text, 

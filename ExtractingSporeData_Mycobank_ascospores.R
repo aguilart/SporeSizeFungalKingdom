@@ -61,6 +61,8 @@ Ascospores_text<-lapply(Ascospores_text,
 Ascospores_text<-lapply(Ascospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\,[0-9]+\\)', '', x))
 Ascospores_text<-lapply(Ascospores_text, 
+                           function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\)', '', x))
+Ascospores_text<-lapply(Ascospores_text, 
                            function(x)gsub('－', '-', x))
 Ascospores_text<-lapply(Ascospores_text, 
                            function(x)gsub('−', '-', x))
