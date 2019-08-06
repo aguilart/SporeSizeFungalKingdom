@@ -1,5 +1,5 @@
 ####################################################################################
-###########################   ASCOSPORES    ########################################
+###########################   ZYGOSPORES    ########################################
 ####################################################################################
 
 library(tidyverse)
@@ -21,11 +21,11 @@ spore.dat$base_mycobanknr_ <- as.numeric(spore.dat$base_mycobanknr_)
 spore.dat<-left_join(spore.dat,Mycobank_Taxonomy[c(4,12:19)],
                      by="base_mycobanknr_")
 
-#1. Ascospores: this applies only to the ascomycota subset of the Data
+#1. Zygospores: this applies only to the zygomycota subset of the Data
 
-#Subsetting only ascomycetes
+#Subsetting only non-ascomycete species producing zygospores
 
-Ascomycetes<-spore.dat[spore.dat$Phylum==" Ascomycota",]#Retruning 54011 entries
+Zygomycetes<-spore.dat[!spore.dat$Phylum %in% c(" Ascomycota", " Basidiomycota"),]#Retruning 54011 entries
 
 # #Just checking what did get NA:
 # p<-spore.dat[which(is.na(spore.dat$Phylum)),]
@@ -42,39 +42,39 @@ Ascomycetes<-spore.dat[spore.dat$Phylum==" Ascomycota",]#Retruning 54011 entries
 # #all of which are Incertae sedis. For the moment I will just ignore these
 # #species because they are so few.
 # rm(p)
-# Ascomycetes<-Ascomycetes[-which(is.na(Ascomycetes$Phylum)),]#This reduces it to 45416entries
+# Zygomycetes<-Zygomycetes[-which(is.na(Zygomycetes$Phylum)),]#This reduces it to 45416entries
 
-textos<-Ascomycetes$description_description_
-names(textos)<-paste(Ascomycetes$base_name, Ascomycetes$base__id, sep ="_")
+textos<-Zygomycetes$description_description_
+names(textos)<-paste(Zygomycetes$base_name, Zygomycetes$base__id, sep ="_")
 
-#Now I can extract Ascospores out of these subset
+#Now I can extract Zygospores out of these subset
 
-Ascospores_text<-
+Zygospores_text<-
   lapply(textos,get_text,
-         start.regex="scospores$",
+         start.regex="ygospores$",
          end.regex="µm"#,
   )
 
-# temp <- Ascospores_text
-Ascospores_text<-lapply(Ascospores_text, 
+# temp <- Zygospores_text
+Zygospores_text<-lapply(Zygospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]{+}-[0-9]{1,}\\)', '', x))
-Ascospores_text<-lapply(Ascospores_text, 
+Zygospores_text<-lapply(Zygospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\,[0-9]+\\)', '', x))
-Ascospores_text<-lapply(Ascospores_text, 
+Zygospores_text<-lapply(Zygospores_text, 
                            function(x)gsub('－', '', x))
-Ascospores_text<-lapply(Ascospores_text, 
+Zygospores_text<-lapply(Zygospores_text, 
                            function(x)gsub('−', '', x))
 
 
-#Extracting Ascospores values
-Ascospores_values<-
-  lapply(Ascospores_text,get_dimensions2,
+#Extracting Zygospores values
+Zygospores_values<-
+  lapply(Zygospores_text,get_dimensions2,
          extract.regex="[^a-wy-zA-WY-Z]+\\s?µm")
-#Ascospores_values<-Ascospores_values$`1`
+#Zygospores_values<-Zygospores_values$`1`
 
 #Reformatting it into a dataframe
 
-values<- lapply(Ascospores_values, function(x) x[[1]])
+values<- lapply(Zygospores_values, function(x) x[[1]])
 
 ## restructure data as table
 values2 <- list()#it took ~30 seconds to run it
@@ -85,7 +85,7 @@ for(i in 1:length(values)){
 }
 names(values2) <- names(values)
 
-#It seems one does not need this for Ascospores:
+#It seems one does not need this for Zygospores:
 #q<-which(sapply(values2,is.null))#for some reasons some entries are empty
 
 ## combine all spore results in one table
@@ -98,34 +98,34 @@ names(values_df)[3] <- "measure_orig"
 
 
 #Merge the text with the values and spore data info
-text<-lapply(Ascospores_text,plyr::ldply, rbind)
+text<-lapply(Zygospores_text,plyr::ldply, rbind)
 text<-plyr::rbind.fill(text)
 names(text)[1]<-"text_entry"
 
-#Creation of the object "Ascospores" containing all the data
-Ascospores<-cbind(text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Ascospores_text and Ascospores_values. However, it seems fine!
-Ascospores<-data.frame(
-  sapply(Ascospores, as.character),
+#Creation of the object "Zygospores" containing all the data
+Zygospores<-cbind(text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Zygospores_text and Zygospores_values. However, it seems fine!
+Zygospores<-data.frame(
+  sapply(Zygospores, as.character),
   stringsAsFactors = F)#This creates a dataframe conatianing 47032 entries
 #Removing empty entries
-Ascospores<-Ascospores[-which(
-  Ascospores$text_entry=="Result not found"),]#Which is actually the majority of cases: 37768!
+Zygospores<-Zygospores[-which(
+  Zygospores$text_entry=="Result not found"),]#Which is actually the majority of cases: 37768!
 #Removing them reduces the dataframe to 9264 entries
 
-t<-sapply(list(Ascospores$text_entry), nchar)
+t<-sapply(list(Zygospores$text_entry), nchar)
 #Just standarizing the "x"
-Ascospores$measure_orig<-gsub("X","x",Ascospores$measure_orig)
-Ascospores$measure_orig <- gsub(' [[:punct:]] ', ' x ', Ascospores$measure_orig)
-Ascospores$measure_orig <- gsub('\\s+x\\s+', ' x ', Ascospores$measure_orig)
-Ascospores$measure_orig <- gsub('[[:punct:]]  ', '', Ascospores$measure_orig)
-Ascospores$measure_orig <- gsub('  ', ' x ', Ascospores$measure_orig)
-Ascospores$measure_orig <- gsub(' ', ' x ', Ascospores$measure_orig)
-Ascospores$measure_orig <- gsub('[[:space::]]{2,}', ' x ', Ascospores$measure_orig)
+Zygospores$measure_orig<-gsub("X","x",Zygospores$measure_orig)
+Zygospores$measure_orig <- gsub(' [[:punct:]] ', ' x ', Zygospores$measure_orig)
+Zygospores$measure_orig <- gsub('\\s+x\\s+', ' x ', Zygospores$measure_orig)
+Zygospores$measure_orig <- gsub('[[:punct:]]  ', '', Zygospores$measure_orig)
+Zygospores$measure_orig <- gsub('  ', ' x ', Zygospores$measure_orig)
+Zygospores$measure_orig <- gsub(' ', ' x ', Zygospores$measure_orig)
+Zygospores$measure_orig <- gsub('[[:space::]]{2,}', ' x ', Zygospores$measure_orig)
 
 
 ####  Extracting the spore ranges  ######
 
-t<-strsplit(Ascospores$measure_orig,"x")
+t<-strsplit(Zygospores$measure_orig,"x")
 
 s<-sapply(t,length)
 temp<-plyr::rbind.fill(lapply(t, function(y) { as.data.frame(t(y)) }))
@@ -154,17 +154,16 @@ temp <- apply(temp, 2, function(x){
   })
 })
 
-Ascospores <- cbind(Ascospores, temp)
-Ascospores <- Ascospores %>% 
+Zygospores <- cbind(Zygospores, temp)
+Zygospores <- Zygospores %>% 
   rename(Dim1 = V1, 
          Dim2 = V2, 
-         Dim3 = V3, 
-         Dim4 = V4)
+         Dim3 = V3)
 
 
 
 ### Any manual changes needed, do below ###
 
 # for example
-# Ascospores$Dim1[...]<- ...
-# Ascospores$Dim2[...]<- ...
+# Zygospores$Dim1[...]<- ...
+# Zygospores$Dim2[...]<- ...
