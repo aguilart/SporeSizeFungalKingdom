@@ -61,6 +61,8 @@ Zygospores_text<-lapply(Zygospores_text,
 Zygospores_text<-lapply(Zygospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\,[0-9]+\\)', '', x))
 Zygospores_text<-lapply(Zygospores_text, 
+                           function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\)', '', x))
+Zygospores_text<-lapply(Zygospores_text, 
                            function(x)gsub('－', '-', x))
 Zygospores_text<-lapply(Zygospores_text, 
                            function(x)gsub('−', '-', x))
