@@ -167,3 +167,7 @@ Zygospores <- Zygospores %>%
 # for example
 # Zygospores$Dim1[...]<- ...
 # Zygospores$Dim2[...]<- ...
+
+
+### write to file
+write.csv(Zygospores, 'output/zygospores_mycobank.csv', row.names=F)

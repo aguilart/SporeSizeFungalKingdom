@@ -168,3 +168,7 @@ Ascospores <- Ascospores %>%
 # for example
 # Ascospores$Dim1[...]<- ...
 # Ascospores$Dim2[...]<- ...
+
+
+### write to file
+write.csv(Ascospores, 'output/ascospores_mycobank.csv', row.names=F)
