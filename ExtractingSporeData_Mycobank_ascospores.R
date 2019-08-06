@@ -1,5 +1,5 @@
 ####################################################################################
-###########################   BASIDIOSPORES    ########################################
+###########################   ASCOSPORES    ########################################
 ####################################################################################
 
 library(tidyverse)
@@ -21,11 +21,11 @@ spore.dat$base_mycobanknr_ <- as.numeric(spore.dat$base_mycobanknr_)
 spore.dat<-left_join(spore.dat,Mycobank_Taxonomy[c(4,12:19)],
                      by="base_mycobanknr_")
 
-#1. Basidiospores: this applies only to the ascomycota subset of the Data
+#1. Ascospores: this applies only to the ascomycota subset of the Data
 
-#Subsetting only basidiomycetes
+#Subsetting only ascomycetes
 
-Basidiomycetes<-spore.dat[spore.dat$Phylum==" Basidiomycota",]#Retruning 54011 entries
+Ascomycetes<-spore.dat[spore.dat$Phylum==" Ascomycota",]#Retruning 54011 entries
 
 # #Just checking what did get NA:
 # p<-spore.dat[which(is.na(spore.dat$Phylum)),]
@@ -44,37 +44,37 @@ Basidiomycetes<-spore.dat[spore.dat$Phylum==" Basidiomycota",]#Retruning 54011 e
 # rm(p)
 # Ascomycetes<-Ascomycetes[-which(is.na(Ascomycetes$Phylum)),]#This reduces it to 45416entries
 
-textos<-Basidiomycetes$description_description_
-names(textos)<-paste(Basidiomycetes$base_name, Basidiomycetes$base__id, sep ="_")
+textos<-Ascomycetes$description_description_
+names(textos)<-paste(Ascomycetes$base_name, Ascomycetes$base__id, sep ="_")
 
-#Now I can extract Basidiospores out of these subset
+#Now I can extract Ascospores out of these subset
 
-Basidiospores_text<-
+Ascospores_text<-
   lapply(textos,get_text,
-         start.regex="asidiospores$",
+         start.regex="scospores$",
          end.regex="µm"#,
   )
 
-# temp <- Basidiospores_text
-Basidiospores_text<-lapply(Basidiospores_text, 
+# temp <- Ascospores_text
+Ascospores_text<-lapply(Ascospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]{+}-[0-9]{1,}\\)', '', x))
-Basidiospores_text<-lapply(Basidiospores_text, 
+Ascospores_text<-lapply(Ascospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\,[0-9]+\\)', '', x))
-Basidiospores_text<-lapply(Basidiospores_text, 
+Ascospores_text<-lapply(Ascospores_text, 
                            function(x)gsub('－', '', x))
-Basidiospores_text<-lapply(Basidiospores_text, 
+Ascospores_text<-lapply(Ascospores_text, 
                            function(x)gsub('−', '', x))
 
 
-#Extracting Basidiospores values
-Basidiospores_values<-
-  lapply(Basidiospores_text,get_dimensions2,
+#Extracting Ascospores values
+Ascospores_values<-
+  lapply(Ascospores_text,get_dimensions2,
          extract.regex="[^a-wy-zA-WY-Z]+\\s?µm")
-#Basidiospores_values<-Basidiospores_values$`1`
+#Ascospores_values<-Ascospores_values$`1`
 
 #Reformatting it into a dataframe
 
-values<- lapply(Basidiospores_values, function(x) x[[1]])
+values<- lapply(Ascospores_values, function(x) x[[1]])
 
 ## restructure data as table
 values2 <- list()#it took ~30 seconds to run it
@@ -85,7 +85,7 @@ for(i in 1:length(values)){
 }
 names(values2) <- names(values)
 
-#It seems one does not need this for Basidiospores:
+#It seems one does not need this for Ascospores:
 #q<-which(sapply(values2,is.null))#for some reasons some entries are empty
 
 ## combine all spore results in one table
@@ -98,34 +98,34 @@ names(values_df)[3] <- "measure_orig"
 
 
 #Merge the text with the values and spore data info
-text<-lapply(Basidiospores_text,plyr::ldply, rbind)
+text<-lapply(Ascospores_text,plyr::ldply, rbind)
 text<-plyr::rbind.fill(text)
 names(text)[1]<-"text_entry"
 
-#Creation of the object "Basidiospores" containing all the data
-Basidiospores<-cbind(text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Basidiospores_text and Basidiospores_values. However, it seems fine!
-Basidiospores<-data.frame(
-  sapply(Basidiospores, as.character),
+#Creation of the object "Ascospores" containing all the data
+Ascospores<-cbind(text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Ascospores_text and Ascospores_values. However, it seems fine!
+Ascospores<-data.frame(
+  sapply(Ascospores, as.character),
   stringsAsFactors = F)#This creates a dataframe conatianing 47032 entries
 #Removing empty entries
-Basidiospores<-Basidiospores[-which(
-  Basidiospores$text_entry=="Result not found"),]#Which is actually the majority of cases: 37768!
+Ascospores<-Ascospores[-which(
+  Ascospores$text_entry=="Result not found"),]#Which is actually the majority of cases: 37768!
 #Removing them reduces the dataframe to 9264 entries
 
-t<-sapply(list(Basidiospores$text_entry), nchar)
+t<-sapply(list(Ascospores$text_entry), nchar)
 #Just standarizing the "x"
-Basidiospores$measure_orig<-gsub("X","x",Basidiospores$measure_orig)
-Basidiospores$measure_orig <- gsub(' [[:punct:]] ', ' x ', Basidiospores$measure_orig)
-Basidiospores$measure_orig <- gsub('\\s+x\\s+', ' x ', Basidiospores$measure_orig)
-Basidiospores$measure_orig <- gsub('[[:punct:]]  ', '', Basidiospores$measure_orig)
-Basidiospores$measure_orig <- gsub('  ', ' x ', Basidiospores$measure_orig)
-Basidiospores$measure_orig <- gsub(' ', ' x ', Basidiospores$measure_orig)
-Basidiospores$measure_orig <- gsub('[[:space::]]{2,}', ' x ', Basidiospores$measure_orig)
+Ascospores$measure_orig<-gsub("X","x",Ascospores$measure_orig)
+Ascospores$measure_orig <- gsub(' [[:punct:]] ', ' x ', Ascospores$measure_orig)
+Ascospores$measure_orig <- gsub('\\s+x\\s+', ' x ', Ascospores$measure_orig)
+Ascospores$measure_orig <- gsub('[[:punct:]]  ', '', Ascospores$measure_orig)
+Ascospores$measure_orig <- gsub('  ', ' x ', Ascospores$measure_orig)
+Ascospores$measure_orig <- gsub(' ', ' x ', Ascospores$measure_orig)
+Ascospores$measure_orig <- gsub('[[:space::]]{2,}', ' x ', Ascospores$measure_orig)
 
 
 ####  Extracting the spore ranges  ######
 
-t<-strsplit(Basidiospores$measure_orig,"x")
+t<-strsplit(Ascospores$measure_orig,"x")
 
 s<-sapply(t,length)
 temp<-plyr::rbind.fill(lapply(t, function(y) { as.data.frame(t(y)) }))
@@ -152,17 +152,17 @@ temp <- apply(temp, 2, function(x){
   })
 })
 
-Basidiospores <- cbind(Basidiospores, temp)
-Basidiospores <- Basidiospores %>% 
+Ascospores <- cbind(Ascospores, temp)
+Ascospores <- Ascospores %>% 
   rename(Dim1 = V1, 
          Dim2 = V2, 
          Dim3 = V3, 
          Dim4 = V4)
 
 
+
 ### Any manual changes needed, do below ###
 
 # for example
-# Basidiospores$Dim1[...]<- ...
-# Basidiospores$Dim2[...]<- ...
-
+# Ascospores$Dim1[...]<- ...
+# Ascospores$Dim2[...]<- ...
