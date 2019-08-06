@@ -212,5 +212,15 @@ Basidiospores[grep('264922_17429', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] 
 Basidiospores[grep('411956_17429', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(8.85, 5.35)
 
 
+
+Basidiospores[grep('85846_5408', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(13, 11)
+Basidiospores[grep('67940_5408', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(13, 11)
+Basidiospores[grep('68652_5408', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(13,11)
+Basidiospores[grep('82139_5408', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(13, 11)
+Basidiospores[grep('73554_5408', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(13, 11)
+Basidiospores[grep('71145_5408', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(13, 11)
+
+
+
 ### write to file
 write.csv(Basidiospores, 'output/basidiospores_mycobank.csv', row.names=F)
