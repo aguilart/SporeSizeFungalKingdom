@@ -56,14 +56,15 @@ Basidiospores_text<-
   )
 
 # temp <- Basidiospores_text
+
 Basidiospores_text<-lapply(Basidiospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]{+}-[0-9]{1,}\\)', '', x))
 Basidiospores_text<-lapply(Basidiospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\,[0-9]+\\)', '', x))
 Basidiospores_text<-lapply(Basidiospores_text, 
-                           function(x)gsub('－', '', x))
+                           function(x)gsub('－', '-', x))
 Basidiospores_text<-lapply(Basidiospores_text, 
-                           function(x)gsub('−', '', x))
+                           function(x)gsub('−', '-', x))
 
 
 #Extracting Basidiospores values
@@ -114,7 +115,7 @@ Basidiospores<-Basidiospores[-which(
 
 t<-sapply(list(Basidiospores$text_entry), nchar)
 #Just standarizing the "x"
-Basidiospores$measure_orig<-gsub("X","x",Basidiospores$measure_orig)
+Basidiospores$measure_orig <- gsub("X","x",Basidiospores$measure_orig)
 Basidiospores$measure_orig <- gsub(' [[:punct:]] ', ' x ', Basidiospores$measure_orig)
 Basidiospores$measure_orig <- gsub('\\s+x\\s+', ' x ', Basidiospores$measure_orig)
 Basidiospores$measure_orig <- gsub('[[:punct:]]  ', '', Basidiospores$measure_orig)
@@ -131,6 +132,8 @@ s<-sapply(t,length)
 temp<-plyr::rbind.fill(lapply(t, function(y) { as.data.frame(t(y)) }))
 
 temp <- apply(temp, 2, function(x)gsub(',', '.', x))
+temp <- apply(temp, 2, function(x)gsub('\\)', '-)', x))
+temp <- apply(temp, 2, function(x)gsub('\\(', '(-', x))
 temp <- apply(temp, 2, function(x)gsub('\\(', '-', x))
 temp <- apply(temp, 2, function(x)gsub('\\)', '-', x))
 temp <- apply(temp, 2, function(x)gsub('--', '-', x))

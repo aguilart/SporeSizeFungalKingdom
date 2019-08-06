@@ -1,5 +1,5 @@
 ####################################################################################
-###########################   ZYGOSPORES    ########################################
+###########################   (A)ZYGOSPORES    ########################################
 ####################################################################################
 
 library(tidyverse)
@@ -61,9 +61,9 @@ Zygospores_text<-lapply(Zygospores_text,
 Zygospores_text<-lapply(Zygospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\,[0-9]+\\)', '', x))
 Zygospores_text<-lapply(Zygospores_text, 
-                           function(x)gsub('－', '', x))
+                           function(x)gsub('－', '-', x))
 Zygospores_text<-lapply(Zygospores_text, 
-                           function(x)gsub('−', '', x))
+                           function(x)gsub('−', '-', x))
 
 
 #Extracting Zygospores values

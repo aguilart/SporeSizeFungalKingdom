@@ -11,6 +11,9 @@ get_text<-function(txt,start.regex,end.regex){
     txt <- gsub("×", "x", txt)
     txt <- gsub("±", "+-", txt)
     txt <- gsub('\n', ' ', txt)
+    txt <- gsub('[a-zA-Z]µm[a-zA-Z]', 'um', txt)
+    txt <- gsub('\\-[lI]', '-1', txt)
+    txt <- gsub('\\-[lI]', '-1', txt)
     
     #get the start of the text
     starts <- txt %>%
