@@ -170,6 +170,47 @@ Basidiospores <- Basidiospores %>%
 # for example
 # Basidiospores$Dim1[...]<- ...
 # Basidiospores$Dim2[...]<- ...
+# for example
+Basidiospores[grep('202783', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(18.2, 17.1)
+Basidiospores[grep('440865', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(18.2, 17.1)
+Basidiospores[grep('508322', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(18.2, 17.1)
+Basidiospores[grep('512359', Basidiospores$spec), c('Dim1', 'Dim2')][1,] <- c(9, 3.25)
+Basidiospores[grep('88034', Basidiospores$spec), c('Dim1', 'Dim2')][1,] <- c(5.4, 2.6)
+Basidiospores[grep('88034', Basidiospores$spec), c('Dim1', 'Dim2')][2,] <- c(5, 2)
+
+Basidiospores[grep('172826', Basidiospores$spec), c('Dim1', 'Dim2')][1,] <- c(5.4, 2.6)
+Basidiospores[grep('172826', Basidiospores$spec), c('Dim1', 'Dim2')][2,] <- c(5, 2)
+Basidiospores[grep('74295', Basidiospores$spec), c('Dim1')] <- 16
+Basidiospores[grep('86825', Basidiospores$spec), c('Dim1')] <- 16
+Basidiospores[grep('74294', Basidiospores$spec), c('Dim1')] <- 16
+Basidiospores[grep('82226', Basidiospores$spec), c('Dim1')] <- 16
+
+Basidiospores[grep('71208', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(4.4, 4.3)
+Basidiospores[grep('20446', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(4.4, 4.3)
+Basidiospores[grep('79426', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(4.4, 4.3)
+Basidiospores[grep('71207', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(4.4, 4.3)
+Basidiospores[grep('80076', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(4.4, 4.3)
+Basidiospores[grep('71209', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(4.4, 4.3)
+Basidiospores[grep('82125', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(4.4, 4.3)
+
+
+Basidiospores[grep('15229', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(6.5, 2.75)
+Basidiospores[grep('15228', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(6.5, 2.75)
+Basidiospores[grep('14808', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(6.5, 2.75)
+Basidiospores[grep('73957', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(6.5, 2.75)
+Basidiospores[grep('85051', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(6.5, 2.75)
+Basidiospores[grep('410125', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(6.5, 2.75)
+
+Basidiospores[grep('508825', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(7.5, 8)
+Basidiospores[grep('508826', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(8.8, NA)
+Basidiospores[grep('508828', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(8.5, 10)
+Basidiospores[grep('508824', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(8.25, NA)
+
+
+Basidiospores[grep('264921_17429', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(8.85, 5.35)
+Basidiospores[grep('264922_17429', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(8.85, 5.35)
+Basidiospores[grep('411956_17429', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(8.85, 5.35)
+
 
 ### write to file
 write.csv(Basidiospores, 'output/basidiospores_mycobank.csv', row.names=F)
