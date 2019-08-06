@@ -45,7 +45,7 @@ Ascomycetes<-spore.dat[spore.dat$Phylum==" Ascomycota",]#Retruning 54011 entries
 # Ascomycetes<-Ascomycetes[-which(is.na(Ascomycetes$Phylum)),]#This reduces it to 45416entries
 
 textos<-Ascomycetes$description_description_
-names(textos)<-paste(Ascomycetes$base_name, Ascomycetes$base__id, sep ="_")
+names(textos)<-paste(Ascomycetes$base_name, Ascomycetes$base__id, Ascomycetes$description__id, sep ="_")
 
 #Now I can extract Ascospores out of these subset
 

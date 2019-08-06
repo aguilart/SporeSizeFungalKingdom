@@ -45,7 +45,7 @@ Basidiomycetes<-spore.dat[spore.dat$Phylum==" Basidiomycota",]#Retruning 54011 e
 # Ascomycetes<-Ascomycetes[-which(is.na(Ascomycetes$Phylum)),]#This reduces it to 45416entries
 
 textos<-Basidiomycetes$description_description_
-names(textos)<-paste(Basidiomycetes$base_name, Basidiomycetes$base__id, sep ="_")
+names(textos)<-paste(Basidiomycetes$base_name, Basidiomycetes$base__id, Basidiomycetes$description__id, sep ="_")
 
 #Now I can extract Basidiospores out of these subset
 

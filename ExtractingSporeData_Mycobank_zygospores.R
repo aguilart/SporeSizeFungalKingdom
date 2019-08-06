@@ -45,7 +45,7 @@ Zygomycetes<-spore.dat[!spore.dat$Phylum %in% c(" Ascomycota", " Basidiomycota")
 # Zygomycetes<-Zygomycetes[-which(is.na(Zygomycetes$Phylum)),]#This reduces it to 45416entries
 
 textos<-Zygomycetes$description_description_
-names(textos)<-paste(Zygomycetes$base_name, Zygomycetes$base__id, sep ="_")
+names(textos)<-paste(Zygomycetes$base_name, Zygomycetes$base__id, Zygomycetes$description__id, sep ="_")
 
 #Now I can extract Zygospores out of these subset
 
