@@ -2,6 +2,8 @@
 ###########################   CONIDIA      ########################################
 ####################################################################################
 
+rm(list=ls())
+
 library(tidyverse)
 
 source('General_dimensionExtractionFunct.R')
@@ -59,7 +61,7 @@ Conidia_text<-lapply(Conidia_text,
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]{+}-[0-9]{1,}\\)', '', x))
 Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\,[0-9]+\\)', '', x))
-Conidia_text<-lapply(Basidiospores_text, 
+Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\)', '', x))
 Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('－', '-', x))
@@ -188,7 +190,53 @@ Conidia <- Conidia %>%
 
 ### Any manual changes needed, do below ###
 
+
+
+
+
+
+
+
 # for example
 # Conidia$Dim1[...]<- ...
 # Conidia$Dim2[...]<- ...
+
+## check the large value for Dim1
+Conidia[grep('_10206', Conidia$spec),  c('Dim1', 'Dim2')]<- c(70,2.5)
+Conidia[grep('_9981', Conidia$spec),  c('Dim1', 'Dim2')] <- c(72.5, 4)
+Conidia[grep('_10225', Conidia$spec),  c('Dim1', 'Dim2')] <-  c(85, 3.13)
+Conidia[grep('_19615', Conidia$spec),  c('Dim1', 'Dim2')] <-  c(2.85, NA)
+Conidia[grep('545342_70019', Conidia$spec),  c('Dim1', 'Dim2')][3,] <-  c(13.25, NA)
+Conidia[grep('_10265', Conidia$spec),  c('Dim1', 'Dim2')] <-  c(62.5, 4.5)
+Conidia[grep('_28956', Conidia$spec),  c('Dim1', 'Dim2')] <-  c(36.5, 17.5)
+Conidia[grep('_29847', Conidia$spec),  c('Dim1', 'Dim2')] <-  c(39.5, 16.5)
+Conidia[grep('_45282', Conidia$spec),  c('Dim1', 'Dim2')][1,] <-  c(28.5, 5.75)
+Conidia[grep('_43602', Conidia$spec),  c('Dim1', 'Dim2')] <-  c(32, 16.5)
+Conidia[grep('_31321', Conidia$spec),  c('Dim1', 'Dim2')] <-  c(24, 4)
+Conidia[grep('_10025', Conidia$spec),  c('Dim1', 'Dim2')][c(1, 4),] <-  c(47.5, 5.25)
+Conidia[grep('_10056', Conidia$spec),  c('Dim1', 'Dim2')] <-  c(45, 3.75)
+Conidia[grep('1928', Conidia$Dim1),  c('Dim1', 'Dim2')] <-  c(23.5, 15.5)
+Conidia[grep('1530', Conidia$Dim1),  c('Dim1', 'Dim2')] <-  c(22.5, 10.5)
+Conidia[grep('1518', Conidia$Dim1),  c('Dim1', 'Dim2')] <-  c(16.5, 6)
+Conidia[grep('1924', Conidia$Dim1),  c('Dim1', 'Dim2')] <-  c(21.5, 3)
+Conidia[grep('35125', Conidia$Dim2),  c('Dim1', 'Dim2')] <-  c(3.25, 80)
+Conidia[grep('20100', Conidia$Dim2),  c('Dim1', 'Dim2')] <-  c(2.75, 60)
+Conidia[grep('920', Conidia$Dim2),  c('Dim1', 'Dim2')] <-  c(17, 14.5)
+Conidia[grep('560.75', Conidia$Dim2),  c('Dim1', 'Dim2')] <-  c(16.25, 11)
+
+
+# Note1 : the "ca" issue. when the text contain ca, 
+#        such as 4.0-5.0 x ca. 1.0 µm, the code only pick up 
+#        the later value, i.e. 1.0 in this case
+
+
+### Note 2 : when the measure_orig contained x in there, 
+###          it always did not pick up the value for Dim 1 
+###          and only put them into Dim2
+
+
+## Note 3 : check the small values for Dim1 and Dim2, 
+## seems the code did not extract the right value 
+## and just give the wrong value, all the value 
+## below than 1 um should be checked.
 
