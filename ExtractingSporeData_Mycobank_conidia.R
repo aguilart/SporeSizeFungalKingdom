@@ -55,7 +55,7 @@ Conidia_text<-
          end.regex="µm"#,
   )
 
-temp <- Conidia_text
+# temp <- Conidia_text
 
 Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]{+}-[0-9]{1,}\\)', '', x))
@@ -67,6 +67,8 @@ Conidia_text<-lapply(Conidia_text,
                            function(x)gsub('－', '-', x))
 Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('−', '-', x))
+Conidia_text<-lapply(Conidia_text, 
+                     function(x)gsub(' x ca ', ' x ', x))
 
 #Extracting Conidia values
 Conidia_values<-#Conidia_text[[632]] Conidia$text_entry_temp[128]
@@ -239,4 +241,7 @@ Conidia[grep('560.75', Conidia$Dim2),  c('Dim1', 'Dim2')] <-  c(16.25, 11)
 ## seems the code did not extract the right value 
 ## and just give the wrong value, all the value 
 ## below than 1 um should be checked.
+
+### write to file
+write.csv(Conidia, 'output/conidia_mycobank.csv', row.names=F)
 
