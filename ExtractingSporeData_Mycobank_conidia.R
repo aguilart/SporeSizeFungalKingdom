@@ -55,7 +55,7 @@ Conidia_text<-
          end.regex="µm"#,
   )
 
-temp <- Conidia_text
+# temp <- Conidia_text
 
 Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]{+}-[0-9]{1,}\\)', '', x))
@@ -67,6 +67,8 @@ Conidia_text<-lapply(Conidia_text,
                            function(x)gsub('－', '-', x))
 Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('−', '-', x))
+Conidia_text<-lapply(Conidia_text, 
+                     function(x)gsub(' x ca ', ' x ', x))
 
 #Extracting Conidia values
 Conidia_values<-#Conidia_text[[632]] Conidia$text_entry_temp[128]
@@ -193,4 +195,8 @@ Conidia <- Conidia %>%
 # for example
 # Conidia$Dim1[...]<- ...
 # Conidia$Dim2[...]<- ...
+
+
+### write to file
+write.csv(Conidia, 'output/conidia_mycobank.csv', row.names=F)
 
