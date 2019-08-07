@@ -59,6 +59,8 @@ Conidia_text<-lapply(Conidia_text,
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]{+}-[0-9]{1,}\\)', '', x))
 Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\,[0-9]+\\)', '', x))
+Conidia_text<-lapply(Basidiospores_text, 
+                           function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\)', '', x))
 Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('－', '-', x))
 Conidia_text<-lapply(Conidia_text, 
