@@ -2,6 +2,8 @@
 ###########################   CONIDIA      ########################################
 ####################################################################################
 
+rm(list=ls())
+
 library(tidyverse)
 
 source('General_dimensionExtractionFunct.R')
@@ -59,7 +61,7 @@ Conidia_text<-lapply(Conidia_text,
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]{+}-[0-9]{1,}\\)', '', x))
 Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\,[0-9]+\\)', '', x))
-Conidia_text<-lapply(Basidiospores_text, 
+Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\)', '', x))
 Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub('－', '-', x))
