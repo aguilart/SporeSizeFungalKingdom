@@ -164,12 +164,24 @@ Ascospores <- Ascospores %>%
          Dim4 = V4)
 
 
+### Manual changes ###
 
-### Any manual changes needed, do below ###
+#Exclude data with dimensions above 200um
+Ascospores<-Ascospores[which(Ascospores$Dim1<=200),]
 
-# for example
-# Ascospores$Dim1[...]<- ...
-# Ascospores$Dim2[...]<- ...
+#Check spore dimensions between 100 and 200um and exclude data that do not correspond to spore size (perithecia, asci...)
+b<-c(136,2767,2961,3131,5354, 5525,7581,11095,13102,13232, 13233,13234,13235,13890,
+     13891,13892,13893, 13897,13898,13899,13900,14368,14375,14729:14732,15160,18499,
+     21054,21055,21140:21143,25369,26116,28069,28299,28609,29511,29747:29749,
+     31746,33107,33752,33789,33817,34918,35933, 39924,41411,43085,44268,45002,
+     45003,46765,47246,47334,48349,48642,49504,49505,49736,50137,53347,53351,1880,
+     3044,13486,14303,38849) #rownames to exclude
+
+Ascospores<-Ascospores[!rownames(Ascospores) %in% b,] #Exclude from dataframe
+rm(b)
+
+#Remove entry with Dim1 = 0 and <0.2
+Ascospores<-Ascospores[which(Ascospores$Dim1>0.2),]
 
 
 ### write to file
