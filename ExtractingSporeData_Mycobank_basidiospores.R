@@ -126,6 +126,7 @@ Basidiospores$measure_orig <- gsub('[[:punct:]]  ', '', Basidiospores$measure_or
 Basidiospores$measure_orig <- gsub('  ', ' x ', Basidiospores$measure_orig)
 Basidiospores$measure_orig <- gsub(' ', ' x ', Basidiospores$measure_orig)
 Basidiospores$measure_orig <- gsub('[[:space::]]{2,}', ' x ', Basidiospores$measure_orig)
+Basidiospores$measure_orig <- gsub('^x', '', Basidiospores$measure_orig)
 
 
 ####  Extracting the spore ranges  ######

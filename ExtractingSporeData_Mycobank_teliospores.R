@@ -1,5 +1,5 @@
 ####################################################################################
-###########################   (A)ZYGOSPORES    ########################################
+###########################   TelioSPORES    ########################################
 ####################################################################################
 
 rm(list=ls())
@@ -23,11 +23,11 @@ spore.dat$base_mycobanknr_ <- as.numeric(spore.dat$base_mycobanknr_)
 spore.dat<-left_join(spore.dat,Mycobank_Taxonomy[c(4,12:19)],
                      by="base_mycobanknr_")
 
-#1. Zygospores: this applies only to the zygomycota subset of the Data
+#1. Teliospores: this applies only to the ascomycota subset of the Data
 
-#Subsetting only non-ascomycete species producing zygospores
+#Subsetting only basidiomycetes
 
-Zygomycetes<-spore.dat[!spore.dat$Phylum %in% c(" Ascomycota", " Basidiomycota"),]#Retruning 54011 entries
+Basidiomycetes<-spore.dat[spore.dat$Phylum==" Basidiomycota",]#Retruning 54011 entries
 
 # #Just checking what did get NA:
 # p<-spore.dat[which(is.na(spore.dat$Phylum)),]
@@ -44,41 +44,42 @@ Zygomycetes<-spore.dat[!spore.dat$Phylum %in% c(" Ascomycota", " Basidiomycota")
 # #all of which are Incertae sedis. For the moment I will just ignore these
 # #species because they are so few.
 # rm(p)
-# Zygomycetes<-Zygomycetes[-which(is.na(Zygomycetes$Phylum)),]#This reduces it to 45416entries
+# Ascomycetes<-Ascomycetes[-which(is.na(Ascomycetes$Phylum)),]#This reduces it to 45416entries
 
-textos<-Zygomycetes$description_description_
-names(textos)<-paste(Zygomycetes$base_name, Zygomycetes$base__id, Zygomycetes$description__id, sep ="_")
+textos<-Basidiomycetes$description_description_
+names(textos)<-paste(Basidiomycetes$base_name, Basidiomycetes$base__id, Basidiomycetes$description__id, sep ="_")
 
-#Now I can extract Zygospores out of these subset
+#Now I can extract Teliospores out of these subset
 
-Zygospores_text<-
+Teliospores_text<-
   lapply(textos,get_text,
-         start.regex="ygospores$",
+         start.regex="eliospores$",
          end.regex="µm"#,
   )
 
-# temp <- Zygospores_text
-Zygospores_text<-lapply(Zygospores_text, 
-                           function(x)gsub('\\([a-zA-Z]+\\. [0-9]{+}-[0-9]{1,}\\)', '', x))
-Zygospores_text<-lapply(Zygospores_text, 
+# temp <- Teliospores_text
+
+Teliospores_text<-lapply(Teliospores_text, 
+                           function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\-[0-9]+\\)', '', x))
+Teliospores_text<-lapply(Teliospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\,[0-9]+\\)', '', x))
-Zygospores_text<-lapply(Zygospores_text, 
+Teliospores_text<-lapply(Teliospores_text, 
                            function(x)gsub('\\([a-zA-Z]+\\. [0-9]+\\)', '', x))
-Zygospores_text<-lapply(Zygospores_text, 
+Teliospores_text<-lapply(Teliospores_text, 
                            function(x)gsub('－', '-', x))
-Zygospores_text<-lapply(Zygospores_text, 
+Teliospores_text<-lapply(Teliospores_text, 
                            function(x)gsub('−', '-', x))
 
 
-#Extracting Zygospores values
-Zygospores_values<-
-  lapply(Zygospores_text,get_dimensions2,
+#Extracting Teliospores values
+Teliospores_values<-
+  lapply(Teliospores_text,get_dimensions2,
          extract.regex="[^a-wy-zA-WY-Z]+\\s?µm")
-#Zygospores_values<-Zygospores_values$`1`
+#Teliospores_values<-Teliospores_values$`1`
 
 #Reformatting it into a dataframe
 
-values<- lapply(Zygospores_values, function(x) x[[1]])
+values<- lapply(Teliospores_values, function(x) x[[1]])
 
 ## restructure data as table
 values2 <- list()#it took ~30 seconds to run it
@@ -89,7 +90,7 @@ for(i in 1:length(values)){
 }
 names(values2) <- names(values)
 
-#It seems one does not need this for Zygospores:
+#It seems one does not need this for Teliospores:
 #q<-which(sapply(values2,is.null))#for some reasons some entries are empty
 
 ## combine all spore results in one table
@@ -102,34 +103,35 @@ names(values_df)[3] <- "measure_orig"
 
 
 #Merge the text with the values and spore data info
-text<-lapply(Zygospores_text,plyr::ldply, rbind)
+text<-lapply(Teliospores_text,plyr::ldply, rbind)
 text<-plyr::rbind.fill(text)
 names(text)[1]<-"text_entry"
 
-#Creation of the object "Zygospores" containing all the data
-Zygospores<-cbind(text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Zygospores_text and Zygospores_values. However, it seems fine!
-Zygospores<-data.frame(
-  sapply(Zygospores, as.character),
+#Creation of the object "Teliospores" containing all the data
+Teliospores<-cbind(text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Teliospores_text and Teliospores_values. However, it seems fine!
+Teliospores<-data.frame(
+  sapply(Teliospores, as.character),
   stringsAsFactors = F)#This creates a dataframe conatianing 47032 entries
 #Removing empty entries
-Zygospores<-Zygospores[-which(
-  Zygospores$text_entry=="Result not found"),]#Which is actually the majority of cases: 37768!
+Teliospores<-Teliospores[-which(
+  Teliospores$text_entry=="Result not found"),]#Which is actually the majority of cases: 37768!
 #Removing them reduces the dataframe to 9264 entries
 
-t<-sapply(list(Zygospores$text_entry), nchar)
+t<-sapply(list(Teliospores$text_entry), nchar)
 #Just standarizing the "x"
-Zygospores$measure_orig<-gsub("X","x",Zygospores$measure_orig)
-Zygospores$measure_orig <- gsub(' [[:punct:]] ', ' x ', Zygospores$measure_orig)
-Zygospores$measure_orig <- gsub('\\s+x\\s+', ' x ', Zygospores$measure_orig)
-Zygospores$measure_orig <- gsub('[[:punct:]]  ', '', Zygospores$measure_orig)
-Zygospores$measure_orig <- gsub('  ', ' x ', Zygospores$measure_orig)
-Zygospores$measure_orig <- gsub(' ', ' x ', Zygospores$measure_orig)
-Zygospores$measure_orig <- gsub('[[:space::]]{2,}', ' x ', Zygospores$measure_orig)
-Zygospores$measure_orig <- gsub('^x', '', Zygospores$measure_orig)
+Teliospores$measure_orig <- gsub("X","x",Teliospores$measure_orig)
+Teliospores$measure_orig <- gsub(' [[:punct:]] ', ' x ', Teliospores$measure_orig)
+Teliospores$measure_orig <- gsub('\\s+x\\s+', ' x ', Teliospores$measure_orig)
+Teliospores$measure_orig <- gsub('[[:punct:]]  ', '', Teliospores$measure_orig)
+Teliospores$measure_orig <- gsub('  ', ' x ', Teliospores$measure_orig)
+Teliospores$measure_orig <- gsub(' ', ' x ', Teliospores$measure_orig)
+Teliospores$measure_orig <- gsub('[[:space::]]{2,}', ' x ', Teliospores$measure_orig)
+Teliospores$measure_orig <- gsub('^x', '', Teliospores$measure_orig)
+
 
 ####  Extracting the spore ranges  ######
 
-t<-strsplit(Zygospores$measure_orig,"x")
+t<-strsplit(Teliospores$measure_orig,"x")
 
 s<-sapply(t,length)
 temp<-plyr::rbind.fill(lapply(t, function(y) { as.data.frame(t(y)) }))
@@ -158,23 +160,19 @@ temp <- apply(temp, 2, function(x){
   })
 })
 
-Zygospores <- cbind(Zygospores, temp)
-Zygospores <- Zygospores %>% 
+Teliospores <- cbind(Teliospores, temp)
+Teliospores <- Teliospores %>% 
   rename(Dim1 = V1, 
          Dim2 = V2, 
          Dim3 = V3)
 
 
-
 ### Any manual changes needed, do below ###
 
-# hist(Zygospores$Dim1)
-# filter(Zygospores, Dim1 > 2000)
-# head(filter(Zygospores, Dim1 < 0.2))
-
-Zygospores$Dim1[c(96, 99, 350)]<- 172.5
-# Zygospores$Dim2[...]<- ...
-
+# for example
+# Teliospores$Dim1[...]<- ...
+# Teliospores$Dim2[...]<- ...
+# for example
 
 ### write to file
-write.csv(Zygospores, 'output/zygospores_mycobank.csv', row.names=F)
+write.csv(Teliospores, 'output/Teliospores_mycobank.csv', row.names=F)
