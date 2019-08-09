@@ -1,442 +1,453 @@
 "text_entry","spec","spore_type","measure_orig","Dim1","Dim2","Dim3"
-"Zygospores globoid or slightly ovoid, 20-32 µm","Kuzuhaea moniliformis_30560_165","Zygospores","20-32 µ",26,NA,NA
-"Azygospores frequent, resembling zygospores, but smaller, 16-20 µm","Kuzuhaea moniliformis_30560_165","Azygospores","16-20 µ",18,NA,NA
-"Zygospores formed aerially between zygophores, sporophores, or zygophores and sporophores, at all levels above the agar surface either singly or in small groups; globose to subglobose, (49-)57-74(-80), av. 66 µm","Benjaminiella multispora_33004_176","Zygospores",". 66 µ",66,NA,NA
-"Zygospores abundant, formed on aerial hyphae near surface of substrate; globose to subglobose, (45-)65-80(-90), av. 72 µm","Mycotypha indica_40132_178","Zygospores",". 72 µ",72,NA,NA
-"Zygospores formed at or below the surface of the medium, 60-100 µm","Poitrasia circinans_5132_412","Zygospores","60-100 µ",80,NA,NA
-"zygospores  formed at or below the surface of the medium, dark reddish-brown to almost black, with large central oil droplet, oval to globose, 40-90 µm","Poitrasia circinans_5132_429","zygospores","40-90 µ",65,NA,NA
-"Zygospores biconical, 36-43 x 7-10 µm,","Simuliomyces spica_128695_19011","Zygospores","36-43 x 7-10 µ",39.5,8.5,NA
-"Zygospores broadly ellipsoidal, thick-walled, episporium black, smooth, 26.1-28.4 x 18.7-20.4 µm.","Neozygites fresenii_142867_67480","Zygospores","26.1-28.4 x 18.7-20.4 µ",27.25,19.55,NA
-"Zygospores globoid or slightly ovoid, 19-30 µm","Syncephalis hypogena_30717_23155","Zygospores","19-30 µ",24.5,NA,NA
-"Zygospores homothallic, reddish brown to dark brown, mostly inside an exudate droplet, up to 80 µm","Mucor faisalabadensis_31162_274","Zygospores","80 µ",80,NA,NA
-"zygospores 41-83.5(94) µm","Mycocladus corymbiferus_162922_423","zygospores","41-83.5(94) µ",83.5,NA,NA
-"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 µm,","Mycocladus corymbiferus_162922_11404","Zygospores","60-100-45-80 µ",72.5,NA,NA
-"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) µm","Mycocladus corymbiferus_162922_13935","Zygospores","41-83,5 (-94) µ",83.5,NA,NA
-"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 µm","Mycocladus corymbiferus_162922_14820","Zygospores","41-94 µ",67.5,NA,NA
-"zygospores 50-80 µm","Mycocladus ramosus_167355_422","zygospores","50-80 µ",65,NA,NA
-"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) µm","Mycocladus ramosus_167355_13936","Zygospores","85,5 x 102,5) µ",85.5,102.5,NA
-"zygospores never formed; azygospores abundant, produced terminally and subterminally on simple or branched azygophores 0.1-1.5 cm in height; azygospores globose or subglobose, orangebrown to brownish-black, 30-120 µm","Circinomucor bainieri_184285_430","zygospores","30-120 µ",75,NA,NA
-"azygospores abundant, produced terminally and subterminally on simple or branched azygophores 0.1-1.5 cm in height; azygospores globose or subglobose, orangebrown to brownish-black, 30-120 µm","Circinomucor bainieri_184285_430","azygospores","30-120 µ",75,NA,NA
-"azygospores globose or subglobose, orangebrown to brownish-black, 30-120 µm","Circinomucor bainieri_184285_430","azygospores","30-120 µ",75,NA,NA
-"azygospores globose or sub-globose, up to 110 µm","Circinomucor bainieri_184285_14979","azygospores","110 µ",110,NA,NA
-"zygospores [CBS 195.68 (+) x CBS 108.16 (-), on whey agar at 25°C] globose to slightly compressed, up to 100 µm","Circinomucor circinelloides_203237_14981","zygospores","100 µ",100,NA,NA
-"zygospores [CBS 116.08 (-) x CBS 198.28 (+), on PDA at 25°C] globose, up to 80 µm","Circinomucor griseocyanus_193504_14983","zygospores","80 µ",80,NA,NA
-"zygospores [CBS 205.68 (=) x CBS 232.29 (-) on PDA at 25°C] globose or nearly so, up to 70 µm","Circinomucor janssenii_166043_14984","zygospores","70 µ",70,NA,NA
-"zygospores [CBS 213.75 (+) x CBS 226.32 (-) on beerwort agar at 24° ] formed in the aerial mycelium in a ladder-1ike fashion, globose or subglobose, up to 85 µm","Circinomucor plumbeus_165015_14987","zygospores","85 µ",85,NA,NA
-"zygospores [CBS 115.08 (+) x CBS 238.35 (-) on cherry agar at 10°C] in the lower portion of the colony, on hyphae bearing both zygospores and sporangia, globose or nearly so, up to 90 µm","Circinomucor sphaerosporus_35219_14989","zygospores","90 µ",90,NA,NA
-"zygospores and sporangia, globose or nearly so, up to 90 µm","Circinomucor sphaerosporus_35219_14989","zygospores","90 µ",90,NA,NA
-"zygospores (CBS 763.74 (+) x CBS 185.77 (-) on beerwort agar at 25°C) in the aerial mycelium, most abundant in the lower part of the colony, black, globose to slightly compressed, up to 70 x 60 µm,","Zygorhynchus amphibiorum_180616_15783","zygospores","70 x 60 µ",70,60,NA
-"Zygospores borne between opposed suspensors, globose to slightly compressed, up to 70 x 60 µm,","Zygorhynchus amphibiorum_180616_18591","Zygospores","70 x 60 µ",70,60,NA
-"zygospores homothallic, formed at a short distance above the substrate on zygophores which are shorter than the sporangiophores, black, globose or nearly so, roughened by broad projections which are often brushlike in outline, up to 80 x 77 µm","Zygorhynchus bacilliformis_177005_15766","zygospores","80 x 77 µ",80,77,NA
-"zygospores borne near the substrate upon zygophores, nearly spherical, brown to brownish black, containing several large oil droplets, 35-72 µm,","Zygorhynchus bacilliformis_177005_47548","zygospores","35-72 µ",53.5,NA,NA
-"zygospores (CBS 226.29 (+) x CBS 422.71 (-), on beerwort agar, at 25°C) in the aerial mycelium, most abundant in the underportion of the colony, black, globose to slightly compressed, up to 100 µm","Zygorhynchus indicus_170207_15769","zygospores","100 µ",100,NA,NA
-"azygospores may occur; suspensors unequal, one very short, the other swollen but constricted adjacent to the zygospore, up to 35 µm","Zygorhynchus indicus_170207_15769","azygospores","35 µ",35,NA,NA
-"Zygospores formed in great numbers between opposed progametangia arising from aerial hyphae near the surface of the substrate; zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 µm","Benjaminiella poitrasii_5850_213","Zygospores","5-10 µ",7.5,NA,NA
-"zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 µm","Benjaminiella poitrasii_5850_213","zygospores","5-10 µ",7.5,NA,NA
-"zygospores globose, slightly compressed between the suspensors, brownish, tuberculate, 2,53-55 µm","Cunninghamella echinulata var. elegans_159668_280","zygospores","2,53-55 µ",28.765,NA,NA
-"zygospores et d'hyphes épais (jusqu'à 17 µm","Endogone sphagnophila_133573_13667","zygospores","'à 17 µ",NA,NA,NA
-"Zygospores entassées dans la glèbe de manière aléatoire, sphériques à ellipsoïdes ou déformées par leur proximité (30.8-56.6 x 35.0-73.4 µm)","Endogone sphagnophila_133573_13667","Zygospores","é (30.8-56.6 x 35.0-73.4 µ",30.8,54.2,NA
-"Zygospores round or oval, 160-220 µm","Rhizopus stolonifer_58300_13944","Zygospores","160-220 µ",190,NA,NA
-"Zygospores 103-180 (-220) µm,","Rhizopus stolonifer_58300_14825","Zygospores","103-180 (-220) µ",180,NA,NA
-"zygospores globose, slightly compressed between the suspensors, (40-)50-65(-80) a in diam., brownish, tuberculate; suspensors eqnal, smooth, hyaline. 18-35 x 25-35 µm;","Cunninghamella blakesleeana_7213_278","zygospores",". 18-35 x 25-35 µ",26.5,30,NA
-"Zygospores on YpSs globose to subglobose, (42-) 52-78(-105) µm","Thamnostylum lucknowense_26987_34493","Zygospores","(42-) 52-78(-105) µ",65,NA,NA
-"Zygospores globose, 70-85 µm","Mucor oudemansii_167463_13941","Zygospores","70-85 µ",77.5,NA,NA
-"Zygospores (from Schipper, 1976) globose or sub-globose, up to 110 µm","Mucor oudemansii_167463_14828","Zygospores","110 µ",110,NA,NA
-"Azygospores sometimes present. Chlamydospores numerous in aerial mycelium, sporangiophores and sometimes in the columellae and suspensors, doliiform, sub-globose or globose, often wider than hyphae and up to 30 µm","Mucor oudemansii_167463_14828","Azygospores","30 µ",30,NA,NA
-"zygospores [CBS 124.23 (-1-) x CBS 260.68 (-) on cherry agar, at 10° C] in the aerial mycelium, globose or nearly so, up to [p. 22] 110 µm","Mucor oudemansii_167463_14990","zygospores",". 22] 110 µ",NA,NA,NA
-"zygospores 41-83.5(94) µm","Mycocladus corymbifer_162923_423","zygospores","41-83.5(94) µ",83.5,NA,NA
-"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 µm,","Mycocladus corymbifer_162923_11404","Zygospores","60-100-45-80 µ",72.5,NA,NA
-"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) µm","Mycocladus corymbifer_162923_13935","Zygospores","41-83,5 (-94) µ",83.5,NA,NA
-"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 µm","Mycocladus corymbifer_162923_14820","Zygospores","41-94 µ",67.5,NA,NA
-"zygospores 50-80 µm","Mycocladus ramosus_193849_422","zygospores","50-80 µ",65,NA,NA
-"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) µm","Mycocladus ramosus_193849_13936","Zygospores","85,5 x 102,5) µ",85.5,102.5,NA
-"zygospores [CBS 115.08 (+) x CBS 238.35 (-) on cherry agar at 10°C] in the lower portion of the colony, on hyphae bearing both zygospores and sporangia, globose or nearly so, up to 90 µm","Mucor dimorphosporus f. sphaerosporus_151435_14989","zygospores","90 µ",90,NA,NA
-"zygospores and sporangia, globose or nearly so, up to 90 µm","Mucor dimorphosporus f. sphaerosporus_151435_14989","zygospores","90 µ",90,NA,NA
-"Zygospores biconical, 49-55 x 7-8 µm,","Stachylina reflexa_139505_50540","Zygospores","49-55 x 7-8 µ",52,7.5,NA
-"zygospores 30-70 µm","Mucor angarensis_104699_139","zygospores","30-70 µ",50,NA,NA
-"zygospores [CBS 169.25 (-) x CBS 225.29 (+), on cherry agar at 15°C] slightly compressed between suspensors, up to 210 x 90 (240 x 210) µm,","Mucor piriformis_16416_15866","zygospores","210 x 90 (240 x 210) µ",210,165,210
-"Zygospores borne between opposed suspensors, subglobose, up to 210 (-240) x 190 (-210) µm,","Mucor piriformis_16416_18592","Zygospores","210 (-240) x 190 (-210) µ",225,200,NA
-"zygospores forming at 15-20° C but not at 7° or 24° C on special media, located just above substrate between equal tong-shaped suspensors, black, globose, faintly tuberculate, fragile (breaking readily under cover slips), 250-350 µm","Mucor phycomyces_119806_255","zygospores",")250-350 µ",300,NA,NA
-"zygospores (CBS 412.66 (+) x CBS 208.28 (-) on beerwort agar at 20°C) in the aerial mycelium, reddish brown, up to 70 µm","Mucor parasiticus_142465_15808","zygospores","70 µ",70,NA,NA
-"Zygospores globose tosubglobose, 92-106 µm","Mortierella globulifera_15987_18587","Zygospores","92-106 µ",99,NA,NA
-"Zygospores (50-)70-100(-125) µm","Helicostylum repens_143037_34495","Zygospores","(50-)70-100(-125) µ",85,NA,NA
-"zygospores [CBS 108.17 (-) x CBS 277.49 (+), on beerwort agar at 25°C] globose to slightly compressed between suspensors, up to 115 x 105 µm,","Mucor lusitanicus_16380_14982","zygospores","115 x 105 µ",115,105,NA
-"Zygospores 4-8 per sporangium, reniform, 9-12 µm","Sclerospora graminicola_123966_14419","Zygospores","9-12 µ",10.5,NA,NA
-"Zygospores are unknown. A. harzii (Berl. & De Toni) Rosenberg 1959 was allegedly distinguished by its larger sporangia but falls within the range of variation of A. elegans. Primary sporangia mostly 60-80 µm,","Rhizopus elegans_155897_13834","Zygospores","60-80 µ",70,NA,NA
-"zygospores 25-47 µm","Chaetocladium brefeldii_4312_261","zygospores","25-47 µ",36,NA,NA
-"zygospores formed in clumps on tufts of aerial mycelium that arise from stolons or other aerial mycelium above the substrate, many zygospores not maturing; zygospore-producing hyphae hyaline, smoothwalled, irregularly branched, up to 13 µm","Chaetocladium brefeldii_4312_261","zygospores","13 µ",13,NA,NA
-"zygospores not maturing; zygospore-producing hyphae hyaline, smoothwalled, irregularly branched, up to 13 µm","Chaetocladium brefeldii_4312_261","zygospores","13 µ",13,NA,NA
-"Zygospores formed from tongs-1ike often slightly unequal, apposed suspensors, brown to reddish-brown, translucent, with a smooth, thin outer layer and a striate, thick inner layer, 30-105 µm","Choanephora cucurbitarum_33658_406","Zygospores","30-105 µ",67.5,NA,NA
-"Zygospores globose to subglobose, (42-) 54 (-80) x (40-) 52 (-70) µm,","Mortierella alpina_15852_18585","Zygospores","(42-) 54 (-80) x (40-) 52 (-70) µ",54,52,NA
-"Zygospores globose and 18-58 µm","Zygorhynchus moelleri_29457_38487","Zygospores","18-58 µ",38,NA,NA
-"zygospores forming at 15-20° C but not at 7° or 24° C on special media, located just above substrate between equal tong-shaped suspensors, black, globose, faintly tuberculate, fragile (breaking readily under cover slips), 250-350 µm","Ulva nitens_150608_255","zygospores",")250-350 µ",300,NA,NA
-"zygospores [CBS 234.35 (-) x 235.35 (+), on PDA at 15°C] borne chiefly in the upper portion of the aerial mycelium, often in a ladderlike fashion, spherical, compressed between suspensors, up to 180 x 165 µm,","Mucor flavus_16285_15871","zygospores","180 x 165 µ",180,165,NA
-"zygospores (CBS 412.71 x CBS 250.35, on cherry agar at 10°C) up to 65 x 70 µm,","Mucor silvaticus_16493_7899","zygospores","65 x 70 µ",65,70,NA
-"zygospores [CBS 115.08 (+) x CBS 238.35 (-) on cherry agar at 10°C] in the lower portion of the colony, on hyphae bearing both zygospores and sporangia, globose or nearly so, up to 90 µm","Mucor sphaerosporus_16496_14989","zygospores","90 µ",90,NA,NA
-"zygospores and sporangia, globose or nearly so, up to 90 µm","Mucor sphaerosporus_16496_14989","zygospores","90 µ",90,NA,NA
-"zygospores (homothallic) brown to blackish brown, globose to slightly compressed, up to 80 µm","Mucor genevensis_16304_7901","zygospores","80 µ",80,NA,NA
-"zygospores always numerous, produced near the substrate, giving the culture a blackish zone, spherical to slightly compressed, with heavy spines up to 4.2 µm.","Mucor genevensis_16304_47549","zygospores","4.2 µ",4.2,NA,NA
-"Zygospores round or oval, 160-220 µm","Mucor stolonifer_104688_13944","Zygospores","160-220 µ",190,NA,NA
-"Zygospores 103-180 (-220) µm,","Mucor stolonifer_104688_14825","Zygospores","103-180 (-220) µ",180,NA,NA
-"zygospores [CBS 974.68 (+) x CBS 137.40 (-) on beerwort agar at 15°C] formed in the aerial mycelium just above the agar surface, globose to slightly compressed between suspensors, up to 180 x 170 µm,","Mucor saturninus_16488_15867","zygospores","180 x 170 µ",180,170,NA
-"zygospores [CBS 195.68 (+) x CBS 108.16 (-), on whey agar at 25°C] globose to slightly compressed, up to 100 µm","Mucor circinelloides_58323_14981","zygospores","100 µ",100,NA,NA
-"Zygospores formed from tongs-1ike often slightly unequal, apposed suspensors, brown to reddish-brown, translucent, with a smooth, thin outer layer and a striate, thick inner layer, 30-105 µm","Rhopalomyces cucurbitarum_155770_406","Zygospores","30-105 µ",67.5,NA,NA
-"Zygospores are unknown. A. harzii (Berl. & De Toni) Rosenberg 1959 was allegedly distinguished by its larger sporangia but falls within the range of variation of A. elegans. Primary sporangia mostly 60-80 µm,","Mucor elegans_58412_13834","Zygospores","60-80 µ",70,NA,NA
-"Zygospores between equal suspensors, black, spherical, 50-90 ?m diam, with conical projections. Heterothallic. Physiology. Maximum growth temperature 40°C. Pathogenicity. BSL-2. The species is a saprobe, rarely occurring on humans. A case of cutaneous infection in a human (Kalamam & Thambiah, 1980) and a bovine mycotic abortion have been reported (Turner, 1964). References. Zycha et al. (1969), Samson et al. (1996). Nomenclature. Syncephalastrum racemosum Cohn-Kryptfl. Schles. 3-1: 217, 1886. Syncephalastrum recemosum F. Cohn ex Schroeter, 1886, Kryptogamenfl. Schlweiz., 2, 1: 217. / in Matsuhima (1975), p. 188.  Hab Solo culto; Setagaya Ward, Tokyo; vii. 1961; MFC-1051.  Descr In CMA: Coloniae late effusae, arachnoideae, pallide griseae. Sporangiophora basi rhizoideo, ramosa, apice uni-vesiculata; vesiculae globosae subglobosaeve, 30-80 µm","Syncephalastrum racemosum_26698_11426","Zygospores","30-80 µ",55,NA,NA
-"Zygospores developed from the conjugation of two undifferentiated hyphal branches, globose or ovoid, nearly colorless, thick-walled, smooth, 23-50 µm,","Coemansiella alabastrina_117619_34446","Zygospores","23-50 µ",36.5,NA,NA
-"zygospores at first white, when mature dark brown to black, slightly roughened (blunt projections no more than 5 µm","Syzygites megalocarpus_26746_23169","zygospores","5 µ",5,NA,NA
-"zygospores up to 0.5 cm. above substrate hence below the sporangia, dichotomously divided, nearly hyaline below but dark brown in region of zygospores, terminally tapering to 5 µm;","Syzygites megalocarpus_26746_23169","zygospores","5 µ",5,NA,NA
-"azygospores seen which reach a diam. to 160 µm;","Syzygites megalocarpus_26746_23169","azygospores","160 µ",160,NA,NA
-"zygospores globose, slightly compressed between the suspensors, brownish, tuberculate, 2,53-55 µm","Cunninghamella elegans_7234_280","zygospores","2,53-55 µ",28.765,NA,NA
-"zygospores 50-80 µm","Absidia ramosa_97_422","zygospores","50-80 µ",65,NA,NA
-"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) µm","Absidia ramosa_97_13936","Zygospores","85,5 x 102,5) µ",85.5,102.5,NA
-"zygospores 41-83.5(94) µm","Absidia corymbifera_29_423","zygospores","41-83.5(94) µ",83.5,NA,NA
-"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 µm,","Absidia corymbifera_29_11404","Zygospores","60-100-45-80 µ",72.5,NA,NA
-"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) µm","Absidia corymbifera_29_13935","Zygospores","41-83,5 (-94) µ",83.5,NA,NA
-"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 µm","Absidia corymbifera_29_14820","Zygospores","41-94 µ",67.5,NA,NA
-"zygospores (125-)160185(-208) µm","Absidia glauca_66_322","zygospores","(125-)160185(-208) µ",160185,NA,NA
-"zygospores 83-156(-180) µm","Absidia coerulea_21_326","zygospores","83-156(-180) µ",156,NA,NA
-"Zygospores developed from the conjugation of two undifferentiated hyphal branches, globose or ovoid, nearly colorless, thick-walled, smooth, 23-50 µm,","Kickxella alabastrina_13866_34446","Zygospores","23-50 µ",36.5,NA,NA
-"zygospores (125-)160185(-208) µm","Absidia septata_31173_323","zygospores","(125-)160185(-208) µ",160185,NA,NA
-"zygospores 78-86 µm","Absidia scabra_240820_40216","zygospores","78-86 µ",82,NA,NA
-"zygospores usually 40-75 µm","Absidia spinosa_46500_7569","zygospores","40-75 µ",57.5,NA,NA
-"Zygospores are covered with blunt stellate projections to 4.5 µm","Absidia spinosa_46500_13808","Zygospores","4.5 µ",4.5,NA,NA
-"Zygospores 4-8 per sporangium, reniform, 9-12 µm","Peronospora graminicola_158344_14419","Zygospores","9-12 µ",10.5,NA,NA
-"zygospores 41-83.5(94) µm","Mucor corymbifer_35523_423","zygospores","41-83.5(94) µ",83.5,NA,NA
-"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 µm,","Mucor corymbifer_35523_11404","Zygospores","60-100-45-80 µ",72.5,NA,NA
-"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) µm","Mucor corymbifer_35523_13935","Zygospores","41-83,5 (-94) µ",83.5,NA,NA
-"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 µm","Mucor corymbifer_35523_14820","Zygospores","41-94 µ",67.5,NA,NA
-"zygospores globose to slightly compressed between the suspensors, tuberculate, brownish, 30-50 µm","Cunninghamella echinulata_160036_279","zygospores","30-50 µ",40,NA,NA
-"Zygospores (fide Cutter, 1946) formed at 25°C, heterothallic, nearly opaque 46-80 x 40-63 (av. 70 x 58) µm","Cunninghamella echinulata_160036_13937","Zygospores",". 70 x 58) µ",70,58,NA
-"zygospores (CBS 106.09 x CBS 365.68 on PDA., at 20°C) black, globose to slightly compressed, up to 93 x 85 (110 x 108) µm,","Mucor corticola_16276_7897","zygospores","93 x 85 (110 x 108) µ",93,97.5,108
-"(azygospores may be present); suspensors equal or unequal (i.e.: one suspensor swollen) up to 30 µm","Mucor corticola_16276_7897","(azygospores","30 µ",30,NA,NA
-"zygospores [CBS 640.67 (-) x CBS 144.24 (+), on beerwort agar at 15°C] globose to compressed between suspensors, up to 250 x 200 µm,","Mucor mucedo_16394_15865","zygospores","250 x 200 µ",250,200,NA
-"Zygospores globose, (72-)89-112(-126), av. 100, µm","Pirella circinans_21852_34462","Zygospores",". 100µ",100,NA,NA
-"zygospores [CBS 213.75 (+) x CBS 226.32 (-) on beerwort agar at 24° ] formed in the aerial mycelium in a ladder-1ike fashion, globose or subglobose, up to 85 µm","Mucor plumbeus_16433_14987","zygospores","85 µ",85,NA,NA
-"Zygospores non observeés. Ce Mucor semble parenté au M. mucilagineus Bref. (Wint. Kr. FI. IV, par Alfred Fischer, l' 190), niais en diffère par des spores beaucoup plus petites (8-8.5 x 4.5-5 µm","Mucor adventitius_16204_168","Zygospores","(8-8.5 x 4.5-5 µ",8.25,4.75,NA
-"Zygospores globose to subglobose, (35-)40-70(-85) µm","Mucor lamprosporus_2981_34587","Zygospores","(35-)40-70(-85) µ",55,NA,NA
-"zygospores [CBS 205.68 (=) x CBS 232.29 (-) on PDA at 25°C] globose or nearly so, up to 70 µm","Mucor janssenii_16364_14984","zygospores","70 µ",70,NA,NA
-"zygospores forming at 15-20° C but not at 7° or 24° C on special media, located just above substrate between equal tong-shaped suspensors, black, globose, faintly tuberculate, fragile (breaking readily under cover slips), 250-350 µm","Phycomyces nitens_21437_255","zygospores",")250-350 µ",300,NA,NA
-"zygospores spherical, laterally attached to arched suspensors, black at maturity, about half the size of those of P. nitens, measuring about 125 µm","Phycomyces microsporus_58728_257","zygospores","125 µ",125,NA,NA
-"zygospores (CBS 412.66 (+) x CBS 208.28 (-) on beerwort agar at 20°C) in the aerial mycelium, reddish brown, up to 70 µm","Parasitella parasitica_18490_15808","zygospores","70 µ",70,NA,NA
-"zygospores forming at 15-20° C but not at 7° or 24° C on special media, located just above substrate between equal tong-shaped suspensors, black, globose, faintly tuberculate, fragile (breaking readily under cover slips), 250-350 µm","Mucor nitens_150609_255","zygospores",")250-350 µ",300,NA,NA
-"Zygospores formed at or below the surface of the medium, 40-80 µm","Blakeslea trispora_3144_405","Zygospores","40-80 µ",60,NA,NA
-"Zygospores on YpD (50-)55-75(-85) µm","Helicostylum nigricans_167287_34494","Zygospores","(50-)55-75(-85) µ",65,NA,NA
-"Zygospores on MEYE globose to subglobose, 70-175 µm","Helicostylum piriforme_12670_34492","Zygospores","70-175 µ",122.5,NA,NA
-"zygospores 50-80 µm","Mucor ramosus_167356_422","zygospores","50-80 µ",65,NA,NA
-"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) µm","Mucor ramosus_167356_13936","Zygospores","85,5 x 102,5) µ",85.5,102.5,NA
-"Zygospores homothallic, globose to slightly flattened at the sides, black, 55-75 µm","Mucor pusillus_24315_13940","Zygospores","55-75 µ",65,NA,NA
-"Zygospores 45-63 (-70) µm","Mucor pusillus_24315_14826","Zygospores","45-63 (-70) µ",63,NA,NA
-"zygospores (CBS 253.53 (+) x CBS 354.68 (-) on beerwort agar at 30°C) formed in the aerial mycelium, globose to slightly compressed, up to 70 x 63 µm,","Mucor pusillus_24315_15805","zygospores","70 x 63 µ",70,63,NA
-"Zygospores globose, 70-85 µm","Mucor racemosus_37917_13941","Zygospores","70-85 µ",77.5,NA,NA
-"Zygospores (from Schipper, 1976) globose or sub-globose, up to 110 µm","Mucor racemosus_37917_14828","Zygospores","110 µ",110,NA,NA
-"Azygospores sometimes present. Chlamydospores numerous in aerial mycelium, sporangiophores and sometimes in the columellae and suspensors, doliiform, sub-globose or globose, often wider than hyphae and up to 30 µm","Mucor racemosus_37917_14828","Azygospores","30 µ",30,NA,NA
-"zygospores [CBS 124.23 (-1-) x CBS 260.68 (-) on cherry agar, at 10° C] in the aerial mycelium, globose or nearly so, up to [p. 22] 110 µm","Mucor racemosus_37917_14990","zygospores",". 22] 110 µ",NA,NA,NA
-"zygospores at first brown, then blackish brown to black, less than 100 µm","Mucor hiemalis_46607_7896","zygospores","100 µ",100,NA,NA
-"zygospores 30-70 µm","Circinella angarensis_5342_139","zygospores","30-70 µ",50,NA,NA
-"zygospores 18-36 µm","Tieghemella butleri_168902_7557","zygospores","18-36 µ",27,NA,NA
-"Zygospores 17-34 µm","Tieghemella butleri_168902_18584","Zygospores","17-34 µ",25.5,NA,NA
-"zygospores 83-156(-180) µm","Tieghemella coerulea_160697_326","zygospores","83-156(-180) µ",156,NA,NA
-"zygospores 40-67 µm","Tieghemella cylindrospora_203242_7570","zygospores","40-67 µ",53.5,NA,NA
-"zygospores in single-sporangium transfers, light grey colonies growing well at 25ºC and up to 31ºC, scanty whorls (up to four branches) of sporangiophores, and spores 3.3-5.5 x 2.2-3.5 µm.","Tieghemella cylindrospora_203242_13806","zygospores","3.3-5.5 x 2.2-3.5 µ",4.4,2.85,NA
-"Zygospores covered with blunt stellate projections to 4.5 µm","Tieghemella cylindrospora_203242_13806","Zygospores","4.5 µ",4.5,NA,NA
-"Zygospores hyaline, globose to subglobose, (34-)46(-62) µm","Mortierella humilis_168108_23259","Zygospores","(34-)46(-62) µ",46,NA,NA
-"zygospores (figs. 8, 9, 10) formed as a solid black line across the plate at juncture of two mating types, borne in air above substrate, never on or in substrate; zygospores 35-90 µm,","Choanephora persicaria_11593_428","zygospores","35-90 µ",62.5,NA,NA
-"zygospores 35-90 µm,","Choanephora persicaria_11593_428","zygospores","35-90 µ",62.5,NA,NA
-"Zygospores (fide Hesssltine, 1960) (35-) 70-80 (-90) µm","Choanephora persicaria_11593_13938","Zygospores","1960) (35-) 70-80 (-90) µ",70,NA,NA
-"zygospores occasionally a septum may occur, sometimes covered with crystals; heterothallic, zygophores 10-15 µm","Choanephora persicaria_11593_13938","zygospores","10-15 µ",12.5,NA,NA
-"zygospores [CBS 108.17 (-) x CBS 277.49 (+), on beerwort agar at 25°C] globose to slightly compressed between suspensors, up to 115 x 105 µm,","Mucor racemosus var. lusitanicus_143547_14982","zygospores","115 x 105 µ",115,105,NA
-"zygospores were obtained after mutual combinations of 12 isolates on various media in only two combinations on cherry decoction agar after 6 days at 15-17.5°C but not above; suspensors developing without initial entangling, of unequal size and shape; zygospores smooth-and thin-walled, 22-30 µm","Mortierella turficola_16162_23455","zygospores","22-30 µ",26,NA,NA
-"zygospores smooth-and thin-walled, 22-30 µm","Mortierella turficola_16162_23455","zygospores","22-30 µ",26,NA,NA
-"zygospores produced readily between compatible strains at room temperature or below on ordinary substrates, formed between tong-shaped suspensors at the surface of the substratum, black, globose, faintly roughened, readily crushed under a cover glass, mostly 400-500 µm","Phycomyces blakesleeanus_21420_256","zygospores","400-500 µ",450,NA,NA
-"zygospores 18-36 µm","Absidia butleri_31153_7557","zygospores","18-36 µ",27,NA,NA
-"Zygospores 17-34 µm","Absidia butleri_31153_18584","Zygospores","17-34 µ",25.5,NA,NA
-"zygospores (from herbarium specimen) golden brown, globose to bent ellipsoid, heavy-walled, borne in or on the surface of medium, with smooth and clearly striate wall which is divided into three zones, 40-80 µm","Choanephora conjuncta_40009_7555","zygospores","40-80 µ",60,NA,NA
-"zygospores (CBS 255.36 (-) x CBS 496.66 (+) on beerwort agar at 25°C) in the aerial mycelium, most abundant in the lower part of the colony, [p. 13] black, globose to slightly compressed, up to 80 x 75 (100 x 85) µm,","Mucor inaequisporus_16353_15784","zygospores","80 x 75 (100 x 85) µ",80,87.5,85
-"zygospores (CBS 226.29 (+) x CBS 422.71 (-), on beerwort agar, at 25°C) in the aerial mycelium, most abundant in the underportion of the colony, black, globose to slightly compressed, up to 100 µm","Mucor indicus_16358_15769","zygospores","100 µ",100,NA,NA
-"azygospores may occur; suspensors unequal, one very short, the other swollen but constricted adjacent to the zygospore, up to 35 µm","Mucor indicus_16358_15769","azygospores","35 µ",35,NA,NA
-"zygospores never formed; azygospores abundant, formed terminally on simple or branched azygophores, black subglobose, slightly flattened, 85-180 µm","Mucor azygospora_421631_432","zygospores","85-180 µ",132.5,NA,NA
-"azygospores abundant, formed terminally on simple or branched azygophores, black subglobose, slightly flattened, 85-180 µm","Mucor azygospora_421631_432","azygospores","85-180 µ",132.5,NA,NA
-"azygospores Ochraceous-Tawny, while the lower portion where the azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) µm","Mucor azygospora_421631_15800","azygospores","10 (-15) µ",12.5,NA,NA
-"azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) µm","Mucor azygospora_421631_15800","azygospores","10 (-15) µ",12.5,NA,NA
-"azygospores Ochraceous-Tawny, while the lower portion where the azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) µm","Mucor azygospora_421631_15801","azygospores","10 (-15) µ",12.5,NA,NA
-"azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) µm","Mucor azygospora_421631_15801","azygospores","10 (-15) µ",12.5,NA,NA
-"zygospores (CBS 106.09 x CBS 365.68 on PDA., at 20°C) black, globose to slightly compressed, up to 93 x 85 (110 x 108) µm,","Mucor corticolus_421633_7897","zygospores","93 x 85 (110 x 108) µ",93,97.5,108
-"(azygospores may be present); suspensors equal or unequal (i.e.: one suspensor swollen) up to 30 µm","Mucor corticolus_421633_7897","(azygospores","30 µ",30,NA,NA
-"zygospores [CBS 205.68 (=) x CBS 232.29 (-) on PDA at 25°C] globose or nearly so, up to 70 µm","Mucor janseni_421639_14984","zygospores","70 µ",70,NA,NA
-"zygospores 41-83.5(94) µm","Mycocladus corymbifera_421691_423","zygospores","41-83.5(94) µ",83.5,NA,NA
-"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 µm,","Mycocladus corymbifera_421691_11404","Zygospores","60-100-45-80 µ",72.5,NA,NA
-"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) µm","Mycocladus corymbifera_421691_13935","Zygospores","41-83,5 (-94) µ",83.5,NA,NA
-"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 µm","Mycocladus corymbifera_421691_14820","Zygospores","41-94 µ",67.5,NA,NA
-"zygospores 50-80 µm","Mycocladus ramosa_421692_422","zygospores","50-80 µ",65,NA,NA
-"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) µm","Mycocladus ramosa_421692_13936","Zygospores","85,5 x 102,5) µ",85.5,102.5,NA
-"zygospores (?), spherical, smooth, hyaline, 14-24 µm","Entomophthora pyralidarum_258048_47442","zygospores","14-24 µ",19,NA,NA
-"zygospores 70-175 µm","Mucor sexualis_58711_142","zygospores","70-175 µ",122.5,NA,NA
-"zygospores formed typically between branches of same filament and the filament extended beyond as a sterile projection cut off by a septum; zygophores to 16 µm","Mucor sexualis_58711_142","zygospores","16 µ",16,NA,NA
-"azygospores sometimes seen, brown to black, 60-100 µm;","Mucor sexualis_58711_142","azygospores","60-100 µ",80,NA,NA
-"Zygospores (70-) 80-180 µm","Mucor sexualis_58711_14824","Zygospores","(70-) 80-180 µ",80,NA,NA
-"Azygospores sometimes seen, 60-100 µm","Mucor sexualis_58711_14824","Azygospores","60-100 µ",80,NA,NA
-"Zygospores rare, biconical, (46-)52(-58) x (5.5-)6(-8) µm,","Smittium culesitae_423448_53114","Zygospores","(46-)52(-58) x (5.5-)6(-8) µ",52,6,NA
-"Zygospores rare, biconical, (46-) 52 (-58) x (5.5-) 6(-8) µm,","Smittium culesitae_423448_53115","Zygospores","(46-) 52 (-58) x (5.5-) 6(-8) µ",52,6,NA
-"zygospores 18-36 µm","Gongronella butleri_12139_7557","zygospores","18-36 µ",27,NA,NA
-"Zygospores 17-34 µm","Gongronella butleri_12139_18584","Zygospores","17-34 µ",25.5,NA,NA
-"Zygospores formed at or below the surface of the medium, 40-80 µm","Choanephora trispora_3145_405","Zygospores","40-80 µ",60,NA,NA
-"Zygospores developed from the conjugation of two usually short undifferentiated hyphal branches, globose, nearly colorless, thick-walled, smooth, 27-44 µm","Coemansia aciculifera_5832_34439","Zygospores","27-44 µ",35.5,NA,NA
-"zygospores unknown. Influence of temperature: at 40 and 37°C slow submerged growth, no sporulation; at 30-10°C growth and sporulation; at 5°C hardly any growth. Optimal development at 30-25°C; at lower temperatures occurence of recurved sporangiophores in young cultures is more frequent than at higher temperatures. Influence of light: colonies grown in darkness are paler and sporulation is retarded. Influence of medium: on beerwort agar + 20% saccharose at 20°C pigmentation is more marked, sporulation more abundant and the sporangiospores larger (11.8-25.6 x 6.7-14.8 µm).","Mucor odoratus_16408_15799","zygospores","(11.8-25.6 x 6.7-14.8 µ",18.7,10.75,NA
-"zygospores 70-175 µm","Rhizopus sexualis_46666_142","zygospores","70-175 µ",122.5,NA,NA
-"zygospores formed typically between branches of same filament and the filament extended beyond as a sterile projection cut off by a septum; zygophores to 16 µm","Rhizopus sexualis_46666_142","zygospores","16 µ",16,NA,NA
-"azygospores sometimes seen, brown to black, 60-100 µm;","Rhizopus sexualis_46666_142","azygospores","60-100 µ",80,NA,NA
-"Zygospores (70-) 80-180 µm","Rhizopus sexualis_46666_14824","Zygospores","(70-) 80-180 µ",80,NA,NA
-"Azygospores sometimes seen, 60-100 µm","Rhizopus sexualis_46666_14824","Azygospores","60-100 µ",80,NA,NA
-"zygospores up to 38 µm.","Absidia parricida_174884_7565","zygospores","38 µ",38,NA,NA
-"zygospores up to 38 µm.","Absidia parricida_90_7565","zygospores","38 µ",38,NA,NA
-"Zygospores are unknown. A. harzii (Berl. & De Toni) Rosenberg 1959 was allegedly distinguished by its larger sporangia but falls within the range of variation of A. elegans. Primary sporangia mostly 60-80 µm,","Actinomucor elegans_678_13834","Zygospores","60-80 µ",70,NA,NA
-"Zygospores formed at or below the surface of the medium, 60-100 µm","Blakeslea circinans_32373_412","Zygospores","60-100 µ",80,NA,NA
-"zygospores  formed at or below the surface of the medium, dark reddish-brown to almost black, with large central oil droplet, oval to globose, 40-90 µm","Blakeslea circinans_32373_429","zygospores","40-90 µ",65,NA,NA
-"Zygospores formed at or below the surface of the medium, 60-100 µm","Choanephora circinans_40011_412","Zygospores","60-100 µ",80,NA,NA
-"zygospores  formed at or below the surface of the medium, dark reddish-brown to almost black, with large central oil droplet, oval to globose, 40-90 µm","Choanephora circinans_40011_429","zygospores","40-90 µ",65,NA,NA
-"Zygospores developed from the conjugation of a short undifferentiated branch with a vegetative hypha and formed by the enlargement of a cell delimited in the sexual branch, globose, nearly colorless, thick-walled, smooth, 35-62 µm,","Coemansia mojavensis_5840_34443","Zygospores","35-62 µ",48.5,NA,NA
-"zygospores globose, slightly compressed between suspensors, brownish, becoming dark brown, 40-70(-80) µm","Cunninghamella homothallica_7243_281","zygospores","40-70(-80) µ",70,NA,NA
-"Zygospores globose to subglobose, (42-) 54 (-80 x(40-) 52 (-70) µm,","Mortierella elongata_15941_18586","Zygospores","(42-) 54 (-80 x(40-) 52 (-70) µ",54,52,NA
-"Zygospores naked, globose to subglobose, (42-) 54 (-80) x (40-) 52 (-70) µm,","Mortierella mutabilis_16069_18589","Zygospores","(42-) 54 (-80) x (40-) 52 (-70) µ",54,52,NA
-"zygospores homothallic, formed at a short distance above the substrate on zygophores which are shorter than the sporangiophores, black, globose or nearly so, roughened by broad projections which are often brushlike in outline, up to 80 x 77 µm","Mucor bacilliformis_16221_15766","zygospores","80 x 77 µ",80,77,NA
-"zygospores borne near the substrate upon zygophores, nearly spherical, brown to brownish black, containing several large oil droplets, 35-72 µm,","Mucor bacilliformis_16221_47548","zygospores","35-72 µ",53.5,NA,NA
-"zygospores (CBS 196.71 (-) x CBS 195.71 (+) on PDA at 25°C) mainly produced in the upper portion of the colony, sometimes in a ladder-1ike fashion, globose, compressed between suspensors, up to 160 x 125 µm,","Mucor recurvus_46608_15787","zygospores","160 x 125 µ",160,125,NA
-"zygospores up to 18 µm","Mucor recurvus_46608_15787","zygospores","18 µ",18,NA,NA
-"zygospores formed on the aerial mycelium between equal, opposed, appendiculate suspensors. Suspensor appendages 4-11  in number, branched, equally developed on both suspensors, loosely investing the zygospore. Zygospores smooth-walled, light brown to nearly colorless, 42-89  µm","Radiomyces spectabilis_23780_7572","zygospores","42-89 x µ",65.5,NA,NA
-"Zygospores smooth-walled, light brown to nearly colorless, 42-89  µm","Radiomyces spectabilis_23780_7572","Zygospores","42-89 x µ",65.5,NA,NA
-"Zygospores formed on the substratum on creeping mycelial threads about 14 µm","Rhizopodopsis javensis_58735_287","Zygospores","14 µ",14,NA,NA
-"Zygospores subglobose, at first pale colored afterwards opaque black; wall with coarse conical warts; 122-210 µm","Rhizopodopsis javensis_58735_287","Zygospores","; 122-210 µ",166,NA,NA
-"Zygospores not common, produced in old collapsed colonies on the hosts and on the surrounding leaf surface to which the insects are attached; globose, occasionally ventrally somewhat appressed, black, ornamented with irregular warts, 50-75 µm","Sporodiniella umbellata_26074_40477","Zygospores","50-75 µ",62.5,NA,NA
-"Zygospores not common, produced in old collapsed colonies on the hosts and on the surrounding leaf surface to which the insects are attached ; globose, occasionally ventrally somewhat appressed, black, ornamented with irregular warts, 50-75 µm","Sporodiniella umbellata_26074_47550","Zygospores","50-75 µ",62.5,NA,NA
-"Zygospores not common, produced in old collapsed colonies on the hosts and on the surrounding leaf surface to which the insects are attached; globose, occasionally ventrally somewhat appressed, black, ornamented with irregular warts, 50-75 µm","Sporodiniella umbellata_269873_40477","Zygospores","50-75 µ",62.5,NA,NA
-"Zygospores not common, produced in old collapsed colonies on the hosts and on the surrounding leaf surface to which the insects are attached ; globose, occasionally ventrally somewhat appressed, black, ornamented with irregular warts, 50-75 µm","Sporodiniella umbellata_269873_47550","Zygospores","50-75 µ",62.5,NA,NA
-"Zygospores globose to subglobose, (35-)40-55(-60) µm","Thamnidium anomalum_26979_34594","Zygospores","(35-)40-55(-60) µ",47.5,NA,NA
-"Zygospores unknown. Chlamydospores present, variously shaped, up to 45 µm","Actinomortierella wolfii_184283_14829","Zygospores","45 µ",45,NA,NA
-"Zygospores globose to subglobose, 35-55 µm","Backusella ctenidia_2977_34589","Zygospores","35-55 µ",45,NA,NA
-"Zygospores globose to subglobose, (35-)40-70(-85) µm","Backusella lamprospora_2980_34587","Zygospores","(35-)40-70(-85) µ",55,NA,NA
-"Zygospores formed in great numbers between opposed progametangia arising from aerial hyphae near the surface of the substrate; zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 µm","Benjaminia poitrasii_182762_213","Zygospores","5-10 µ",7.5,NA,NA
-"zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 µm","Benjaminia poitrasii_182762_213","zygospores","5-10 µ",7.5,NA,NA
-"Zygospores numerous, globose (24-28) to ovoid (28-32) x (12-)16-20 µm","Siepmannia lariceti_457787_26159","Zygospores","(28-32) x (12-)16-20 µ",30,16,NA
-"zygospores developed from the conjugation of a short undifferentiated branch with a vegetative hypha and formed by the enlargement of a cell delimited in the sexual branch, globose, nearly colorless, thick-walled, smooth, about 36 µm","Coemansia nantahalensis_5842_23168","zygospores","36 µ",36,NA,NA
-"Zygospores globose to subglobose, (35-)40-60(-80) µm","Dichotomocladium elegans_8363_35334","Zygospores","(35-)40-60(-80) µ",50,NA,NA
-"Zygospores globose to subglobose, (40-)50-70(-85) µm","Dichotomocladium robustum_8366_34604","Zygospores","(40-)50-70(-85) µ",60,NA,NA
-"Zygospores globose to subglobose, (35-)40-55(-60) µm","Ellisomyces anomalus_9281_34594","Zygospores","(35-)40-55(-60) µ",47.5,NA,NA
-"Zygospores 45-55 x 57-63 µm,","Endogone flammicorona_179826_40384","Zygospores","45-55 x 57-63 µ",50,60,NA
-"Zygospores formed on mating compatible strains on malt extract agar at 25-30°C, formed on aerial hyphae by fusion of equal gametangia, globose to subglobose, 38-66 µm","Fennellomyces heterothallicus_34794_190","Zygospores","38-66 µ",52,NA,NA
-"Zygospores were obtained by Kuhlman (1972) after mating between compatible strains; zygospores smooth and thick-walled, 43-56 µm","Mortierella beljakovae_15889_23452","Zygospores","43-56 µ",49.5,NA,NA
-"zygospores smooth and thick-walled, 43-56 µm","Mortierella beljakovae_15889_23452","zygospores","43-56 µ",49.5,NA,NA
-"Zygospores hyaline, globose to subglobose, (34-)46(-62) µm","Mortierella humilis_16005_23259","Zygospores","(34-)46(-62) µ",46,NA,NA
-"Zygospores formed in a dense line between mated colonies in the agar or on the surface, globose to subglobose, smooth and thin walled. (28-)34 x 34(-46) µm,","Mortierella indohii_16020_23261","Zygospores",". (28-)34 x 34(-46) µ",31,40,NA
-"zygospores smooth and thick-walled, 50-55 µm","Mortierella kuhlmanii_16041_23430","zygospores","50-55 µ",52.5,NA,NA
-"zygospores are unknown.  A comparison of sporangium formation in Gamsiella multidivaricata (Benjamin 1978) and Lobosporangium transversale demonstrates that the early stages of fertile-branch formation are similar. Each fertile branch of Lobosporangium appears to be shorter than those of Gamsiella because the sporangia of L. transversale are much longer than the sporangia and pedicels of G. multidivaricata (230-400 µm","Mortierella multidivaricata_16067_17773","zygospores","(230-400 µ",315,NA,NA
-"zygospores (CBS 763.74 (+) x CBS 185.77 (-) on beerwort agar at 25°C) in the aerial mycelium, most abundant in the lower part of the colony, black, globose to slightly compressed, up to 70 x 60 µm,","Mucor amphibiorum_16209_15783","zygospores","70 x 60 µ",70,60,NA
-"Zygospores borne between opposed suspensors, globose to slightly compressed, up to 70 x 60 µm,","Mucor amphibiorum_16209_18591","Zygospores","70 x 60 µ",70,60,NA
-"azygospores abundant, produced terminally and subterminally, sometimes one or more on the same swollen end (suspensor) of a simple or branched azygophore; azygophores up to 600 µm","Mucor ardhlaengiktus_16215_420","azygospores","600 µ",600,NA,NA
-"azygospores globose or subglobose, orange brown to brownish-black, 28-77 µm","Mucor ardhlaengiktus_16215_420","azygospores","28-77 µ",52.5,NA,NA
-"zygospores unknown. Influence of temperature: at 37°C no growth; at 30°C poor growth; at 25-5°C growth and sporulation, at 25-20°C optimal development, at 5°C very slow. At 5°C repeatedly sympodial short branches develop with small, often sterile sporangia and a long apical branch with a fertile sporangium. Influence of light: insignificant. Influence of medium: on beerwort agar + 20% saccharose at 20°C the sporangiospores were subglobose, 10.8-13.5 µm","Mucor tuberculisporus_16507_15791","zygospores","10.8-13.5 µ",12.15,NA,NA
-"Zygospores formed in great numbers between opposed progametangia arising from aerial hyphae near the surface of the substrate; zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 µm","Mycotypha poitrasii_182763_213","Zygospores","5-10 µ",7.5,NA,NA
-"zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 µm","Mycotypha poitrasii_182763_213","zygospores","5-10 µ",7.5,NA,NA
-"Zygospores formed in large numbers between opposed progametangia arising from aerial hyphae at all levels above the substrate. Suspensors becoming appendiculate; appendages 5-7 on each suspensor, branched, loosely investing the zygospores, light brown, slender, acuminate, the longest main axes reaching as much as 225 µm","Radiomycopsis embreei_185129_215","Zygospores","225 µ",225,NA,NA
-"Zygospores smooth, light brown, (35-)40-62(-68) µm","Radiomycopsis embreei_185129_215","Zygospores","(35-)40-62(-68) µ",51,NA,NA
-"Zygospores (18,5-) 30-50 µm","Rhizomucor miehei_24309_14827","Zygospores","(18,5-) 30-50 µ",30,NA,NA
-"zygospores (homothallic) formed in the aerial mycelium, globose to slightly compressed, up to 50 µm,","Rhizomucor miehei_24309_15804","zygospores","50 µ",50,NA,NA
-"Zygospores homothallic, globose to slightly flattened at the sides, black, 55-75 µm","Rhizomucor pusillus_24314_13940","Zygospores","55-75 µ",65,NA,NA
-"Zygospores 45-63 (-70) µm","Rhizomucor pusillus_24314_14826","Zygospores","45-63 (-70) µ",63,NA,NA
-"zygospores (CBS 253.53 (+) x CBS 354.68 (-) on beerwort agar at 30°C) formed in the aerial mycelium, globose to slightly compressed, up to 70 x 63 µm,","Rhizomucor pusillus_24314_15805","zygospores","70 x 63 µ",70,63,NA
-"Zygospores on YpD (50-)55-75(-85) µm","Thamnostylum nigricans_26992_34494","Zygospores","(50-)55-75(-85) µ",65,NA,NA
-"Zygospores on MEYE globose to subglobose, 70-175 µm","Thamnostylum piriforme_26995_34492","Zygospores","70-175 µ",122.5,NA,NA
-"Zygospores (50-)70-100(-125) µm","Thamnostylum repens_27005_34495","Zygospores","(50-)70-100(-125) µ",85,NA,NA
-"zygospores homothallic, borne near the substrate, reddish brown when young, later dark brown, smooth, up to 57 x 51 µm,","Thermomucor indicae-seudaticae_27075_192","zygospores","57 x 51 µ",57,51,NA
-"Zygospores arising from opposed gametangia, globose, brown, smooth, 41-55 µm","Thermomucor indicae-seudaticae_27075_196","Zygospores","41-55 µ",48,NA,NA
-"zygospores of Mexican specimens had a rounded base, with remnants of the zygosporophore still attached; zygosporophores 20-26 x 12-17 µm,","Zygopolaris ephemeridarum_182025_25867","zygospores","20-26 x 12-17 µ",23,14.5,NA
-"zygospores 40-90 µm,","Absidia anomala_9_7560","zygospores","40-90 µ",65,NA,NA
-"zygospores 90-110 µm","Absidia californica_18_324","zygospores","90-110 µ",100,NA,NA
-"zygospores formed in a series with the suspensors; suspensors unequal, parallel, rough, dark brown; smaller suspensor 15-20 µm","Absidia californica_18_324","zygospores","15-20 µ",17.5,NA,NA
-"zygospores unknown; chlamydospores 8-13 µm","Absidia pseudocylindrospora_92_135","zygospores","8-13 µ",10.5,NA,NA
-"zygospores unknown; substrate mycelium to 9 µm","Absidia psychrophilia_95_7567","zygospores","9 µ",9,NA,NA
-"zygospores unknown, presumably heterothallic; chlamydospores not seen; sucker-type mycelium present in great abundance in the substrate, thin-walled, very twisted and with short blunt branches from 1.5-4.5 µm","Absidia zychae_109_25918","zygospores","1.5-4.5 µ",3,NA,NA
-"Zygospores globose to subglobose, (35-)40-70(-80) µm","Backusella circina_2971_34590","Zygospores","(35-)40-70(-80) µ",55,NA,NA
-"zygospores originating from the union or two contiguous cells either in mycelial hyphae or in primary spores, globose, 20-44 µm","Basidiobolus microsporus_3030_34291","zygospores","20-44 µ",32,NA,NA
-"Zygospores globose, (72-)89-112(-126), av. 100, µm","Circinella circinans_41094_34462","Zygospores",". 100µ",100,NA,NA
-"Zygospores formed in great numbers between opposed progametangia arising from aerial hyphae near the surface of the substrate; zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 µm","Cokeromyces poitrasii_33006_213","Zygospores","5-10 µ",7.5,NA,NA
-"zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 µm","Cokeromyces poitrasii_33006_213","zygospores","5-10 µ",7.5,NA,NA
-"Zygospores usually spherical to elongate, 15-25 µm","Conidiobolus incongruus_6189_11429","Zygospores","15-25 µ",20,NA,NA
-"zygospores developed from the conjugation of an undifferentiated hyphal branch with a vegetative hypha and formed by the enIargement of a cell developed in the sexual branch, colorless, thick-walled, globose but mostly subglobose, 31-42 µm","Dimargaris arida_183142_34427","zygospores","31-42 µ",36.5,NA,NA
-"zygospores (figs. 8, 9, 10) formed as a solid black line across the plate at juncture of two mating types, borne in air above substrate, never on or in substrate; zygospores 35-90 µm,","Gilbertella persicaria_46582_428","zygospores","35-90 µ",62.5,NA,NA
-"zygospores 35-90 µm,","Gilbertella persicaria_46582_428","zygospores","35-90 µ",62.5,NA,NA
-"Zygospores (fide Hesssltine, 1960) (35-) 70-80 (-90) µm","Gilbertella persicaria_46582_13938","Zygospores","1960) (35-) 70-80 (-90) µ",70,NA,NA
-"zygospores occasionally a septum may occur, sometimes covered with crystals; heterothallic, zygophores 10-15 µm","Gilbertella persicaria_46582_13938","zygospores","10-15 µ",12.5,NA,NA
-"Zygospores on YpSs globose to subglobose, (42-) 52-78(-105) µm","Helicostylum lucknowense_12669_34493","Zygospores","(42-) 52-78(-105) µ",65,NA,NA
-"zygospores 18-36 µm","Mortierella butleri_168903_7557","zygospores","18-36 µ",27,NA,NA
-"Zygospores 17-34 µm","Mortierella butleri_168903_18584","Zygospores","17-34 µ",25.5,NA,NA
-"Zygospores unknown. Chlamydospores present, variously shaped, up to 45 µm","Mortierella wolfii_16191_14829","Zygospores","45 µ",45,NA,NA
-"zygospores never formed; azygospores abundant, formed terminally on simple or branched azygophores, black subglobose, slightly flattened, 85-180 µm","Mucor azygosporus_16219_432","zygospores","85-180 µ",132.5,NA,NA
-"azygospores abundant, formed terminally on simple or branched azygophores, black subglobose, slightly flattened, 85-180 µm","Mucor azygosporus_16219_432","azygospores","85-180 µ",132.5,NA,NA
-"azygospores Ochraceous-Tawny, while the lower portion where the azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) µm","Mucor azygosporus_16219_15800","azygospores","10 (-15) µ",12.5,NA,NA
-"azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) µm","Mucor azygosporus_16219_15800","azygospores","10 (-15) µ",12.5,NA,NA
-"azygospores Ochraceous-Tawny, while the lower portion where the azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) µm","Mucor azygosporus_16219_15801","azygospores","10 (-15) µ",12.5,NA,NA
-"azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) µm","Mucor azygosporus_16219_15801","azygospores","10 (-15) µ",12.5,NA,NA
-"zygospores never formed; azygospores abundant, produced terminally and subterminally on simple or branched azygophores 0.1-1.5 cm in height; azygospores globose or subglobose, orangebrown to brownish-black, 30-120 µm","Mucor bainieri_16224_430","zygospores","30-120 µ",75,NA,NA
-"azygospores abundant, produced terminally and subterminally on simple or branched azygophores 0.1-1.5 cm in height; azygospores globose or subglobose, orangebrown to brownish-black, 30-120 µm","Mucor bainieri_16224_430","azygospores","30-120 µ",75,NA,NA
-"azygospores globose or subglobose, orangebrown to brownish-black, 30-120 µm","Mucor bainieri_16224_430","azygospores","30-120 µ",75,NA,NA
-"azygospores globose or sub-globose, up to 110 µm","Mucor bainieri_16224_14979","azygospores","110 µ",110,NA,NA
-"zygospores were described: very dark coloured, 80-90-136 x 150 µm,","Mucor falcatus_16282_236","zygospores","80-90-136 x 150 µ",90,150,NA
-"Zygospores (18,5-) 30-50 µm","Mucor miehei_24310_14827","Zygospores","(18,5-) 30-50 µ",30,NA,NA
-"zygospores (homothallic) formed in the aerial mycelium, globose to slightly compressed, up to 50 µm,","Mucor miehei_24310_15804","zygospores","50 µ",50,NA,NA
-"zygospores unknown. Influence of temperature: at 37°C no growth, at 30-15°C growth and sporulation, at 20-15°C rather slow, at 10°C growth restricted, or no growth, no sporulation; at 5°C no growth. Influence of light: cultures grown in darkness do not show any zonation.  Influence of medium: colonies on PDA are looser than those on beerwort agar.  Colonies on cherry agar are restricted and surrounded by sporangial colonies. CBS 721.76 differs from the type strain by having colonies up to 30 mm in height; sporangia at first pallid yellowish, later becoming black; sporangiophores mostly 6.8 x 4 µm","Mucor mousanensis_16391_15794","zygospores","6.8 x 4 µ",6.8,4,NA
-"Zygospores biconical, 85-90 x 15-17 µm,","Pennella grassei_184565_65167","Zygospores","85-90 x 15-17 µ",87.5,16,NA
-"Zygospores formed in large numbers between opposed progametangia arising from aerial hyphae at all levels above the substrate. Suspensors becoming appendiculate; appendages 5-7 on each suspensor, branched, loosely investing the zygospores, light brown, slender, acuminate, the longest main axes reaching as much as 225 µm","Radiomyces embreei_23775_215","Zygospores","225 µ",225,NA,NA
-"Zygospores smooth, light brown, (35-)40-62(-68) µm","Radiomyces embreei_23775_215","Zygospores","(35-)40-62(-68) µ",51,NA,NA
-"zygospores 40-104 µm","Rhizopus homothallicus_24356_140","zygospores","40-104 µ",72,NA,NA
-"zygospores to 8 µm","Rhizopus homothallicus_24356_140","zygospores","8 µ",8,NA,NA
-"zygospores borne between a long bent suspensor and a very short one as in Zygorhynchus; large suspensor nearly globose next to the zygospore and abruptly tapering down to the narrow sometimes roughened portion of suspensor which varies from 4-10 µm","Rhizopus homothallicus_24356_140","zygospores","4-10 µ",7,NA,NA
-"zygospores (on YEA at 30°C) reddish brown, up to 125 µm","Rhizopus homothallicus_24356_7668","zygospores","125 µ",125,NA,NA
-"Zygospores formed on the substratum on creeping mycelial threads about 14 µm","Rhizopus javensis_177804_287","Zygospores","14 µ",14,NA,NA
-"Zygospores subglobose, at first pale colored afterwards opaque black; wall with coarse conical warts; 122-210 µm","Rhizopus javensis_177804_287","Zygospores","; 122-210 µ",166,NA,NA
-"Zygospores rare, biconical, (46-)52(-58) x (5.5-)6(-8) µm,","Smittium culisitae_38537_53114","Zygospores","(46-)52(-58) x (5.5-)6(-8) µ",52,6,NA
-"Zygospores rare, biconical, (46-) 52 (-58) x (5.5-) 6(-8) µm,","Smittium culisitae_38537_53115","Zygospores","(46-) 52 (-58) x (5.5-) 6(-8) µ",52,6,NA
-"Zygospores globose to subglobose, 35-55 µm","Thamnidium ctenidium_26981_34589","Zygospores","35-55 µ",45,NA,NA
-"Azygospores abundant. Short outgrowths are formed on the hyphae, which are broadening more or less funnellike near the tip, to give rise to a kind of suspensor. On the broad portion the azygospore is originating. Sometimes the suspensors are branching, each branch bearing 1-2 spores, or 2-3 spores are formed on one suspensor. Occasionally 2 or even 3 spores on a suspensor may fuse to form one irregular spore. In all cases 8-14 hyphae are growing out of the suspensor and are more or less surrounding the spores. In some cases those threads are straight instead of incurved. Azygopores globose, red-brown, the wall covered by rather flat pyramidal warts with fringed border; 70-107 µm","Absidia spinosa var. azygospora_58737_293","Azygospores","; 70-107 µ",88.5,NA,NA
-"zygospores [CBS 116.08 (-) x CBS 198.28 (+), on PDA at 25°C] globose, up to 80 µm","Mucor circinelloides f. griseocyanus_16253_14983","zygospores","80 µ",80,NA,NA
-"zygospores [CBS 205.68 (=) x CBS 232.29 (-) on PDA at 25°C] globose or nearly so, up to 70 µm","Mucor circinelloides f. janssenii_16260_14984","zygospores","70 µ",70,NA,NA
-"zygospores [CBS 108.17 (-) x CBS 277.49 (+), on beerwort agar at 25°C] globose to slightly compressed between suspensors, up to 115 x 105 µm,","Mucor circinelloides f. lusitanicus_16268_14982","zygospores","115 x 105 µ",115,105,NA
-"zygospores [CBS 205.68 (=) x CBS 232.29 (-) on PDA at 25°C] globose or nearly so, up to 70 µm","Mucor griseocyanus f. janssenii_16313_14984","zygospores","70 µ",70,NA,NA
-"zygospores (CBS 106.09 x CBS 365.68 on PDA., at 20°C) black, globose to slightly compressed, up to 93 x 85 (110 x 108) µm,","Mucor hiemalis f. corticola_16337_7897","zygospores","93 x 85 (110 x 108) µ",93,97.5,108
-"(azygospores may be present); suspensors equal or unequal (i.e.: one suspensor swollen) up to 30 µm","Mucor hiemalis f. corticola_16337_7897","(azygospores","30 µ",30,NA,NA
-"zygospores (CBS 412.71 x CBS 250.35, on cherry agar at 10°C) up to 65 x 70 µm,","Mucor hiemalis f. silvaticus_16347_7899","zygospores","65 x 70 µ",65,70,NA
-"zygospores [CBS 115.08 (+) x CBS 238.35 (-) on cherry agar at 10°C] in the lower portion of the colony, on hyphae bearing both zygospores and sporangia, globose or nearly so, up to 90 µm","Mucor racemosus f. sphaerosporus_16464_14989","zygospores","90 µ",90,NA,NA
-"zygospores and sporangia, globose or nearly so, up to 90 µm","Mucor racemosus f. sphaerosporus_16464_14989","zygospores","90 µ",90,NA,NA
-"zygospores 26-62 µm","Absidia cylindrospora var. rhizomorpha_60_133","zygospores","26-62 µ",44,NA,NA
-"zygospores stellate, from 2-4 µm","Absidia cylindrospora var. rhizomorpha_60_133","zygospores","2-4 µ",3,NA,NA
-"zygospores showing through the agar; odor none or faint; sporangiophores to 16.5 µm","Rhizopus sexualis var. americanus_24438_143","zygospores","16.5 µ",16.5,NA,NA
-"zygospores variable in size, 60-235 µm","Rhizopus sexualis var. americanus_24438_143","zygospores","60-235 µ",147.5,NA,NA
-"zygospores borne on zygophores and surrounded with droplets of exudate, sometimes between branches of same zygophores, others between different zygophores; zygophores smooth, up to 15 µm","Rhizopus sexualis var. americanus_24438_143","zygospores","15 µ",15,NA,NA
-"Zygospores naked, globose to subglobose, (42-) 54 (-80) x (40-) 52 (-70) µm,","Mortierella spinosa var. mutabilis_268050_18589","Zygospores","(42-) 54 (-80) x (40-) 52 (-70) µ",54,52,NA
-"zygospores 36-63 µm","Absidia cylindrospora var. nigra_57_7562","zygospores","36-63 µ",49.5,NA,NA
-"Zygospores (38,5-) 63,5-78 (-98,5) µm","Choanephora persicaria var. indica_187666_13939","Zygospores","(38,5-) 63,5-78 (-98,5) µ",70.75,NA,NA
-"Zygospores (38,5-) 63,5-78 (-98,5) µm","Gilbertella persicaria var. indica_11597_13939","Zygospores","(38,5-) 63,5-78 (-98,5) µ",70.75,NA,NA
-"Zygospores homothallic, reddish brown to dark brown, mostly inside an exudate droplet, up to 80 µm","Protomycocladus faisalabadensis_31161_274","Zygospores","80 µ",80,NA,NA
-"zygospores in the peninsular individuals, but zygospores measuring 40-53(-62) x 7-9 µm","Legeriomyces rarus_190875_18266","zygospores","40-53(-62) x 7-9 µ",53,8,NA
-"zygospores measuring 40-53(-62) x 7-9 µm","Legeriomyces rarus_190875_18266","zygospores","40-53(-62) x 7-9 µ",53,8,NA
-"zygospores [CBS 116.08 (-) x CBS 198.28 (+), on PDA at 25°C] globose, up to 80 µm","Mucor griseocyanus_35522_14983","zygospores","80 µ",80,NA,NA
-"zygospores 50-80 µm","Rhizopus ramosus_361818_422","zygospores","50-80 µ",65,NA,NA
-"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) µm","Rhizopus ramosus_361818_13936","Zygospores","85,5 x 102,5) µ",85.5,102.5,NA
-"zygospores 41-83.5(94) µm","Lichtheimia corymbifera_162924_423","zygospores","41-83.5(94) µ",83.5,NA,NA
-"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 µm,","Lichtheimia corymbifera_162924_11404","Zygospores","60-100-45-80 µ",72.5,NA,NA
-"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) µm","Lichtheimia corymbifera_162924_13935","Zygospores","41-83,5 (-94) µ",83.5,NA,NA
-"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 µm","Lichtheimia corymbifera_162924_14820","Zygospores","41-94 µ",67.5,NA,NA
-"zygospores 50-80 µm","Lichtheimia ramosa_167357_422","zygospores","50-80 µ",65,NA,NA
-"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) µm","Lichtheimia ramosa_167357_13936","Zygospores","85,5 x 102,5) µ",85.5,102.5,NA
-"zygospores (CBS 201.65 (-) x CBS 200.28 (+), on beerwort agar at 20° C) globose or nearly so, up to 70 x 65 (100 x 90) µm,","Mucor hiemalis f. hiemalis_16320_7898","zygospores","70 x 65 (100 x 90) µ",70,82.5,90
-"zygospores 40-67 µm","Absidia cylindrospora var. cylindrospora_50_7570","zygospores","40-67 µ",53.5,NA,NA
-"zygospores in single-sporangium transfers, light grey colonies growing well at 25ºC and up to 31ºC, scanty whorls (up to four branches) of sporangiophores, and spores 3.3-5.5 x 2.2-3.5 µm.","Absidia cylindrospora var. cylindrospora_50_13806","zygospores","3.3-5.5 x 2.2-3.5 µ",4.4,2.85,NA
-"Zygospores covered with blunt stellate projections to 4.5 µm","Absidia cylindrospora var. cylindrospora_50_13806","Zygospores","4.5 µ",4.5,NA,NA
-"Zygospores (homothallic) black, up to 150 µm","Rhizopus sexualis var. sexualis_24435_7662","Zygospores","150 µ",150,NA,NA
-"Zygospores formed from tongs-1ike often slightly unequal, apposed suspensors, brown to reddish-brown, translucent, with a smooth, thin outer layer and a striate, thick inner layer, 30-105 µm","Choanephorella cucurbitarum_155771_406","Zygospores","30-105 µ",67.5,NA,NA
-"zygospores at first white, when mature dark brown to black, slightly roughened (blunt projections no more than 5 µm","Sporodinia megalocarpus_158315_23169","zygospores","5 µ",5,NA,NA
-"zygospores up to 0.5 cm. above substrate hence below the sporangia, dichotomously divided, nearly hyaline below but dark brown in region of zygospores, terminally tapering to 5 µm;","Sporodinia megalocarpus_158315_23169","zygospores","5 µ",5,NA,NA
-"azygospores seen which reach a diam. to 160 µm;","Sporodinia megalocarpus_158315_23169","azygospores","160 µ",160,NA,NA
-"zygospores 50-80 µm","Absidia corymbifera var. ramosa_167358_422","zygospores","50-80 µ",65,NA,NA
-"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) µm","Absidia corymbifera var. ramosa_167358_13936","Zygospores","85,5 x 102,5) µ",85.5,102.5,NA
-"zygospores [CBS 195.68 (+) x CBS 108.16 (-), on whey agar at 25°C] globose to slightly compressed, up to 100 µm","Calyptromyces circinelloides_203238_14981","zygospores","100 µ",100,NA,NA
-"zygospores [CBS 213.75 (+) x CBS 226.32 (-) on beerwort agar at 24° ] formed in the aerial mycelium in a ladder-1ike fashion, globose or subglobose, up to 85 µm","Calyptromyces plumbeus_165016_14987","zygospores","85 µ",85,NA,NA
-"Zygospores globose, (72-)89-112(-126), av. 100, µm","Mucor circinans_41093_34462","Zygospores",". 100µ",100,NA,NA
-"Zygospores globose and 18-58 µm","Mucor moelleri_150449_38487","Zygospores","18-58 µ",38,NA,NA
-"Zygospores (112.07 x 346.36 on YEA at 30°C) reddish brown when young, then brown, stellate conical projections, up to 140 µm","Rhizopus oryzae_24387_7663","Zygospores","140 µ",140,NA,NA
-"Zygospores formed from tongs-1ike often slightly unequal, apposed suspensors, brown to reddish-brown, translucent, with a smooth, thin outer layer and a striate, thick inner layer, 30-105 µm","Rhopalomyces elegans var. cucurbitarum_155772_406","Zygospores","30-105 µ",67.5,NA,NA
-"Zygospores on YpD (50-)55-75(-85) µm","Thamnidium nigricans_167288_34494","Zygospores","(50-)55-75(-85) µ",65,NA,NA
-"Zygospores on MEYE globose to subglobose, 70-175 µm","Thamnidium piriforme_167312_34492","Zygospores","70-175 µ",122.5,NA,NA
-"Zygospores (50-)70-100(-125) µm","Thamnidium repens_143038_34495","Zygospores","(50-)70-100(-125) µ",85,NA,NA
-"zygospores (125-)160185(-208) µm","Tieghemella glauca_160661_322","zygospores","(125-)160185(-208) µ",160185,NA,NA
-"zygospores globose to slightly compressed between the suspensors, tuberculate, brownish, 30-50 µm","Cunninghamella echinulata_7219_279","zygospores","30-50 µ",40,NA,NA
-"Zygospores (fide Cutter, 1946) formed at 25°C, heterothallic, nearly opaque 46-80 x 40-63 (av. 70 x 58) µm","Cunninghamella echinulata_7219_13937","Zygospores",". 70 x 58) µ",70,58,NA
-"Zygospores ellipsoidal, black, with smooth surface, 33.8-35.3 x 24.3-24.7 µm.","Neozygites cinarae_205267_67479","Zygospores","33.8-35.3 x 24.3-24.7 µ",34.55,24.5,NA
-"Zygospores 85-105 x 14-18(-20) µm.","Genistellospora guanacastensis_205320_49615","Zygospores","85-105 x 14-18(-20) µ",95,18,NA
-"Zygospores formed from tongs-1ike often slightly unequal, apposed suspensors, brown to reddish-brown, translucent, with a smooth, thin outer layer and a striate, thick inner layer, 30-105 µm","Choanephora infundibulifera f. cucurbitarum_5139_406","Zygospores","30-105 µ",67.5,NA,NA
-"Zygospores biconical (Type II), 78-82 x 13-18 µm.","Smittium biforme_413613_18064","Zygospores",")78-82 x 13-18 µ",80,15.5,NA
-"zygospores showing through the agar; odor none or faint; sporangiophores to 16.5 µm","Rhizopus americanus_187404_143","zygospores","16.5 µ",16.5,NA,NA
-"zygospores variable in size, 60-235 µm","Rhizopus americanus_187404_143","zygospores","60-235 µ",147.5,NA,NA
-"zygospores borne on zygophores and surrounded with droplets of exudate, sometimes between branches of same zygophores, others between different zygophores; zygophores smooth, up to 15 µm","Rhizopus americanus_187404_143","zygospores","15 µ",15,NA,NA
-"Zygospores formed in mycelial cultures originated from single hyphal tip (homothallic), superficial, unadorned, mostly 34-52 µm","Mortierella tsukubaensis_211878_61080","Zygospores","34-52 µ",43,NA,NA
-"Zygospores biconical, 48.5-55 x 7.5-11(-12.5) µm,","Tectimyces robustus_376717_40676","Zygospores","48.5-55 x 7.5-11(-12.5) µ",51.75,11,NA
-"Zygospores biconical, (34-)45(-54) x 7-9 µm,","Baetimyces ancorae_376841_17304","Zygospores","(34-)45(-54) x 7-9 µ",45,8,NA
-"Zygospores (27-)42(-50) x 8-9 µm,","Bojamyces transfuga_426241_18238","Zygospores","(27-)42(-50) x 8-9 µ",42,8.5,NA
-"zygospores are unknown.  A comparison of sporangium formation in Gamsiella multidivaricata (Benjamin 1978) and Lobosporangium transversale demonstrates that the early stages of fertile-branch formation are similar. Each fertile branch of Lobosporangium appears to be shorter than those of Gamsiella because the sporangia of L. transversale are much longer than the sporangia and pedicels of G. multidivaricata (230-400 µm","Gamsiella multidivaricata_430354_17773","zygospores","(230-400 µ",315,NA,NA
-"Zygospores biconical, 82-97 x (14-)16-18(-20) µm","Smittium pseudodimorphum_429729_17925","Zygospores","82-97 x (14-)16-18(-20) µ",89.5,17,NA
-"Zygospores fusiform, (160-)170-180(-190) x 15-18 µm;","Smittium heterosporum_429732_17917","Zygospores","(160-)170-180(-190) x 15-18 µ",175,16.5,NA
-"Zygospores biconical, 35-40 x 7-8 µm;","Smittium bulbosporophorus_429735_17913","Zygospores","35-40 x 7-8 µ",37.5,7.5,NA
-"Zygospores (Type II) 70-83 x 11-13 µm,","Legeriosimilis europaeus_413612_18060","Zygospores",") 70-83 x 11-13 µ",76.5,12,NA
-"Zygospores 66-75 x 10-13 µm.","Smittium precipitiorum_413614_18066","Zygospores","66-75 x 10-13 µ",70.5,11.5,NA
-"zygospores (Type I) 26-28 x 4-4.5 µm,","Genistelloides amplisporus_413609_18056","zygospores",") 26-28 x 4-4.5 µ",27,4.25,NA
-"Zygospores (Type II) 61-72 x 11-14 µm.","Glotzia stenospora_413611_18062","Zygospores",") 61-72 x 11-14 µ",66.5,12.5,NA
-"Zygospores numerous, globose (24-28) to ovoid (28-32) x (12-)16-20 µm","Siepmannia lariceti_434655_26159","Zygospores","(28-32) x (12-)16-20 µ",30,16,NA
-"Zygospores biconical, 36-43 x 7-10 µm,","Ejectosporus spica_437246_19011","Zygospores","36-43 x 7-10 µ",39.5,8.5,NA
-"Zygospores biconical, 54-71 x 9-12.5(-14) µm","Ejectosporus trisporus_437247_19013","Zygospores","54-71 x 9-12.5(-14) µ",62.5,12.5,NA
-"Zygospores 35-38 x 5-6 µm,","Capniomyces celatus_442819_23509","Zygospores","35-38 x 5-6 µ",36.5,5.5,NA
-"Zygospores 39-43 x 9-9.5 µm,","Legeriomyces dolabrae_442820_23511","Zygospores","39-43 x 9-9.5 µ",41,9.25,NA
-"Zygospores 89-92 x 13 µm,","Stipella latispora_442821_23513","Zygospores","89-92 x 13 µ",90.5,13,NA
-"Zygospores biconical, Type I at maturity 50-60 x 5-7 µm,","Bojamyces olmecensis_450830_25861","Zygospores","50-60 x 5-7 µ",55,6,NA
-"Zygospores Type I, perpendicular to and straight or slightly bent at the medial point of attachment, 53-65 x 5.5-7 µm,","Allantomyces zopilotei_450831_25857","Zygospores","53-65 x 5.5-7 µ",59,6.25,NA
-"Zygospores spherical, 14-16 µm","Asellaria jatibunicua_450834_25834","Zygospores","14-16 µ",15,NA,NA
-"Zygospores smooth, subglobose, 27.5-42.5 µm,","Conidiobolus margaritatus_438413_20068","Zygospores","27.5-42.5 µ",35,NA,NA
-"Zygospores not seen in culture or on substrate. Tall sporangiophores mostly unbranced, short sporangiophores branched sympodially, sporangia white, turning black with age. Columellae ranging from cylindrical to pyriform, smaller columellae mostly conical, (50-)104-180 (-250) µm","Mucor renisporus_441217_22789","Zygospores","(50-)104-180 (-250) µ",142,NA,NA
-"zygospores up to 38 µm.","Lentamyces parricida_450923_7565","zygospores","38 µ",38,NA,NA
-"zygospores unknown, presumably heterothallic; chlamydospores not seen; sucker-type mycelium present in great abundance in the substrate, thin-walled, very twisted and with short blunt branches from 1.5-4.5 µm","Lentamyces zychae_450924_25918","zygospores","1.5-4.5 µ",3,NA,NA
-"Zygospores (Type II), 67--73 x 12--14 µm,","Legeriosimilis leptocerci_455650_29456","Zygospores",")67--73 x 12--14 µ",70,13,NA
-"Zygospores (Type II) 46--54.5 x 7--8.5 µm,","Legeriosimilis whitneyi_455651_29458","Zygospores",") 46--54.5 x 7--8.5 µ",50.25,7.75,NA
-"Zygospores (Type III) (37--) 40--44 x 10--13.5 µm","Pennella digitata_455653_29462","Zygospores",") (37--) 40--44 x 10--13.5 µ",40,11.75,NA
-"Zygospores (85-)102(-129) µm,","Lancisporomyces lampetriformis_457905_30915","Zygospores","(85-)102(-129) µ",102,NA,NA
-"Zygospores attached coaxially to the clavate zygosporophore (30-)40(-53) x (6-)7.5(-10) µm,","Lancisporomyces lampetriformis_457905_30915","Zygospores","(30-)40(-53) x (6-)7.5(-10) µ",40,7.5,NA
-"Zygospores (Type II) are biconical, 56.5-67 x 7.5-11.5 µm","Smittium shaanxiense_458463_31874","Zygospores","56.5-67 x 7.5-11.5 µ",61.75,9.5,NA
-"Zygospores have a collar (15.5-19.5 x 3-4 µm)","Smittium shaanxiense_458463_31874","Zygospores","(15.5-19.5 x 3-4 µ",17.5,3.5,NA
-"Zygospores (Type II) biconical, 75-90 x 15-19 µm,","Sinotrichium chironomidarum_458544_32027","Zygospores","75-90 x 15-19 µ",82.5,17,NA
-"zygospores (Type II) with a pronounced median bulge, (47-)54(-62) x (21-)24(-28) µm,","Austrosmittium patagonicum_460976_33240","zygospores","(47-)54(-62) x (21-)24(-28) µ",54,24,NA
-"zygospores (Type II) (23-)26(-28) x 10-12 µm,","Austrosmittium lenticum_460977_33242","zygospores",") (23-)26(-28) x 10-12 µ",26,11,NA
-"Zygospores biconical, cylindrical, 50-59.5 x 4-5.5 µm","Smittium colboi_471710_42233","Zygospores","50-59.5 x 4-5.5 µ",54.75,4.75,NA
-"Zygospores biconical (41-)45 (-60) x (8-)9.4(-12) µm,","Capniomyces sasquatchoides_471722_42306","Zygospores","(41-)45 (-60) x (8-)9.4(-12) µ",45,9.4,NA
-"zygospores 85-105 x 15-20 µm,","Genistellospora dorsicaudata_472170_43085","zygospores","85-105 x 15-20 µ",95,17.5,NA
-"Zygospores biconical, 49-55 x 7-8 µm,","Klastostachys reflexa_474750_50540","Zygospores","49-55 x 7-8 µ",52,7.5,NA
-"Zygospores are typically lance-shaped, with a thickened conical head, 37-48 x 6-7.5(-9) µm,","Lancisporomyces nemouridarum_450273_25866","Zygospores","37-48 x 6-7.5(-9) µ",42.5,7.5,NA
-"zygospores 41-83.5(94) µm","Mycocladus corymbifer_454049_423","zygospores","41-83.5(94) µ",83.5,NA,NA
-"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 µm,","Mycocladus corymbifer_454049_11404","Zygospores","60-100-45-80 µ",72.5,NA,NA
-"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) µm","Mycocladus corymbifer_454049_13935","Zygospores","41-83,5 (-94) µ",83.5,NA,NA
-"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 µm","Mycocladus corymbifer_454049_14820","Zygospores","41-94 µ",67.5,NA,NA
-"zygospores up to 38 µm.","Siepmannia parricida_456273_7565","zygospores","38 µ",38,NA,NA
-"zygospores unknown, presumably heterothallic; chlamydospores not seen; sucker-type mycelium present in great abundance in the substrate, thin-walled, very twisted and with short blunt branches from 1.5-4.5 µm","Siepmannia zychae_456288_25918","zygospores","1.5-4.5 µ",3,NA,NA
-"zygospores unknown, presumably heterothallic; chlamydospores not seen; sucker-type mycelium present in great abundance in the substrate, thin-walled, very twisted and with short blunt branches from 1.5-4.5 µm","Siepmannia zychae_457568_25918","zygospores","1.5-4.5 µ",3,NA,NA
-"zygospores up to 38 µm.","Siepmannia parricida_457562_7565","zygospores","38 µ",38,NA,NA
-"Zygospores spherical, 14-16 µm","Asellaria jatibonicua_458774_46453","Zygospores","14-16 µ",15,NA,NA
-"Zygospores biconical, 35-40 x 7-8 µm;","Smittium bulbosporophorum_463827_17913","Zygospores","35-40 x 7-8 µ",37.5,7.5,NA
-"Zygospores rare, biconical, (46-)52(-58) x (5.5-)6(-8) µm,","Smittium culisetae_463875_53114","Zygospores","(46-)52(-58) x (5.5-)6(-8) µ",52,6,NA
-"Zygospores rare, biconical, (46-) 52 (-58) x (5.5-) 6(-8) µm,","Smittium culisetae_463875_53115","Zygospores","(46-) 52 (-58) x (5.5-) 6(-8) µ",52,6,NA
-"zygospores 47-66.5 x 6.5-9.5 µm","Laculus insecticola_477547_49807","zygospores","47-66.5 x 6.5-9.5 µ",56.75,8,NA
-"zygospores [CBS 640.67 (-) x CBS 144.24 (+), on beerwort agar at 15°C] globose to compressed between suspensors, up to 250 x 200 µm,","Ascophora vulgaris_481955_15865","zygospores","250 x 200 µ",250,200,NA
-"Zygospores biconical, (40-)43(-49)-(7.0-)8.3(-10) µm","Ephemerellomyces kandelii_478591_52027","Zygospores","(40-)43(-49)-(7.0-)8.3(-10) µ",28,NA,NA
-"zygospores not produced. At 37°C on synthetic mucor agar, colonies spread and covered 65 mm plate in 72 hr; aerial mycelium wheat grey and well-developed; reverse colony dirty white; diffusible pigment none, sporulation abundant; zygospores profusely produced. Mycelium hyaline, smooth, aseptate and branched; sporangiophores branched, developed from stolons, lateral in position, mostly aseptate, very rarely with one septum at the proximal end, each branch bears a fertile sporangium; occasionally 2-3 branches develop in a verticillate fashion, aseptate, one, a few or all of them bear abortive sporangia. Sporangia globose, multispored, smooth, columellate with deliquescent hyaline wall, 52-102 µm","Thermomucor abortosporangium_480728_52658","zygospores","52-102 µ",77,NA,NA
-"zygospores profusely produced. Mycelium hyaline, smooth, aseptate and branched; sporangiophores branched, developed from stolons, lateral in position, mostly aseptate, very rarely with one septum at the proximal end, each branch bears a fertile sporangium; occasionally 2-3 branches develop in a verticillate fashion, aseptate, one, a few or all of them bear abortive sporangia. Sporangia globose, multispored, smooth, columellate with deliquescent hyaline wall, 52-102 µm","Thermomucor abortosporangium_480728_52658","zygospores","52-102 µ",77,NA,NA
-"Zygospores smooth, reddish brown, 28-34 µm,","Thermomucor abortosporangium_480728_52658","Zygospores","28-34 µ",31,NA,NA
-"Zygospores formed between adjacent conjugating cells of a hyphal body. Mature zygospores smooth, globose or subglobose, 25-31 µm","Conidiobolus sinensis_480733_52670","Zygospores","25-31 µ",28,NA,NA
-"zygospores smooth, globose or subglobose, 25-31 µm","Conidiobolus sinensis_480733_52670","zygospores","25-31 µ",28,NA,NA
-"Zygospores rare, biconical, (46-)52(-58) x (5.5-)6(-8) µm,","Zancudomyces culisetae_481021_53114","Zygospores","(46-)52(-58) x (5.5-)6(-8) µ",52,6,NA
-"Zygospores rare, biconical, (46-) 52 (-58) x (5.5-) 6(-8) µm,","Zancudomyces culisetae_481021_53115","Zygospores","(46-) 52 (-58) x (5.5-) 6(-8) µ",52,6,NA
-"Zygospores produced homothallically, helically coiled (one 360° coil plus one 270° coil) with a distal straight portion , overall (34-)40-46.5 x 6.5-8.5 µm","Orphella italica_481275_53355","Zygospores","(34-)40-46.5 x 6.5-8.5 µ",40,7.5,NA
-"Zygospores biconical, 72-74 x 18-20 µm,","Harpellomyces aprutinus_481276_53356","Zygospores","72-74 x 18-20 µ",73,19,NA
-"zygospores (CBS 196.71 (-) x CBS 195.71 (+) on PDA at 25°C) mainly produced in the upper portion of the colony, sometimes in a ladder-1ike fashion, globose, compressed between suspensors, up to 160 x 125 µm,","Backusella recurva_507952_15787","zygospores","160 x 125 µ",160,125,NA
-"zygospores up to 18 µm","Backusella recurva_507952_15787","zygospores","18 µ",18,NA,NA
-"zygospores unknown. Influence of temperature: at 37°C no growth; at 30°C poor growth; at 25-5°C growth and sporulation, at 25-20°C optimal development, at 5°C very slow. At 5°C repeatedly sympodial short branches develop with small, often sterile sporangia and a long apical branch with a fertile sporangium. Influence of light: insignificant. Influence of medium: on beerwort agar + 20% saccharose at 20°C the sporangiospores were subglobose, 10.8-13.5 µm","Backusella tuberculispora_507954_15791","zygospores","10.8-13.5 µ",12.15,NA,NA
-"Zygospores globose to subglobose, 35-55 µm","Mucor ctenidius_507959_34589","Zygospores","35-55 µ",45,NA,NA
-"Zygospores biconical (Type II) , 61-74.5 µm","Smittium gronthidium_508060_55757","Zygospores",")61-74.5 µ",67.75,NA,NA
-"Zygospores (Type II), 50-61 µm","Legeriosimilis hiemalis_508132_55837","Zygospores",")50-61 µ",55.5,NA,NA
-"zygospores (Type I), 26-34 µm","Spartiella aurensis_508133_55839","zygospores",")26-34 µ",30,NA,NA
-"Zygospores biconical, Type II, 55-65(-73) x 8-9.5 µm,","Tectimyces gallaecicus_508356_56035","Zygospores","55-65(-73) x 8-9.5 µ",65,8.75,NA
-"Zygospores produced homothallically, tightly coiled (two coils min) , overall measuring 17-20 x 4.5-5.5 µm","Orphella lusitanica_508358_56037","Zygospores","17-20 x 4.5-5.5 µ",18.5,5,NA
-"Zygospores (Fig. 3k, l) are ellipsoidal with smooth and dark brown to black episporium, 31.75-40.83 µm","Neozygites osornensis_508746_56410","Zygospores","31.75-40.83 µ",36.29,NA,NA
-"Zygospores ellipsoidal, with episporium smooth, darkbrown to black, 31.8-40.8 x 21.5-22.7 µm;","Neozygites osornensis_508746_67481","Zygospores","31.8-40.8 x 21.5-22.7 µ",36.3,22.1,NA
-"Zygospores biconical, (30-)35-45 x 9-11 µm,","Legeriosimilis cebennensis_511649_58736","Zygospores","(30-)35-45 x 9-11 µ",35,10,NA
-"Zygospores biconical, 45-52 x 8.5-10 µm,","Glotzia distorta_519864_60716","Zygospores","45-52 x 8.5-10 µ",48.5,9.25,NA
-"Zygospores stellate, 44.3-66.9 × 36.3-59.2 µm","Mucor lilianae_545895_70550","Zygospores","44.3-66.9 x 36.3-59.2 µ",55.6,47.75,NA
-"Zygospores bluntly stellate, 31.9-44.6 × 27.4-41.7 µm","Mucor rudolphii_545896_70551","Zygospores","31.9-44.6 x 27.4-41.7 µ",38.25,34.55,NA
-"Zygospores 45-55 x 57-63 µm,","Jimgerdemannia flammicorona_560480_77713","Zygospores","45-55 x 57-63 µ",50,60,NA
-"Zygospores lance-shaped (131.1-164.1 µm","Lancisporomyces tsukubaensis_561076_77998","Zygospores","(131.1-164.1 µ",147.6,NA,NA
-"Zygospores biconical, 36.5-42.2 × 8.3-9.8µm,","Zygopolaropsis sphaerica_561078_78000","Zygospores","36.5-42.2 x 8.3-9.8µ",39.35,9.05,NA
+"Zygospores globoid or slightly ovoid, 20-32 Âµm","Kuzuhaea moniliformis_30560_165","Zygospores","20-32",26,NA,NA
+"Azygospores frequent, resembling zygospores, but smaller, 16-20 Âµm","Kuzuhaea moniliformis_30560_165","Azygospores","16-20",18,NA,NA
+"Zygospores formed aerially between zygophores, sporophores, or zygophores and sporophores, at all levels above the agar surface either singly or in small groups; globose to subglobose, (49-)57-74(-80), av. 66 Âµm","Benjaminiella multispora_33004_176","Zygospores",". 66",66,NA,NA
+"Zygospores abundant, formed on aerial hyphae near surface of substrate; globose to subglobose, (45-)65-80(-90), av. 72 Âµm","Mycotypha indica_40132_178","Zygospores",". 72",72,NA,NA
+"Zygospores formed at or below the surface of the medium, 60-100 Âµm","Poitrasia circinans_5132_412","Zygospores","60-100",80,NA,NA
+"zygospores  formed at or below the surface of the medium, dark reddish-brown to almost black, with large central oil droplet, oval to globose, 40-90 Âµm","Poitrasia circinans_5132_429","zygospores","40-90",65,NA,NA
+"Zygospores biconical, 36-43 x 7-10 Âµm,","Simuliomyces spica_128695_19011","Zygospores","36-43 x 7-10",39.5,8.5,NA
+"Zygospores broadly ellipsoidal, thick-walled, episporium black, smooth, 26.1-28.4 x 18.7-20.4 Âµm.","Neozygites fresenii_142867_67480","Zygospores","26.1-28.4 x 18.7-20.4",27.25,19.55,NA
+"Zygospores globoid or slightly ovoid, 19-30 Âµm","Syncephalis hypogena_30717_23155","Zygospores","19-30",24.5,NA,NA
+"Zygospores homothallic, reddish brown to dark brown, mostly inside an exudate droplet, up to 80 Âµm","Mucor faisalabadensis_31162_274","Zygospores","80",80,NA,NA
+"zygospores 41-83.5(94) Âµm","Mycocladus corymbiferus_162922_423","zygospores","41-83.5(94)",83.5,NA,NA
+"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 Âµm,","Mycocladus corymbiferus_162922_11404","Zygospores","60-100-45-80",72.5,NA,NA
+"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) Âµm","Mycocladus corymbiferus_162922_13935","Zygospores","41-83,5 (-94)",83.5,NA,NA
+"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 Âµm","Mycocladus corymbiferus_162922_14820","Zygospores","41-94",67.5,NA,NA
+"zygospores 50-80 Âµm","Mycocladus ramosus_167355_422","zygospores","50-80",65,NA,NA
+"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) Âµm","Mycocladus ramosus_167355_13936","Zygospores","85,5 x 102,5)",85.5,102.5,NA
+"zygospores never formed; azygospores abundant, produced terminally and subterminally on simple or branched azygophores 0.1-1.5 cm in height; azygospores globose or subglobose, orangebrown to brownish-black, 30-120 Âµm","Circinomucor bainieri_184285_430","zygospores","30-120",75,NA,NA
+"azygospores abundant, produced terminally and subterminally on simple or branched azygophores 0.1-1.5 cm in height; azygospores globose or subglobose, orangebrown to brownish-black, 30-120 Âµm","Circinomucor bainieri_184285_430","azygospores","30-120",75,NA,NA
+"azygospores globose or subglobose, orangebrown to brownish-black, 30-120 Âµm","Circinomucor bainieri_184285_430","azygospores","30-120",75,NA,NA
+"azygospores globose or sub-globose, up to 110 Âµm","Circinomucor bainieri_184285_14979","azygospores","110",110,NA,NA
+"zygospores [CBS 195.68 (+) x CBS 108.16 (-), on whey agar at 25Â°C] globose to slightly compressed, up to 100 Âµm","Circinomucor circinelloides_203237_14981","zygospores","100",100,NA,NA
+"zygospores [CBS 116.08 (-) x CBS 198.28 (+), on PDA at 25Â°C] globose, up to 80 Âµm","Circinomucor griseocyanus_193504_14983","zygospores","80",80,NA,NA
+"zygospores [CBS 205.68 (=) x CBS 232.29 (-) on PDA at 25Â°C] globose or nearly so, up to 70 Âµm","Circinomucor janssenii_166043_14984","zygospores","70",70,NA,NA
+"zygospores [CBS 213.75 (+) x CBS 226.32 (-) on beerwort agar at 24Â° ] formed in the aerial mycelium in a ladder-1ike fashion, globose or subglobose, up to 85 Âµm","Circinomucor plumbeus_165015_14987","zygospores","85",85,NA,NA
+"zygospores [CBS 115.08 (+) x CBS 238.35 (-) on cherry agar at 10Â°C] in the lower portion of the colony, on hyphae bearing both zygospores and sporangia, globose or nearly so, up to 90 Âµm","Circinomucor sphaerosporus_35219_14989","zygospores","90",90,NA,NA
+"zygospores and sporangia, globose or nearly so, up to 90 Âµm","Circinomucor sphaerosporus_35219_14989","zygospores","90",90,NA,NA
+"zygospores (CBS 763.74 (+) x CBS 185.77 (-) on beerwort agar at 25Â°C) in the aerial mycelium, most abundant in the lower part of the colony, black, globose to slightly compressed, up to 70 x 60 Âµm,","Zygorhynchus amphibiorum_180616_15783","zygospores","70 x 60",70,60,NA
+"Zygospores borne between opposed suspensors, globose to slightly compressed, up to 70 x 60 Âµm,","Zygorhynchus amphibiorum_180616_18591","Zygospores","70 x 60",70,60,NA
+"zygospores homothallic, formed at a short distance above the substrate on zygophores which are shorter than the sporangiophores, black, globose or nearly so, roughened by broad projections which are often brushlike in outline, up to 80 x 77 Âµm","Zygorhynchus bacilliformis_177005_15766","zygospores","80 x 77",80,77,NA
+"zygospores borne near the substrate upon zygophores, nearly spherical, brown to brownish black, containing several large oil droplets, 35-72 Âµm,","Zygorhynchus bacilliformis_177005_47548","zygospores","35-72",53.5,NA,NA
+"zygospores (CBS 226.29 (+) x CBS 422.71 (-), on beerwort agar, at 25Â°C) in the aerial mycelium, most abundant in the underportion of the colony, black, globose to slightly compressed, up to 100 Âµm","Zygorhynchus indicus_170207_15769","zygospores","100",100,NA,NA
+"azygospores may occur; suspensors unequal, one very short, the other swollen but constricted adjacent to the zygospore, up to 35 Âµm","Zygorhynchus indicus_170207_15769","azygospores","35",35,NA,NA
+"Zygospores formed in great numbers between opposed progametangia arising from aerial hyphae near the surface of the substrate; zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 Âµm","Benjaminiella poitrasii_5850_213","Zygospores","5-10",7.5,NA,NA
+"zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 Âµm","Benjaminiella poitrasii_5850_213","zygospores","5-10",7.5,NA,NA
+"zygospores globose, slightly compressed between the suspensors, brownish, tuberculate, 2,53-55 Âµm","Cunninghamella echinulata var. elegans_159668_280","zygospores","2,53-55",28.765,NA,NA
+"zygospores et d'hyphes Ã©pais (jusqu'Ã  17 Âµm","Endogone sphagnophila_133573_13667","zygospores","'Ã  17",NA,NA,NA
+"Zygospores entassÃ©es dans la glÃ¨be de maniÃ¨re alÃ©atoire, sphÃ©riques Ã  ellipsoÃ¯des ou dÃ©formÃ©es par leur proximitÃ© (30.8-56.6 x 35.0-73.4 Âµm)","Endogone sphagnophila_133573_13667","Zygospores","Ã© (30.8-56.6 x 35.0-73.4",30.8,54.2,NA
+"Zygospores round or oval, 160-220 Âµm","Rhizopus stolonifer_58300_13944","Zygospores","160-220",190,NA,NA
+"Zygospores 103-180 (-220) Âµm,","Rhizopus stolonifer_58300_14825","Zygospores","103-180 (-220)",180,NA,NA
+"zygospores globose, slightly compressed between the suspensors, (40-)50-65(-80) a in diam., brownish, tuberculate; suspensors eqnal, smooth, hyaline. 18-35 x 25-35 Âµm;","Cunninghamella blakesleeana_7213_278","zygospores",". 18-35 x 25-35",26.5,30,NA
+"Zygospores on YpSs globose to subglobose, (42-) 52-78(-105) Âµm","Thamnostylum lucknowense_26987_34493","Zygospores","(42-) 52-78(-105)",65,NA,NA
+"Zygospores globose, 70-85 Âµm","Mucor oudemansii_167463_13941","Zygospores","70-85",77.5,NA,NA
+"Zygospores (from Schipper, 1976) globose or sub-globose, up to 110 Âµm","Mucor oudemansii_167463_14828","Zygospores","110",110,NA,NA
+"Azygospores sometimes present. Chlamydospores numerous in aerial mycelium, sporangiophores and sometimes in the columellae and suspensors, doliiform, sub-globose or globose, often wider than hyphae and up to 30 Âµm","Mucor oudemansii_167463_14828","Azygospores","30",30,NA,NA
+"zygospores [CBS 124.23 (-1-) x CBS 260.68 (-) on cherry agar, at 10Â° C] in the aerial mycelium, globose or nearly so, up to [p. 22] 110 Âµm","Mucor oudemansii_167463_14990","zygospores",". 22] 110",NA,NA,NA
+"zygospores 41-83.5(94) Âµm","Mycocladus corymbifer_162923_423","zygospores","41-83.5(94)",83.5,NA,NA
+"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 Âµm,","Mycocladus corymbifer_162923_11404","Zygospores","60-100-45-80",72.5,NA,NA
+"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) Âµm","Mycocladus corymbifer_162923_13935","Zygospores","41-83,5 (-94)",83.5,NA,NA
+"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 Âµm","Mycocladus corymbifer_162923_14820","Zygospores","41-94",67.5,NA,NA
+"zygospores 50-80 Âµm","Mycocladus ramosus_193849_422","zygospores","50-80",65,NA,NA
+"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) Âµm","Mycocladus ramosus_193849_13936","Zygospores","85,5 x 102,5)",85.5,102.5,NA
+"zygospores [CBS 115.08 (+) x CBS 238.35 (-) on cherry agar at 10Â°C] in the lower portion of the colony, on hyphae bearing both zygospores and sporangia, globose or nearly so, up to 90 Âµm","Mucor dimorphosporus f. sphaerosporus_151435_14989","zygospores","90",90,NA,NA
+"zygospores and sporangia, globose or nearly so, up to 90 Âµm","Mucor dimorphosporus f. sphaerosporus_151435_14989","zygospores","90",90,NA,NA
+"Zygospores biconical, 49-55 x 7-8 Âµm,","Stachylina reflexa_139505_50540","Zygospores","49-55 x 7-8",52,7.5,NA
+"zygospores 30-70 Âµm","Mucor angarensis_104699_139","zygospores","30-70",50,NA,NA
+"zygospores [CBS 169.25 (-) x CBS 225.29 (+), on cherry agar at 15Â°C] slightly compressed between suspensors, up to 210 x 90 (240 x 210) Âµm,","Mucor piriformis_16416_15866","zygospores","210 x 90 (240 x 210)",210,165,210
+"Zygospores borne between opposed suspensors, subglobose, up to 210 (-240) x 190 (-210) Âµm,","Mucor piriformis_16416_18592","Zygospores","210 (-240) x 190 (-210)",225,200,NA
+"zygospores forming at 15-20Â° C but not at 7Â° or 24Â° C on special media, located just above substrate between equal tong-shaped suspensors, black, globose, faintly tuberculate, fragile (breaking readily under cover slips), 250-350 Âµm","Mucor phycomyces_119806_255","zygospores",")250-350",300,NA,NA
+"zygospores (CBS 412.66 (+) x CBS 208.28 (-) on beerwort agar at 20Â°C) in the aerial mycelium, reddish brown, up to 70 Âµm","Mucor parasiticus_142465_15808","zygospores","70",70,NA,NA
+"Zygospores globose tosubglobose, 92-106 Âµm","Mortierella globulifera_15987_18587","Zygospores","92-106",99,NA,NA
+"Zygospores (50-)70-100(-125) Âµm","Helicostylum repens_143037_34495","Zygospores","(50-)70-100(-125)",85,NA,NA
+"zygospores [CBS 108.17 (-) x CBS 277.49 (+), on beerwort agar at 25Â°C] globose to slightly compressed between suspensors, up to 115 x 105 Âµm,","Mucor lusitanicus_16380_14982","zygospores","115 x 105",115,105,NA
+"Zygospores 4-8 per sporangium, reniform, 9-12 Âµm","Sclerospora graminicola_123966_14419","Zygospores","9-12",10.5,NA,NA
+"Zygospores are unknown. A. harzii (Berl. & De Toni) Rosenberg 1959 was allegedly distinguished by its larger sporangia but falls within the range of variation of A. elegans. Primary sporangia mostly 60-80 Âµm,","Rhizopus elegans_155897_13834","Zygospores","60-80",70,NA,NA
+"zygospores 25-47 Âµm","Chaetocladium brefeldii_4312_261","zygospores","25-47",36,NA,NA
+"zygospores formed in clumps on tufts of aerial mycelium that arise from stolons or other aerial mycelium above the substrate, many zygospores not maturing; zygospore-producing hyphae hyaline, smoothwalled, irregularly branched, up to 13 Âµm","Chaetocladium brefeldii_4312_261","zygospores","13",13,NA,NA
+"zygospores not maturing; zygospore-producing hyphae hyaline, smoothwalled, irregularly branched, up to 13 Âµm","Chaetocladium brefeldii_4312_261","zygospores","13",13,NA,NA
+"Zygospores formed from tongs-1ike often slightly unequal, apposed suspensors, brown to reddish-brown, translucent, with a smooth, thin outer layer and a striate, thick inner layer, 30-105 Âµm","Choanephora cucurbitarum_33658_406","Zygospores","30-105",67.5,NA,NA
+"Zygospores globose to subglobose, (42-) 54 (-80) x (40-) 52 (-70) Âµm,","Mortierella alpina_15852_18585","Zygospores","(42-) 54 (-80) x (40-) 52 (-70)",54,52,NA
+"Zygospores globose and 18-58 Âµm","Zygorhynchus moelleri_29457_38487","Zygospores","18-58",38,NA,NA
+"zygospores forming at 15-20Â° C but not at 7Â° or 24Â° C on special media, located just above substrate between equal tong-shaped suspensors, black, globose, faintly tuberculate, fragile (breaking readily under cover slips), 250-350 Âµm","Ulva nitens_150608_255","zygospores",")250-350",300,NA,NA
+"zygospores [CBS 234.35 (-) x 235.35 (+), on PDA at 15Â°C] borne chiefly in the upper portion of the aerial mycelium, often in a ladderlike fashion, spherical, compressed between suspensors, up to 180 x 165 Âµm,","Mucor flavus_16285_15871","zygospores","180 x 165",180,165,NA
+"zygospores (CBS 412.71 x CBS 250.35, on cherry agar at 10Â°C) up to 65 x 70 Âµm,","Mucor silvaticus_16493_7899","zygospores","65 x 70",65,70,NA
+"zygospores [CBS 115.08 (+) x CBS 238.35 (-) on cherry agar at 10Â°C] in the lower portion of the colony, on hyphae bearing both zygospores and sporangia, globose or nearly so, up to 90 Âµm","Mucor sphaerosporus_16496_14989","zygospores","90",90,NA,NA
+"zygospores and sporangia, globose or nearly so, up to 90 Âµm","Mucor sphaerosporus_16496_14989","zygospores","90",90,NA,NA
+"zygospores (homothallic) brown to blackish brown, globose to slightly compressed, up to 80 Âµm","Mucor genevensis_16304_7901","zygospores","80",80,NA,NA
+"zygospores always numerous, produced near the substrate, giving the culture a blackish zone, spherical to slightly compressed, with heavy spines up to 4.2 Âµm.","Mucor genevensis_16304_47549","zygospores","4.2",4.2,NA,NA
+"Zygospores round or oval, 160-220 Âµm","Mucor stolonifer_104688_13944","Zygospores","160-220",190,NA,NA
+"Zygospores 103-180 (-220) Âµm,","Mucor stolonifer_104688_14825","Zygospores","103-180 (-220)",180,NA,NA
+"zygospores [CBS 974.68 (+) x CBS 137.40 (-) on beerwort agar at 15Â°C] formed in the aerial mycelium just above the agar surface, globose to slightly compressed between suspensors, up to 180 x 170 Âµm,","Mucor saturninus_16488_15867","zygospores","180 x 170",180,170,NA
+"zygospores [CBS 195.68 (+) x CBS 108.16 (-), on whey agar at 25Â°C] globose to slightly compressed, up to 100 Âµm","Mucor circinelloides_58323_14981","zygospores","100",100,NA,NA
+"Zygospores formed from tongs-1ike often slightly unequal, apposed suspensors, brown to reddish-brown, translucent, with a smooth, thin outer layer and a striate, thick inner layer, 30-105 Âµm","Rhopalomyces cucurbitarum_155770_406","Zygospores","30-105",67.5,NA,NA
+"Zygospores are unknown. A. harzii (Berl. & De Toni) Rosenberg 1959 was allegedly distinguished by its larger sporangia but falls within the range of variation of A. elegans. Primary sporangia mostly 60-80 Âµm,","Mucor elegans_58412_13834","Zygospores","60-80",70,NA,NA
+"Zygospores between equal suspensors, black, spherical, 50-90 ?m diam, with conical projections. Heterothallic. Physiology. Maximum growth temperature 40Â°C. Pathogenicity. BSL-2. The species is a saprobe, rarely occurring on humans. A case of cutaneous infection in a human (Kalamam & Thambiah, 1980) and a bovine mycotic abortion have been reported (Turner, 1964). References. Zycha et al. (1969), Samson et al. (1996). Nomenclature. Syncephalastrum racemosum Cohn-Kryptfl. Schles. 3-1: 217, 1886. Syncephalastrum recemosum F. Cohn ex Schroeter, 1886, Kryptogamenfl. Schlweiz., 2, 1: 217. / in Matsuhima (1975), p. 188.  Hab Solo culto; Setagaya Ward, Tokyo; vii. 1961; MFC-1051.  Descr In CMA: Coloniae late effusae, arachnoideae, pallide griseae. Sporangiophora basi rhizoideo, ramosa, apice uni-vesiculata; vesiculae globosae subglobosaeve, 30-80 Âµm","Syncephalastrum racemosum_26698_11426","Zygospores","30-80",55,NA,NA
+"Zygospores developed from the conjugation of two undifferentiated hyphal branches, globose or ovoid, nearly colorless, thick-walled, smooth, 23-50 Âµm,","Coemansiella alabastrina_117619_34446","Zygospores","23-50",36.5,NA,NA
+"zygospores at first white, when mature dark brown to black, slightly roughened (blunt projections no more than 5 Âµm","Syzygites megalocarpus_26746_23169","zygospores","5",5,NA,NA
+"zygospores up to 0.5 cm. above substrate hence below the sporangia, dichotomously divided, nearly hyaline below but dark brown in region of zygospores, terminally tapering to 5 Âµm;","Syzygites megalocarpus_26746_23169","zygospores","5",5,NA,NA
+"azygospores seen which reach a diam. to 160 Âµm;","Syzygites megalocarpus_26746_23169","azygospores","160",160,NA,NA
+"zygospores globose, slightly compressed between the suspensors, brownish, tuberculate, 2,53-55 Âµm","Cunninghamella elegans_7234_280","zygospores","2,53-55",28.765,NA,NA
+"zygospores 50-80 Âµm","Absidia ramosa_97_422","zygospores","50-80",65,NA,NA
+"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) Âµm","Absidia ramosa_97_13936","Zygospores","85,5 x 102,5)",85.5,102.5,NA
+"zygospores 41-83.5(94) Âµm","Absidia corymbifera_29_423","zygospores","41-83.5(94)",83.5,NA,NA
+"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 Âµm,","Absidia corymbifera_29_11404","Zygospores","60-100-45-80",72.5,NA,NA
+"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) Âµm","Absidia corymbifera_29_13935","Zygospores","41-83,5 (-94)",83.5,NA,NA
+"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 Âµm","Absidia corymbifera_29_14820","Zygospores","41-94",67.5,NA,NA
+"zygospores (125-)160185(-208) Âµm","Absidia glauca_66_322","zygospores","(125-)160185(-208)",172.5,NA,NA
+"zygospores 83-156(-180) Âµm","Absidia coerulea_21_326","zygospores","83-156(-180)",156,NA,NA
+"Zygospores developed from the conjugation of two undifferentiated hyphal branches, globose or ovoid, nearly colorless, thick-walled, smooth, 23-50 Âµm,","Kickxella alabastrina_13866_34446","Zygospores","23-50",36.5,NA,NA
+"zygospores (125-)160185(-208) Âµm","Absidia septata_31173_323","zygospores","(125-)160185(-208)",172.5,NA,NA
+"zygospores 78-86 Âµm","Absidia scabra_240820_40216","zygospores","78-86",82,NA,NA
+"zygospores usually 40-75 Âµm","Absidia spinosa_46500_7569","zygospores","40-75",57.5,NA,NA
+"Zygospores are covered with blunt stellate projections to 4.5 Âµm","Absidia spinosa_46500_13808","Zygospores","4.5",4.5,NA,NA
+"Zygospores 4-8 per sporangium, reniform, 9-12 Âµm","Peronospora graminicola_158344_14419","Zygospores","9-12",10.5,NA,NA
+"zygospores 41-83.5(94) Âµm","Mucor corymbifer_35523_423","zygospores","41-83.5(94)",83.5,NA,NA
+"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 Âµm,","Mucor corymbifer_35523_11404","Zygospores","60-100-45-80",72.5,NA,NA
+"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) Âµm","Mucor corymbifer_35523_13935","Zygospores","41-83,5 (-94)",83.5,NA,NA
+"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 Âµm","Mucor corymbifer_35523_14820","Zygospores","41-94",67.5,NA,NA
+"zygospores globose to slightly compressed between the suspensors, tuberculate, brownish, 30-50 Âµm","Cunninghamella echinulata_160036_279","zygospores","30-50",40,NA,NA
+"Zygospores (fide Cutter, 1946) formed at 25Â°C, heterothallic, nearly opaque 46-80 x 40-63 (av. 70 x 58) Âµm","Cunninghamella echinulata_160036_13937","Zygospores",". 70 x 58)",70,58,NA
+"zygospores (CBS 106.09 x CBS 365.68 on PDA., at 20Â°C) black, globose to slightly compressed, up to 93 x 85 (110 x 108) Âµm,","Mucor corticola_16276_7897","zygospores","93 x 85 (110 x 108)",93,97.5,108
+"(azygospores may be present); suspensors equal or unequal (i.e.: one suspensor swollen) up to 30 Âµm","Mucor corticola_16276_7897","(azygospores","30",30,NA,NA
+"zygospores [CBS 640.67 (-) x CBS 144.24 (+), on beerwort agar at 15Â°C] globose to compressed between suspensors, up to 250 x 200 Âµm,","Mucor mucedo_16394_15865","zygospores","250 x 200",250,200,NA
+"Zygospores globose, (72-)89-112(-126), av. 100, Âµm","Pirella circinans_21852_34462","Zygospores",". 100,",100,NA,NA
+"zygospores [CBS 213.75 (+) x CBS 226.32 (-) on beerwort agar at 24Â° ] formed in the aerial mycelium in a ladder-1ike fashion, globose or subglobose, up to 85 Âµm","Mucor plumbeus_16433_14987","zygospores","85",85,NA,NA
+"Zygospores non observeÃ©s. Ce Mucor semble parentÃ© au M. mucilagineus Bref. (Wint. Kr. FI. IV, par Alfred Fischer, l' 190), niais en diffÃ¨re par des spores beaucoup plus petites (8-8.5 x 4.5-5 Âµm","Mucor adventitius_16204_168","Zygospores","(8-8.5 x 4.5-5",8.25,4.75,NA
+"Zygospores globose to subglobose, (35-)40-70(-85) Âµm","Mucor lamprosporus_2981_34587","Zygospores","(35-)40-70(-85)",55,NA,NA
+"zygospores [CBS 205.68 (=) x CBS 232.29 (-) on PDA at 25Â°C] globose or nearly so, up to 70 Âµm","Mucor janssenii_16364_14984","zygospores","70",70,NA,NA
+"zygospores forming at 15-20Â° C but not at 7Â° or 24Â° C on special media, located just above substrate between equal tong-shaped suspensors, black, globose, faintly tuberculate, fragile (breaking readily under cover slips), 250-350 Âµm","Phycomyces nitens_21437_255","zygospores",")250-350",300,NA,NA
+"zygospores spherical, laterally attached to arched suspensors, black at maturity, about half the size of those of P. nitens, measuring about 125 Âµm","Phycomyces microsporus_58728_257","zygospores","125",125,NA,NA
+"zygospores (CBS 412.66 (+) x CBS 208.28 (-) on beerwort agar at 20Â°C) in the aerial mycelium, reddish brown, up to 70 Âµm","Parasitella parasitica_18490_15808","zygospores","70",70,NA,NA
+"zygospores forming at 15-20Â° C but not at 7Â° or 24Â° C on special media, located just above substrate between equal tong-shaped suspensors, black, globose, faintly tuberculate, fragile (breaking readily under cover slips), 250-350 Âµm","Mucor nitens_150609_255","zygospores",")250-350",300,NA,NA
+"Zygospores formed at or below the surface of the medium, 40-80 Âµm","Blakeslea trispora_3144_405","Zygospores","40-80",60,NA,NA
+"Zygospores on YpD (50-)55-75(-85) Âµm","Helicostylum nigricans_167287_34494","Zygospores","(50-)55-75(-85)",65,NA,NA
+"Zygospores on MEYE globose to subglobose, 70-175 Âµm","Helicostylum piriforme_12670_34492","Zygospores","70-175",122.5,NA,NA
+"zygospores 50-80 Âµm","Mucor ramosus_167356_422","zygospores","50-80",65,NA,NA
+"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) Âµm","Mucor ramosus_167356_13936","Zygospores","85,5 x 102,5)",85.5,102.5,NA
+"Zygospores homothallic, globose to slightly flattened at the sides, black, 55-75 Âµm","Mucor pusillus_24315_13940","Zygospores","55-75",65,NA,NA
+"Zygospores 45-63 (-70) Âµm","Mucor pusillus_24315_14826","Zygospores","45-63 (-70)",63,NA,NA
+"zygospores (CBS 253.53 (+) x CBS 354.68 (-) on beerwort agar at 30Â°C) formed in the aerial mycelium, globose to slightly compressed, up to 70 x 63 Âµm,","Mucor pusillus_24315_15805","zygospores","70 x 63",70,63,NA
+"Zygospores globose, 70-85 Âµm","Mucor racemosus_37917_13941","Zygospores","70-85",77.5,NA,NA
+"Zygospores (from Schipper, 1976) globose or sub-globose, up to 110 Âµm","Mucor racemosus_37917_14828","Zygospores","110",110,NA,NA
+"Azygospores sometimes present. Chlamydospores numerous in aerial mycelium, sporangiophores and sometimes in the columellae and suspensors, doliiform, sub-globose or globose, often wider than hyphae and up to 30 Âµm","Mucor racemosus_37917_14828","Azygospores","30",30,NA,NA
+"zygospores [CBS 124.23 (-1-) x CBS 260.68 (-) on cherry agar, at 10Â° C] in the aerial mycelium, globose or nearly so, up to [p. 22] 110 Âµm","Mucor racemosus_37917_14990","zygospores",". 22] 110",NA,NA,NA
+"zygospores at first brown, then blackish brown to black, less than 100 Âµm","Mucor hiemalis_46607_7896","zygospores","100",100,NA,NA
+"zygospores 30-70 Âµm","Circinella angarensis_5342_139","zygospores","30-70",50,NA,NA
+"zygospores 18-36 Âµm","Tieghemella butleri_168902_7557","zygospores","18-36",27,NA,NA
+"Zygospores 17-34 Âµm","Tieghemella butleri_168902_18584","Zygospores","17-34",25.5,NA,NA
+"zygospores 83-156(-180) Âµm","Tieghemella coerulea_160697_326","zygospores","83-156(-180)",156,NA,NA
+"zygospores 40-67 Âµm","Tieghemella cylindrospora_203242_7570","zygospores","40-67",53.5,NA,NA
+"zygospores in single-sporangium transfers, light grey colonies growing well at 25ÂºC and up to 31ÂºC, scanty whorls (up to four branches) of sporangiophores, and spores 3.3-5.5 x 2.2-3.5 Âµm.","Tieghemella cylindrospora_203242_13806","zygospores","3.3-5.5 x 2.2-3.5",4.4,2.85,NA
+"Zygospores covered with blunt stellate projections to 4.5 Âµm","Tieghemella cylindrospora_203242_13806","Zygospores","4.5",4.5,NA,NA
+"Zygospores hyaline, globose to subglobose, (34-)46(-62) Âµm","Mortierella humilis_168108_23259","Zygospores","(34-)46(-62)",46,NA,NA
+"zygospores (figs. 8, 9, 10) formed as a solid black line across the plate at juncture of two mating types, borne in air above substrate, never on or in substrate; zygospores 35-90 Âµm,","Choanephora persicaria_11593_428","zygospores","35-90",62.5,NA,NA
+"zygospores 35-90 Âµm,","Choanephora persicaria_11593_428","zygospores","35-90",62.5,NA,NA
+"Zygospores (fide Hesssltine, 1960) (35-) 70-80 (-90) Âµm","Choanephora persicaria_11593_13938","Zygospores","1960) (35-) 70-80 (-90)",70,NA,NA
+"zygospores occasionally a septum may occur, sometimes covered with crystals; heterothallic, zygophores 10-15 Âµm","Choanephora persicaria_11593_13938","zygospores","10-15",12.5,NA,NA
+"zygospores [CBS 108.17 (-) x CBS 277.49 (+), on beerwort agar at 25Â°C] globose to slightly compressed between suspensors, up to 115 x 105 Âµm,","Mucor racemosus var. lusitanicus_143547_14982","zygospores","115 x 105",115,105,NA
+"zygospores were obtained after mutual combinations of 12 isolates on various media in only two combinations on cherry decoction agar after 6 days at 15-17.5Â°C but not above; suspensors developing without initial entangling, of unequal size and shape; zygospores smooth-and thin-walled, 22-30 Âµm","Mortierella turficola_16162_23455","zygospores","22-30",26,NA,NA
+"zygospores smooth-and thin-walled, 22-30 Âµm","Mortierella turficola_16162_23455","zygospores","22-30",26,NA,NA
+"zygospores produced readily between compatible strains at room temperature or below on ordinary substrates, formed between tong-shaped suspensors at the surface of the substratum, black, globose, faintly roughened, readily crushed under a cover glass, mostly 400-500 Âµm","Phycomyces blakesleeanus_21420_256","zygospores","400-500",450,NA,NA
+"zygospores 18-36 Âµm","Absidia butleri_31153_7557","zygospores","18-36",27,NA,NA
+"Zygospores 17-34 Âµm","Absidia butleri_31153_18584","Zygospores","17-34",25.5,NA,NA
+"zygospores (from herbarium specimen) golden brown, globose to bent ellipsoid, heavy-walled, borne in or on the surface of medium, with smooth and clearly striate wall which is divided into three zones, 40-80 Âµm","Choanephora conjuncta_40009_7555","zygospores","40-80",60,NA,NA
+"zygospores (CBS 255.36 (-) x CBS 496.66 (+) on beerwort agar at 25Â°C) in the aerial mycelium, most abundant in the lower part of the colony, [p. 13] black, globose to slightly compressed, up to 80 x 75 (100 x 85) Âµm,","Mucor inaequisporus_16353_15784","zygospores","80 x 75 (100 x 85)",80,87.5,85
+"zygospores (CBS 226.29 (+) x CBS 422.71 (-), on beerwort agar, at 25Â°C) in the aerial mycelium, most abundant in the underportion of the colony, black, globose to slightly compressed, up to 100 Âµm","Mucor indicus_16358_15769","zygospores","100",100,NA,NA
+"azygospores may occur; suspensors unequal, one very short, the other swollen but constricted adjacent to the zygospore, up to 35 Âµm","Mucor indicus_16358_15769","azygospores","35",35,NA,NA
+"zygospores never formed; azygospores abundant, formed terminally on simple or branched azygophores, black subglobose, slightly flattened, 85-180 Âµm","Mucor azygospora_421631_432","zygospores","85-180",132.5,NA,NA
+"azygospores abundant, formed terminally on simple or branched azygophores, black subglobose, slightly flattened, 85-180 Âµm","Mucor azygospora_421631_432","azygospores","85-180",132.5,NA,NA
+"azygospores Ochraceous-Tawny, while the lower portion where the azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) Âµm","Mucor azygospora_421631_15800","azygospores","10 (-15)",12.5,NA,NA
+"azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) Âµm","Mucor azygospora_421631_15800","azygospores","10 (-15)",12.5,NA,NA
+"azygospores Ochraceous-Tawny, while the lower portion where the azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) Âµm","Mucor azygospora_421631_15801","azygospores","10 (-15)",12.5,NA,NA
+"azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) Âµm","Mucor azygospora_421631_15801","azygospores","10 (-15)",12.5,NA,NA
+"zygospores (CBS 106.09 x CBS 365.68 on PDA., at 20Â°C) black, globose to slightly compressed, up to 93 x 85 (110 x 108) Âµm,","Mucor corticolus_421633_7897","zygospores","93 x 85 (110 x 108)",93,97.5,108
+"(azygospores may be present); suspensors equal or unequal (i.e.: one suspensor swollen) up to 30 Âµm","Mucor corticolus_421633_7897","(azygospores","30",30,NA,NA
+"zygospores [CBS 205.68 (=) x CBS 232.29 (-) on PDA at 25Â°C] globose or nearly so, up to 70 Âµm","Mucor janseni_421639_14984","zygospores","70",70,NA,NA
+"zygospores 41-83.5(94) Âµm","Mycocladus corymbifera_421691_423","zygospores","41-83.5(94)",83.5,NA,NA
+"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 Âµm,","Mycocladus corymbifera_421691_11404","Zygospores","60-100-45-80",72.5,NA,NA
+"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) Âµm","Mycocladus corymbifera_421691_13935","Zygospores","41-83,5 (-94)",83.5,NA,NA
+"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 Âµm","Mycocladus corymbifera_421691_14820","Zygospores","41-94",67.5,NA,NA
+"zygospores 50-80 Âµm","Mycocladus ramosa_421692_422","zygospores","50-80",65,NA,NA
+"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) Âµm","Mycocladus ramosa_421692_13936","Zygospores","85,5 x 102,5)",85.5,102.5,NA
+"zygospores (?), spherical, smooth, hyaline, 14-24 Âµm","Entomophthora pyralidarum_258048_47442","zygospores","14-24",19,NA,NA
+"zygospores 70-175 Âµm","Mucor sexualis_58711_142","zygospores","70-175",122.5,NA,NA
+"zygospores formed typically between branches of same filament and the filament extended beyond as a sterile projection cut off by a septum; zygophores to 16 Âµm","Mucor sexualis_58711_142","zygospores","16",16,NA,NA
+"azygospores sometimes seen, brown to black, 60-100 Âµm;","Mucor sexualis_58711_142","azygospores","60-100",80,NA,NA
+"Zygospores (70-) 80-180 Âµm","Mucor sexualis_58711_14824","Zygospores","(70-) 80-180",80,NA,NA
+"Azygospores sometimes seen, 60-100 Âµm","Mucor sexualis_58711_14824","Azygospores","60-100",80,NA,NA
+"Zygospores rare, biconical, (46-)52(-58) x (5.5-)6(-8) Âµm,","Smittium culesitae_423448_53114","Zygospores","(46-)52(-58) x (5.5-)6(-8)",52,6,NA
+"Zygospores rare, biconical, (46-) 52 (-58) x (5.5-) 6(-8) Âµm,","Smittium culesitae_423448_53115","Zygospores","(46-) 52 (-58) x (5.5-) 6(-8)",52,6,NA
+"zygospores 18-36 Âµm","Gongronella butleri_12139_7557","zygospores","18-36",27,NA,NA
+"Zygospores 17-34 Âµm","Gongronella butleri_12139_18584","Zygospores","17-34",25.5,NA,NA
+"Zygospores formed at or below the surface of the medium, 40-80 Âµm","Choanephora trispora_3145_405","Zygospores","40-80",60,NA,NA
+"Zygospores developed from the conjugation of two usually short undifferentiated hyphal branches, globose, nearly colorless, thick-walled, smooth, 27-44 Âµm","Coemansia aciculifera_5832_34439","Zygospores","27-44",35.5,NA,NA
+"zygospores unknown. Influence of temperature: at 40 and 37Â°C slow submerged growth, no sporulation; at 30-10Â°C growth and sporulation; at 5Â°C hardly any growth. Optimal development at 30-25Â°C; at lower temperatures occurence of recurved sporangiophores in young cultures is more frequent than at higher temperatures. Influence of light: colonies grown in darkness are paler and sporulation is retarded. Influence of medium: on beerwort agar + 20% saccharose at 20Â°C pigmentation is more marked, sporulation more abundant and the sporangiospores larger (11.8-25.6 x 6.7-14.8 Âµm).","Mucor odoratus_16408_15799","zygospores","(11.8-25.6 x 6.7-14.8",18.7,10.75,NA
+"zygospores 70-175 Âµm","Rhizopus sexualis_46666_142","zygospores","70-175",122.5,NA,NA
+"zygospores formed typically between branches of same filament and the filament extended beyond as a sterile projection cut off by a septum; zygophores to 16 Âµm","Rhizopus sexualis_46666_142","zygospores","16",16,NA,NA
+"azygospores sometimes seen, brown to black, 60-100 Âµm;","Rhizopus sexualis_46666_142","azygospores","60-100",80,NA,NA
+"Zygospores (70-) 80-180 Âµm","Rhizopus sexualis_46666_14824","Zygospores","(70-) 80-180",80,NA,NA
+"Azygospores sometimes seen, 60-100 Âµm","Rhizopus sexualis_46666_14824","Azygospores","60-100",80,NA,NA
+"zygospores up to 38 Âµm.","Absidia parricida_174884_7565","zygospores","38",38,NA,NA
+"zygospores up to 38 Âµm.","Absidia parricida_90_7565","zygospores","38",38,NA,NA
+"Zygospores are unknown. A. harzii (Berl. & De Toni) Rosenberg 1959 was allegedly distinguished by its larger sporangia but falls within the range of variation of A. elegans. Primary sporangia mostly 60-80 Âµm,","Actinomucor elegans_678_13834","Zygospores","60-80",70,NA,NA
+"Zygospores formed at or below the surface of the medium, 60-100 Âµm","Blakeslea circinans_32373_412","Zygospores","60-100",80,NA,NA
+"zygospores  formed at or below the surface of the medium, dark reddish-brown to almost black, with large central oil droplet, oval to globose, 40-90 Âµm","Blakeslea circinans_32373_429","zygospores","40-90",65,NA,NA
+"Zygospores formed at or below the surface of the medium, 60-100 Âµm","Choanephora circinans_40011_412","Zygospores","60-100",80,NA,NA
+"zygospores  formed at or below the surface of the medium, dark reddish-brown to almost black, with large central oil droplet, oval to globose, 40-90 Âµm","Choanephora circinans_40011_429","zygospores","40-90",65,NA,NA
+"Zygospores developed from the conjugation of a short undifferentiated branch with a vegetative hypha and formed by the enlargement of a cell delimited in the sexual branch, globose, nearly colorless, thick-walled, smooth, 35-62 Âµm,","Coemansia mojavensis_5840_34443","Zygospores","35-62",48.5,NA,NA
+"zygospores globose, slightly compressed between suspensors, brownish, becoming dark brown, 40-70(-80) Âµm","Cunninghamella homothallica_7243_281","zygospores","40-70(-80)",70,NA,NA
+"Zygospores globose to subglobose, (42-) 54 (-80 x(40-) 52 (-70) Âµm,","Mortierella elongata_15941_18586","Zygospores","(42-) 54 (-80 x(40-) 52 (-70)",54,52,NA
+"Zygospores naked, globose to subglobose, (42-) 54 (-80) x (40-) 52 (-70) Âµm,","Mortierella mutabilis_16069_18589","Zygospores","(42-) 54 (-80) x (40-) 52 (-70)",54,52,NA
+"zygospores homothallic, formed at a short distance above the substrate on zygophores which are shorter than the sporangiophores, black, globose or nearly so, roughened by broad projections which are often brushlike in outline, up to 80 x 77 Âµm","Mucor bacilliformis_16221_15766","zygospores","80 x 77",80,77,NA
+"zygospores borne near the substrate upon zygophores, nearly spherical, brown to brownish black, containing several large oil droplets, 35-72 Âµm,","Mucor bacilliformis_16221_47548","zygospores","35-72",53.5,NA,NA
+"zygospores (CBS 196.71 (-) x CBS 195.71 (+) on PDA at 25Â°C) mainly produced in the upper portion of the colony, sometimes in a ladder-1ike fashion, globose, compressed between suspensors, up to 160 x 125 Âµm,","Mucor recurvus_46608_15787","zygospores","160 x 125",160,125,NA
+"zygospores up to 18 Âµm","Mucor recurvus_46608_15787","zygospores","18",18,NA,NA
+"zygospores formed on the aerial mycelium between equal, opposed, appendiculate suspensors. Suspensor appendages 4-11  in number, branched, equally developed on both suspensors, loosely investing the zygospore. Zygospores smooth-walled, light brown to nearly colorless, 42-89  Âµm","Radiomyces spectabilis_23780_7572","zygospores","42-89",65.5,NA,NA
+"Zygospores smooth-walled, light brown to nearly colorless, 42-89  Âµm","Radiomyces spectabilis_23780_7572","Zygospores","42-89",65.5,NA,NA
+"Zygospores formed on the substratum on creeping mycelial threads about 14 Âµm","Rhizopodopsis javensis_58735_287","Zygospores","14",14,NA,NA
+"Zygospores subglobose, at first pale colored afterwards opaque black; wall with coarse conical warts; 122-210 Âµm","Rhizopodopsis javensis_58735_287","Zygospores","; 122-210",166,NA,NA
+"Zygospores not common, produced in old collapsed colonies on the hosts and on the surrounding leaf surface to which the insects are attached; globose, occasionally ventrally somewhat appressed, black, ornamented with irregular warts, 50-75 Âµm","Sporodiniella umbellata_26074_40477","Zygospores","50-75",62.5,NA,NA
+"Zygospores not common, produced in old collapsed colonies on the hosts and on the surrounding leaf surface to which the insects are attached ; globose, occasionally ventrally somewhat appressed, black, ornamented with irregular warts, 50-75 Âµm","Sporodiniella umbellata_26074_47550","Zygospores","50-75",62.5,NA,NA
+"Zygospores not common, produced in old collapsed colonies on the hosts and on the surrounding leaf surface to which the insects are attached; globose, occasionally ventrally somewhat appressed, black, ornamented with irregular warts, 50-75 Âµm","Sporodiniella umbellata_269873_40477","Zygospores","50-75",62.5,NA,NA
+"Zygospores not common, produced in old collapsed colonies on the hosts and on the surrounding leaf surface to which the insects are attached ; globose, occasionally ventrally somewhat appressed, black, ornamented with irregular warts, 50-75 Âµm","Sporodiniella umbellata_269873_47550","Zygospores","50-75",62.5,NA,NA
+"Zygospores globose to subglobose, (35-)40-55(-60) Âµm","Thamnidium anomalum_26979_34594","Zygospores","(35-)40-55(-60)",47.5,NA,NA
+"Zygospores unknown. Chlamydospores present, variously shaped, up to 45 Âµm","Actinomortierella wolfii_184283_14829","Zygospores","45",45,NA,NA
+"Zygospores globose to subglobose, 35-55 Âµm","Backusella ctenidia_2977_34589","Zygospores","35-55",45,NA,NA
+"Zygospores globose to subglobose, (35-)40-70(-85) Âµm","Backusella lamprospora_2980_34587","Zygospores","(35-)40-70(-85)",55,NA,NA
+"Zygospores formed in great numbers between opposed progametangia arising from aerial hyphae near the surface of the substrate; zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 Âµm","Benjaminia poitrasii_182762_213","Zygospores","5-10",7.5,NA,NA
+"zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 Âµm","Benjaminia poitrasii_182762_213","zygospores","5-10",7.5,NA,NA
+"Zygospores numerous, globose (24-28) to ovoid (28-32) x (12-)16-20 Âµm","Siepmannia lariceti_457787_26159","Zygospores","(28-32) x (12-)16-20",30,16,NA
+"zygospores developed from the conjugation of a short undifferentiated branch with a vegetative hypha and formed by the enlargement of a cell delimited in the sexual branch, globose, nearly colorless, thick-walled, smooth, about 36 Âµm","Coemansia nantahalensis_5842_23168","zygospores","36",36,NA,NA
+"Zygospores globose to subglobose, (35-)40-60(-80) Âµm","Dichotomocladium elegans_8363_35334","Zygospores","(35-)40-60(-80)",50,NA,NA
+"Zygospores globose to subglobose, (40-)50-70(-85) Âµm","Dichotomocladium robustum_8366_34604","Zygospores","(40-)50-70(-85)",60,NA,NA
+"Zygospores globose to subglobose, (35-)40-55(-60) Âµm","Ellisomyces anomalus_9281_34594","Zygospores","(35-)40-55(-60)",47.5,NA,NA
+"Zygospores 45-55 x 57-63 Âµm,","Endogone flammicorona_179826_40384","Zygospores","45-55 x 57-63",50,60,NA
+"Zygospores formed on mating compatible strains on malt extract agar at 25-30Â°C, formed on aerial hyphae by fusion of equal gametangia, globose to subglobose, 38-66 Âµm","Fennellomyces heterothallicus_34794_190","Zygospores","38-66",52,NA,NA
+"Zygospores were obtained by Kuhlman (1972) after mating between compatible strains; zygospores smooth and thick-walled, 43-56 Âµm","Mortierella beljakovae_15889_23452","Zygospores","43-56",49.5,NA,NA
+"zygospores smooth and thick-walled, 43-56 Âµm","Mortierella beljakovae_15889_23452","zygospores","43-56",49.5,NA,NA
+"Zygospores hyaline, globose to subglobose, (34-)46(-62) Âµm","Mortierella humilis_16005_23259","Zygospores","(34-)46(-62)",46,NA,NA
+"Zygospores formed in a dense line between mated colonies in the agar or on the surface, globose to subglobose, smooth and thin walled. (28-)34 x 34(-46) Âµm,","Mortierella indohii_16020_23261","Zygospores",". (28-)34 x 34(-46)",31,40,NA
+"zygospores smooth and thick-walled, 50-55 Âµm","Mortierella kuhlmanii_16041_23430","zygospores","50-55",52.5,NA,NA
+"zygospores are unknown.  A comparison of sporangium formation in Gamsiella multidivaricata (Benjamin 1978) and Lobosporangium transversale demonstrates that the early stages of fertile-branch formation are similar. Each fertile branch of Lobosporangium appears to be shorter than those of Gamsiella because the sporangia of L. transversale are much longer than the sporangia and pedicels of G. multidivaricata (230-400 Âµm","Mortierella multidivaricata_16067_17773","zygospores","(230-400",315,NA,NA
+"zygospores (CBS 763.74 (+) x CBS 185.77 (-) on beerwort agar at 25Â°C) in the aerial mycelium, most abundant in the lower part of the colony, black, globose to slightly compressed, up to 70 x 60 Âµm,","Mucor amphibiorum_16209_15783","zygospores","70 x 60",70,60,NA
+"Zygospores borne between opposed suspensors, globose to slightly compressed, up to 70 x 60 Âµm,","Mucor amphibiorum_16209_18591","Zygospores","70 x 60",70,60,NA
+"azygospores abundant, produced terminally and subterminally, sometimes one or more on the same swollen end (suspensor) of a simple or branched azygophore; azygophores up to 600 Âµm","Mucor ardhlaengiktus_16215_420","azygospores","600",600,NA,NA
+"azygospores globose or subglobose, orange brown to brownish-black, 28-77 Âµm","Mucor ardhlaengiktus_16215_420","azygospores","28-77",52.5,NA,NA
+"zygospores unknown. Influence of temperature: at 37Â°C no growth; at 30Â°C poor growth; at 25-5Â°C growth and sporulation, at 25-20Â°C optimal development, at 5Â°C very slow. At 5Â°C repeatedly sympodial short branches develop with small, often sterile sporangia and a long apical branch with a fertile sporangium. Influence of light: insignificant. Influence of medium: on beerwort agar + 20% saccharose at 20Â°C the sporangiospores were subglobose, 10.8-13.5 Âµm","Mucor tuberculisporus_16507_15791","zygospores","10.8-13.5",12.15,NA,NA
+"Zygospores formed in great numbers between opposed progametangia arising from aerial hyphae near the surface of the substrate; zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 Âµm","Mycotypha poitrasii_182763_213","Zygospores","5-10",7.5,NA,NA
+"zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 Âµm","Mycotypha poitrasii_182763_213","zygospores","5-10",7.5,NA,NA
+"Zygospores formed in large numbers between opposed progametangia arising from aerial hyphae at all levels above the substrate. Suspensors becoming appendiculate; appendages 5-7 on each suspensor, branched, loosely investing the zygospores, light brown, slender, acuminate, the longest main axes reaching as much as 225 Âµm","Radiomycopsis embreei_185129_215","Zygospores","225",225,NA,NA
+"Zygospores smooth, light brown, (35-)40-62(-68) Âµm","Radiomycopsis embreei_185129_215","Zygospores","(35-)40-62(-68)",51,NA,NA
+"Zygospores (18,5-) 30-50 Âµm","Rhizomucor miehei_24309_14827","Zygospores","(18,5-) 30-50",30,NA,NA
+"zygospores (homothallic) formed in the aerial mycelium, globose to slightly compressed, up to 50 Âµm,","Rhizomucor miehei_24309_15804","zygospores","50",50,NA,NA
+"Zygospores homothallic, globose to slightly flattened at the sides, black, 55-75 Âµm","Rhizomucor pusillus_24314_13940","Zygospores","55-75",65,NA,NA
+"Zygospores 45-63 (-70) Âµm","Rhizomucor pusillus_24314_14826","Zygospores","45-63 (-70)",63,NA,NA
+"zygospores (CBS 253.53 (+) x CBS 354.68 (-) on beerwort agar at 30Â°C) formed in the aerial mycelium, globose to slightly compressed, up to 70 x 63 Âµm,","Rhizomucor pusillus_24314_15805","zygospores","70 x 63",70,63,NA
+"Zygospores on YpD (50-)55-75(-85) Âµm","Thamnostylum nigricans_26992_34494","Zygospores","(50-)55-75(-85)",65,NA,NA
+"Zygospores on MEYE globose to subglobose, 70-175 Âµm","Thamnostylum piriforme_26995_34492","Zygospores","70-175",122.5,NA,NA
+"Zygospores (50-)70-100(-125) Âµm","Thamnostylum repens_27005_34495","Zygospores","(50-)70-100(-125)",85,NA,NA
+"zygospores homothallic, borne near the substrate, reddish brown when young, later dark brown, smooth, up to 57 x 51 Âµm,","Thermomucor indicae-seudaticae_27075_192","zygospores","57 x 51",57,51,NA
+"Zygospores arising from opposed gametangia, globose, brown, smooth, 41-55 Âµm","Thermomucor indicae-seudaticae_27075_196","Zygospores","41-55",48,NA,NA
+"zygospores of Mexican specimens had a rounded base, with remnants of the zygosporophore still attached; zygosporophores 20-26 x 12-17 Âµm,","Zygopolaris ephemeridarum_182025_25867","zygospores","20-26 x 12-17",23,14.5,NA
+"zygospores 40-90 Âµm,","Absidia anomala_9_7560","zygospores","40-90",65,NA,NA
+"zygospores 90-110 Âµm","Absidia californica_18_324","zygospores","90-110",100,NA,NA
+"zygospores formed in a series with the suspensors; suspensors unequal, parallel, rough, dark brown; smaller suspensor 15-20 Âµm","Absidia californica_18_324","zygospores","15-20",17.5,NA,NA
+"zygospores unknown; chlamydospores 8-13 Âµm","Absidia pseudocylindrospora_92_135","zygospores","8-13",10.5,NA,NA
+"zygospores unknown; substrate mycelium to 9 Âµm","Absidia psychrophilia_95_7567","zygospores","9",9,NA,NA
+"zygospores unknown, presumably heterothallic; chlamydospores not seen; sucker-type mycelium present in great abundance in the substrate, thin-walled, very twisted and with short blunt branches from 1.5-4.5 Âµm","Absidia zychae_109_25918","zygospores","1.5-4.5",3,NA,NA
+"Zygospores globose to subglobose, (35-)40-70(-80) Âµm","Backusella circina_2971_34590","Zygospores","(35-)40-70(-80)",55,NA,NA
+"zygospores originating from the union or two contiguous cells either in mycelial hyphae or in primary spores, globose, 20-44 Âµm","Basidiobolus microsporus_3030_34291","zygospores","20-44",32,NA,NA
+"Zygospores globose, (72-)89-112(-126), av. 100, Âµm","Circinella circinans_41094_34462","Zygospores",". 100,",100,NA,NA
+"Zygospores formed in great numbers between opposed progametangia arising from aerial hyphae near the surface of the substrate; zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 Âµm","Cokeromyces poitrasii_33006_213","Zygospores","5-10",7.5,NA,NA
+"zygospores globose, black, coarsely roughened with conical, blunt, rounded, or pointed projections 5-10 Âµm","Cokeromyces poitrasii_33006_213","zygospores","5-10",7.5,NA,NA
+"Zygospores usually spherical to elongate, 15-25 Âµm","Conidiobolus incongruus_6189_11429","Zygospores","15-25",20,NA,NA
+"zygospores developed from the conjugation of an undifferentiated hyphal branch with a vegetative hypha and formed by the enIargement of a cell developed in the sexual branch, colorless, thick-walled, globose but mostly subglobose, 31-42 Âµm","Dimargaris arida_183142_34427","zygospores","31-42",36.5,NA,NA
+"zygospores (figs. 8, 9, 10) formed as a solid black line across the plate at juncture of two mating types, borne in air above substrate, never on or in substrate; zygospores 35-90 Âµm,","Gilbertella persicaria_46582_428","zygospores","35-90",62.5,NA,NA
+"zygospores 35-90 Âµm,","Gilbertella persicaria_46582_428","zygospores","35-90",62.5,NA,NA
+"Zygospores (fide Hesssltine, 1960) (35-) 70-80 (-90) Âµm","Gilbertella persicaria_46582_13938","Zygospores","1960) (35-) 70-80 (-90)",70,NA,NA
+"zygospores occasionally a septum may occur, sometimes covered with crystals; heterothallic, zygophores 10-15 Âµm","Gilbertella persicaria_46582_13938","zygospores","10-15",12.5,NA,NA
+"Zygospores on YpSs globose to subglobose, (42-) 52-78(-105) Âµm","Helicostylum lucknowense_12669_34493","Zygospores","(42-) 52-78(-105)",65,NA,NA
+"zygospores 18-36 Âµm","Mortierella butleri_168903_7557","zygospores","18-36",27,NA,NA
+"Zygospores 17-34 Âµm","Mortierella butleri_168903_18584","Zygospores","17-34",25.5,NA,NA
+"Zygospores unknown. Chlamydospores present, variously shaped, up to 45 Âµm","Mortierella wolfii_16191_14829","Zygospores","45",45,NA,NA
+"zygospores never formed; azygospores abundant, formed terminally on simple or branched azygophores, black subglobose, slightly flattened, 85-180 Âµm","Mucor azygosporus_16219_432","zygospores","85-180",132.5,NA,NA
+"azygospores abundant, formed terminally on simple or branched azygophores, black subglobose, slightly flattened, 85-180 Âµm","Mucor azygosporus_16219_432","azygospores","85-180",132.5,NA,NA
+"azygospores Ochraceous-Tawny, while the lower portion where the azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) Âµm","Mucor azygosporus_16219_15800","azygospores","10 (-15)",12.5,NA,NA
+"azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) Âµm","Mucor azygosporus_16219_15800","azygospores","10 (-15)",12.5,NA,NA
+"azygospores Ochraceous-Tawny, while the lower portion where the azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) Âµm","Mucor azygosporus_16219_15801","azygospores","10 (-15)",12.5,NA,NA
+"azygospores are formed is sepia, reverse Ochraceous-Orange; sporangiophores weak and soon limp, up to 10 (-15) Âµm","Mucor azygosporus_16219_15801","azygospores","10 (-15)",12.5,NA,NA
+"zygospores never formed; azygospores abundant, produced terminally and subterminally on simple or branched azygophores 0.1-1.5 cm in height; azygospores globose or subglobose, orangebrown to brownish-black, 30-120 Âµm","Mucor bainieri_16224_430","zygospores","30-120",75,NA,NA
+"azygospores abundant, produced terminally and subterminally on simple or branched azygophores 0.1-1.5 cm in height; azygospores globose or subglobose, orangebrown to brownish-black, 30-120 Âµm","Mucor bainieri_16224_430","azygospores","30-120",75,NA,NA
+"azygospores globose or subglobose, orangebrown to brownish-black, 30-120 Âµm","Mucor bainieri_16224_430","azygospores","30-120",75,NA,NA
+"azygospores globose or sub-globose, up to 110 Âµm","Mucor bainieri_16224_14979","azygospores","110",110,NA,NA
+"zygospores were described: very dark coloured, 80-90-136 x 150 Âµm,","Mucor falcatus_16282_236","zygospores","80-90-136 x 150",90,150,NA
+"Zygospores (18,5-) 30-50 Âµm","Mucor miehei_24310_14827","Zygospores","(18,5-) 30-50",30,NA,NA
+"zygospores (homothallic) formed in the aerial mycelium, globose to slightly compressed, up to 50 Âµm,","Mucor miehei_24310_15804","zygospores","50",50,NA,NA
+"zygospores unknown. Influence of temperature: at 37Â°C no growth, at 30-15Â°C growth and sporulation, at 20-15Â°C rather slow, at 10Â°C growth restricted, or no growth, no sporulation; at 5Â°C no growth. Influence of light: cultures grown in darkness do not show any zonation.  Influence of medium: colonies on PDA are looser than those on beerwort agar.  Colonies on cherry agar are restricted and surrounded by sporangial colonies. CBS 721.76 differs from the type strain by having colonies up to 30 mm in height; sporangia at first pallid yellowish, later becoming black; sporangiophores mostly 6.8 x 4 Âµm","Mucor mousanensis_16391_15794","zygospores","6.8 x 4",6.8,4,NA
+"Zygospores biconical, 85-90 x 15-17 Âµm,","Pennella grassei_184565_65167","Zygospores","85-90 x 15-17",87.5,16,NA
+"Zygospores formed in large numbers between opposed progametangia arising from aerial hyphae at all levels above the substrate. Suspensors becoming appendiculate; appendages 5-7 on each suspensor, branched, loosely investing the zygospores, light brown, slender, acuminate, the longest main axes reaching as much as 225 Âµm","Radiomyces embreei_23775_215","Zygospores","225",225,NA,NA
+"Zygospores smooth, light brown, (35-)40-62(-68) Âµm","Radiomyces embreei_23775_215","Zygospores","(35-)40-62(-68)",51,NA,NA
+"zygospores 40-104 Âµm","Rhizopus homothallicus_24356_140","zygospores","40-104",72,NA,NA
+"zygospores to 8 Âµm","Rhizopus homothallicus_24356_140","zygospores","8",8,NA,NA
+"zygospores borne between a long bent suspensor and a very short one as in Zygorhynchus; large suspensor nearly globose next to the zygospore and abruptly tapering down to the narrow sometimes roughened portion of suspensor which varies from 4-10 Âµm","Rhizopus homothallicus_24356_140","zygospores","4-10",7,NA,NA
+"zygospores (on YEA at 30Â°C) reddish brown, up to 125 Âµm","Rhizopus homothallicus_24356_7668","zygospores","125",125,NA,NA
+"Zygospores formed on the substratum on creeping mycelial threads about 14 Âµm","Rhizopus javensis_177804_287","Zygospores","14",14,NA,NA
+"Zygospores subglobose, at first pale colored afterwards opaque black; wall with coarse conical warts; 122-210 Âµm","Rhizopus javensis_177804_287","Zygospores","; 122-210",166,NA,NA
+"Zygospores rare, biconical, (46-)52(-58) x (5.5-)6(-8) Âµm,","Smittium culisitae_38537_53114","Zygospores","(46-)52(-58) x (5.5-)6(-8)",52,6,NA
+"Zygospores rare, biconical, (46-) 52 (-58) x (5.5-) 6(-8) Âµm,","Smittium culisitae_38537_53115","Zygospores","(46-) 52 (-58) x (5.5-) 6(-8)",52,6,NA
+"Zygospores globose to subglobose, 35-55 Âµm","Thamnidium ctenidium_26981_34589","Zygospores","35-55",45,NA,NA
+"Azygospores abundant. Short outgrowths are formed on the hyphae, which are broadening more or less funnellike near the tip, to give rise to a kind of suspensor. On the broad portion the azygospore is originating. Sometimes the suspensors are branching, each branch bearing 1-2 spores, or 2-3 spores are formed on one suspensor. Occasionally 2 or even 3 spores on a suspensor may fuse to form one irregular spore. In all cases 8-14 hyphae are growing out of the suspensor and are more or less surrounding the spores. In some cases those threads are straight instead of incurved. Azygopores globose, red-brown, the wall covered by rather flat pyramidal warts with fringed border; 70-107 Âµm","Absidia spinosa var. azygospora_58737_293","Azygospores","; 70-107",88.5,NA,NA
+"zygospores [CBS 116.08 (-) x CBS 198.28 (+), on PDA at 25Â°C] globose, up to 80 Âµm","Mucor circinelloides f. griseocyanus_16253_14983","zygospores","80",80,NA,NA
+"zygospores [CBS 205.68 (=) x CBS 232.29 (-) on PDA at 25Â°C] globose or nearly so, up to 70 Âµm","Mucor circinelloides f. janssenii_16260_14984","zygospores","70",70,NA,NA
+"zygospores [CBS 108.17 (-) x CBS 277.49 (+), on beerwort agar at 25Â°C] globose to slightly compressed between suspensors, up to 115 x 105 Âµm,","Mucor circinelloides f. lusitanicus_16268_14982","zygospores","115 x 105",115,105,NA
+"zygospores [CBS 205.68 (=) x CBS 232.29 (-) on PDA at 25Â°C] globose or nearly so, up to 70 Âµm","Mucor griseocyanus f. janssenii_16313_14984","zygospores","70",70,NA,NA
+"zygospores (CBS 106.09 x CBS 365.68 on PDA., at 20Â°C) black, globose to slightly compressed, up to 93 x 85 (110 x 108) Âµm,","Mucor hiemalis f. corticola_16337_7897","zygospores","93 x 85 (110 x 108)",93,97.5,108
+"(azygospores may be present); suspensors equal or unequal (i.e.: one suspensor swollen) up to 30 Âµm","Mucor hiemalis f. corticola_16337_7897","(azygospores","30",30,NA,NA
+"zygospores (CBS 412.71 x CBS 250.35, on cherry agar at 10Â°C) up to 65 x 70 Âµm,","Mucor hiemalis f. silvaticus_16347_7899","zygospores","65 x 70",65,70,NA
+"zygospores [CBS 115.08 (+) x CBS 238.35 (-) on cherry agar at 10Â°C] in the lower portion of the colony, on hyphae bearing both zygospores and sporangia, globose or nearly so, up to 90 Âµm","Mucor racemosus f. sphaerosporus_16464_14989","zygospores","90",90,NA,NA
+"zygospores and sporangia, globose or nearly so, up to 90 Âµm","Mucor racemosus f. sphaerosporus_16464_14989","zygospores","90",90,NA,NA
+"zygospores 26-62 Âµm","Absidia cylindrospora var. rhizomorpha_60_133","zygospores","26-62",44,NA,NA
+"zygospores stellate, from 2-4 Âµm","Absidia cylindrospora var. rhizomorpha_60_133","zygospores","2-4",3,NA,NA
+"zygospores showing through the agar; odor none or faint; sporangiophores to 16.5 Âµm","Rhizopus sexualis var. americanus_24438_143","zygospores","16.5",16.5,NA,NA
+"zygospores variable in size, 60-235 Âµm","Rhizopus sexualis var. americanus_24438_143","zygospores","60-235",147.5,NA,NA
+"zygospores borne on zygophores and surrounded with droplets of exudate, sometimes between branches of same zygophores, others between different zygophores; zygophores smooth, up to 15 Âµm","Rhizopus sexualis var. americanus_24438_143","zygospores","15",15,NA,NA
+"Zygospores naked, globose to subglobose, (42-) 54 (-80) x (40-) 52 (-70) Âµm,","Mortierella spinosa var. mutabilis_268050_18589","Zygospores","(42-) 54 (-80) x (40-) 52 (-70)",54,52,NA
+"zygospores 36-63 Âµm","Absidia cylindrospora var. nigra_57_7562","zygospores","36-63",49.5,NA,NA
+"Zygospores (38,5-) 63,5-78 (-98,5) Âµm","Choanephora persicaria var. indica_187666_13939","Zygospores","(38,5-) 63,5-78 (-98,5)",70.75,NA,NA
+"Zygospores (38,5-) 63,5-78 (-98,5) Âµm","Gilbertella persicaria var. indica_11597_13939","Zygospores","(38,5-) 63,5-78 (-98,5)",70.75,NA,NA
+"Zygospores homothallic, reddish brown to dark brown, mostly inside an exudate droplet, up to 80 Âµm","Protomycocladus faisalabadensis_31161_274","Zygospores","80",80,NA,NA
+"zygospores in the peninsular individuals, but zygospores measuring 40-53(-62) x 7-9 Âµm","Legeriomyces rarus_190875_18266","zygospores","40-53(-62) x 7-9",53,8,NA
+"zygospores measuring 40-53(-62) x 7-9 Âµm","Legeriomyces rarus_190875_18266","zygospores","40-53(-62) x 7-9",53,8,NA
+"zygospores [CBS 116.08 (-) x CBS 198.28 (+), on PDA at 25Â°C] globose, up to 80 Âµm","Mucor griseocyanus_35522_14983","zygospores","80",80,NA,NA
+"zygospores 50-80 Âµm","Rhizopus ramosus_361818_422","zygospores","50-80",65,NA,NA
+"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) Âµm","Rhizopus ramosus_361818_13936","Zygospores","85,5 x 102,5)",85.5,102.5,NA
+"zygospores 41-83.5(94) Âµm","Lichtheimia corymbifera_162924_423","zygospores","41-83.5(94)",83.5,NA,NA
+"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 Âµm,","Lichtheimia corymbifera_162924_11404","Zygospores","60-100-45-80",72.5,NA,NA
+"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) Âµm","Lichtheimia corymbifera_162924_13935","Zygospores","41-83,5 (-94)",83.5,NA,NA
+"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 Âµm","Lichtheimia corymbifera_162924_14820","Zygospores","41-94",67.5,NA,NA
+"zygospores 50-80 Âµm","Lichtheimia ramosa_167357_422","zygospores","50-80",65,NA,NA
+"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) Âµm","Lichtheimia ramosa_167357_13936","Zygospores","85,5 x 102,5)",85.5,102.5,NA
+"zygospores (CBS 201.65 (-) x CBS 200.28 (+), on beerwort agar at 20Â° C) globose or nearly so, up to 70 x 65 (100 x 90) Âµm,","Mucor hiemalis f. hiemalis_16320_7898","zygospores","70 x 65 (100 x 90)",70,82.5,90
+"zygospores 40-67 Âµm","Absidia cylindrospora var. cylindrospora_50_7570","zygospores","40-67",53.5,NA,NA
+"zygospores in single-sporangium transfers, light grey colonies growing well at 25ÂºC and up to 31ÂºC, scanty whorls (up to four branches) of sporangiophores, and spores 3.3-5.5 x 2.2-3.5 Âµm.","Absidia cylindrospora var. cylindrospora_50_13806","zygospores","3.3-5.5 x 2.2-3.5",4.4,2.85,NA
+"Zygospores covered with blunt stellate projections to 4.5 Âµm","Absidia cylindrospora var. cylindrospora_50_13806","Zygospores","4.5",4.5,NA,NA
+"Zygospores (homothallic) black, up to 150 Âµm","Rhizopus sexualis var. sexualis_24435_7662","Zygospores","150",150,NA,NA
+"Zygospores formed from tongs-1ike often slightly unequal, apposed suspensors, brown to reddish-brown, translucent, with a smooth, thin outer layer and a striate, thick inner layer, 30-105 Âµm","Choanephorella cucurbitarum_155771_406","Zygospores","30-105",67.5,NA,NA
+"zygospores at first white, when mature dark brown to black, slightly roughened (blunt projections no more than 5 Âµm","Sporodinia megalocarpus_158315_23169","zygospores","5",5,NA,NA
+"zygospores up to 0.5 cm. above substrate hence below the sporangia, dichotomously divided, nearly hyaline below but dark brown in region of zygospores, terminally tapering to 5 Âµm;","Sporodinia megalocarpus_158315_23169","zygospores","5",5,NA,NA
+"azygospores seen which reach a diam. to 160 Âµm;","Sporodinia megalocarpus_158315_23169","azygospores","160",160,NA,NA
+"zygospores 50-80 Âµm","Absidia corymbifera var. ramosa_167358_422","zygospores","50-80",65,NA,NA
+"Zygospores (fide Ellis & Hesseltine 1966, p. 62) heterothallic, 50-80 (rarely up to 85,5 x 102,5) Âµm","Absidia corymbifera var. ramosa_167358_13936","Zygospores","85,5 x 102,5)",85.5,102.5,NA
+"zygospores [CBS 195.68 (+) x CBS 108.16 (-), on whey agar at 25Â°C] globose to slightly compressed, up to 100 Âµm","Calyptromyces circinelloides_203238_14981","zygospores","100",100,NA,NA
+"zygospores [CBS 213.75 (+) x CBS 226.32 (-) on beerwort agar at 24Â° ] formed in the aerial mycelium in a ladder-1ike fashion, globose or subglobose, up to 85 Âµm","Calyptromyces plumbeus_165016_14987","zygospores","85",85,NA,NA
+"Zygospores globose, (72-)89-112(-126), av. 100, Âµm","Mucor circinans_41093_34462","Zygospores",". 100,",100,NA,NA
+"Zygospores globose and 18-58 Âµm","Mucor moelleri_150449_38487","Zygospores","18-58",38,NA,NA
+"Zygospores (112.07 x 346.36 on YEA at 30Â°C) reddish brown when young, then brown, stellate conical projections, up to 140 Âµm","Rhizopus oryzae_24387_7663","Zygospores","140",140,NA,NA
+"Zygospores formed from tongs-1ike often slightly unequal, apposed suspensors, brown to reddish-brown, translucent, with a smooth, thin outer layer and a striate, thick inner layer, 30-105 Âµm","Rhopalomyces elegans var. cucurbitarum_155772_406","Zygospores","30-105",67.5,NA,NA
+"Zygospores on YpD (50-)55-75(-85) Âµm","Thamnidium nigricans_167288_34494","Zygospores","(50-)55-75(-85)",65,NA,NA
+"Zygospores on MEYE globose to subglobose, 70-175 Âµm","Thamnidium piriforme_167312_34492","Zygospores","70-175",122.5,NA,NA
+"Zygospores (50-)70-100(-125) Âµm","Thamnidium repens_143038_34495","Zygospores","(50-)70-100(-125)",85,NA,NA
+"zygospores (125-)160185(-208) Âµm","Tieghemella glauca_160661_322","zygospores","(125-)160185(-208)",172.5,NA,NA
+"zygospores globose to slightly compressed between the suspensors, tuberculate, brownish, 30-50 Âµm","Cunninghamella echinulata_7219_279","zygospores","30-50",40,NA,NA
+"Zygospores (fide Cutter, 1946) formed at 25Â°C, heterothallic, nearly opaque 46-80 x 40-63 (av. 70 x 58) Âµm","Cunninghamella echinulata_7219_13937","Zygospores",". 70 x 58)",70,58,NA
+"Zygospores ellipsoidal, black, with smooth surface, 33.8-35.3 x 24.3-24.7 Âµm.","Neozygites cinarae_205267_67479","Zygospores","33.8-35.3 x 24.3-24.7",34.55,24.5,NA
+"Zygospores 85-105 x 14-18(-20) Âµm.","Genistellospora guanacastensis_205320_49615","Zygospores","85-105 x 14-18(-20)",95,18,NA
+"Zygospores formed from tongs-1ike often slightly unequal, apposed suspensors, brown to reddish-brown, translucent, with a smooth, thin outer layer and a striate, thick inner layer, 30-105 Âµm","Choanephora infundibulifera f. cucurbitarum_5139_406","Zygospores","30-105",67.5,NA,NA
+"Zygospores biconical (Type II), 78-82 x 13-18 Âµm.","Smittium biforme_413613_18064","Zygospores",")78-82 x 13-18",80,15.5,NA
+"zygospores showing through the agar; odor none or faint; sporangiophores to 16.5 Âµm","Rhizopus americanus_187404_143","zygospores","16.5",16.5,NA,NA
+"zygospores variable in size, 60-235 Âµm","Rhizopus americanus_187404_143","zygospores","60-235",147.5,NA,NA
+"zygospores borne on zygophores and surrounded with droplets of exudate, sometimes between branches of same zygophores, others between different zygophores; zygophores smooth, up to 15 Âµm","Rhizopus americanus_187404_143","zygospores","15",15,NA,NA
+"Zygospores formed in mycelial cultures originated from single hyphal tip (homothallic), superficial, unadorned, mostly 34-52 Âµm","Mortierella tsukubaensis_211878_61080","Zygospores","34-52",43,NA,NA
+"Zygospores biconical, 48.5-55 x 7.5-11(-12.5) Âµm,","Tectimyces robustus_376717_40676","Zygospores","48.5-55 x 7.5-11(-12.5)",51.75,11,NA
+"Zygospores biconical, (34-)45(-54) x 7-9 Âµm,","Baetimyces ancorae_376841_17304","Zygospores","(34-)45(-54) x 7-9",45,8,NA
+"Zygospores (27-)42(-50) x 8-9 Âµm,","Bojamyces transfuga_426241_18238","Zygospores","(27-)42(-50) x 8-9",42,8.5,NA
+"zygospores are unknown.  A comparison of sporangium formation in Gamsiella multidivaricata (Benjamin 1978) and Lobosporangium transversale demonstrates that the early stages of fertile-branch formation are similar. Each fertile branch of Lobosporangium appears to be shorter than those of Gamsiella because the sporangia of L. transversale are much longer than the sporangia and pedicels of G. multidivaricata (230-400 Âµm","Gamsiella multidivaricata_430354_17773","zygospores","(230-400",315,NA,NA
+"Zygospores biconical, 82-97 x (14-)16-18(-20) Âµm","Smittium pseudodimorphum_429729_17925","Zygospores","82-97 x (14-)16-18(-20)",89.5,17,NA
+"Zygospores fusiform, (160-)170-180(-190) x 15-18 Âµm;","Smittium heterosporum_429732_17917","Zygospores","(160-)170-180(-190) x 15-18",175,16.5,NA
+"Zygospores biconical, 35-40 x 7-8 Âµm;","Smittium bulbosporophorus_429735_17913","Zygospores","35-40 x 7-8",37.5,7.5,NA
+"Zygospores (Type II) 70-83 x 11-13 Âµm,","Legeriosimilis europaeus_413612_18060","Zygospores",") 70-83 x 11-13",76.5,12,NA
+"Zygospores 66-75 x 10-13 Âµm.","Smittium precipitiorum_413614_18066","Zygospores","66-75 x 10-13",70.5,11.5,NA
+"zygospores (Type I) 26-28 x 4-4.5 Âµm,","Genistelloides amplisporus_413609_18056","zygospores",") 26-28 x 4-4.5",27,4.25,NA
+"Zygospores (Type II) 61-72 x 11-14 Âµm.","Glotzia stenospora_413611_18062","Zygospores",") 61-72 x 11-14",66.5,12.5,NA
+"Zygospores numerous, globose (24-28) to ovoid (28-32) x (12-)16-20 Âµm","Siepmannia lariceti_434655_26159","Zygospores","(28-32) x (12-)16-20",30,16,NA
+"Zygospores biconical, 36-43 x 7-10 Âµm,","Ejectosporus spica_437246_19011","Zygospores","36-43 x 7-10",39.5,8.5,NA
+"Zygospores biconical, 54-71 x 9-12.5(-14) Âµm","Ejectosporus trisporus_437247_19013","Zygospores","54-71 x 9-12.5(-14)",62.5,12.5,NA
+"Zygospores 35-38 x 5-6 Âµm,","Capniomyces celatus_442819_23509","Zygospores","35-38 x 5-6",36.5,5.5,NA
+"Zygospores 39-43 x 9-9.5 Âµm,","Legeriomyces dolabrae_442820_23511","Zygospores","39-43 x 9-9.5",41,9.25,NA
+"Zygospores 89-92 x 13 Âµm,","Stipella latispora_442821_23513","Zygospores","89-92 x 13",90.5,13,NA
+"Zygospores biconical, Type I at maturity 50-60 x 5-7 Âµm,","Bojamyces olmecensis_450830_25861","Zygospores","50-60 x 5-7",55,6,NA
+"Zygospores Type I, perpendicular to and straight or slightly bent at the medial point of attachment, 53-65 x 5.5-7 Âµm,","Allantomyces zopilotei_450831_25857","Zygospores","53-65 x 5.5-7",59,6.25,NA
+"Zygospores spherical, 14-16 Âµm","Asellaria jatibunicua_450834_25834","Zygospores","14-16",15,NA,NA
+"Zygospores smooth, subglobose, 27.5-42.5 Âµm,","Conidiobolus margaritatus_438413_20068","Zygospores","27.5-42.5",35,NA,NA
+"Zygospores not seen in culture or on substrate. Tall sporangiophores mostly unbranced, short sporangiophores branched sympodially, sporangia white, turning black with age. Columellae ranging from cylindrical to pyriform, smaller columellae mostly conical, (50-)104-180 (-250) Âµm","Mucor renisporus_441217_22789","Zygospores","(50-)104-180 (-250)",142,NA,NA
+"zygospores up to 38 Âµm.","Lentamyces parricida_450923_7565","zygospores","38",38,NA,NA
+"zygospores unknown, presumably heterothallic; chlamydospores not seen; sucker-type mycelium present in great abundance in the substrate, thin-walled, very twisted and with short blunt branches from 1.5-4.5 Âµm","Lentamyces zychae_450924_25918","zygospores","1.5-4.5",3,NA,NA
+"Zygospores (Type II), 67--73 x 12--14 Âµm,","Legeriosimilis leptocerci_455650_29456","Zygospores",")67--73 x 12--14",70,13,NA
+"Zygospores (Type II) 46--54.5 x 7--8.5 Âµm,","Legeriosimilis whitneyi_455651_29458","Zygospores",") 46--54.5 x 7--8.5",50.25,7.75,NA
+"Zygospores (Type III) (37--) 40--44 x 10--13.5 Âµm","Pennella digitata_455653_29462","Zygospores",") (37--) 40--44 x 10--13.5",40,11.75,NA
+"Zygospores (85-)102(-129) Âµm,","Lancisporomyces lampetriformis_457905_30915","Zygospores","(85-)102(-129)",102,NA,NA
+"Zygospores attached coaxially to the clavate zygosporophore (30-)40(-53) x (6-)7.5(-10) Âµm,","Lancisporomyces lampetriformis_457905_30915","Zygospores","(30-)40(-53) x (6-)7.5(-10)",40,7.5,NA
+"Zygospores (Type II) are biconical, 56.5-67 x 7.5-11.5 Âµm","Smittium shaanxiense_458463_31874","Zygospores","56.5-67 x 7.5-11.5",61.75,9.5,NA
+"Zygospores have a collar (15.5-19.5 x 3-4 Âµm)","Smittium shaanxiense_458463_31874","Zygospores","(15.5-19.5 x 3-4",17.5,3.5,NA
+"Zygospores (Type II) biconical, 75-90 x 15-19 Âµm,","Sinotrichium chironomidarum_458544_32027","Zygospores","75-90 x 15-19",82.5,17,NA
+"zygospores (Type II) with a pronounced median bulge, (47-)54(-62) x (21-)24(-28) Âµm,","Austrosmittium patagonicum_460976_33240","zygospores","(47-)54(-62) x (21-)24(-28)",54,24,NA
+"zygospores (Type II) (23-)26(-28) x 10-12 Âµm,","Austrosmittium lenticum_460977_33242","zygospores",") (23-)26(-28) x 10-12",26,11,NA
+"Zygospores biconical, cylindrical, 50-59.5 x 4-5.5 Âµm","Smittium colboi_471710_42233","Zygospores","50-59.5 x 4-5.5",54.75,4.75,NA
+"Zygospores biconical (41-)45 (-60) x (8-)9.4(-12) Âµm,","Capniomyces sasquatchoides_471722_42306","Zygospores","(41-)45 (-60) x (8-)9.4(-12)",45,9.4,NA
+"zygospores 85-105 x 15-20 Âµm,","Genistellospora dorsicaudata_472170_43085","zygospores","85-105 x 15-20",95,17.5,NA
+"Zygospores biconical, 49-55 x 7-8 Âµm,","Klastostachys reflexa_474750_50540","Zygospores","49-55 x 7-8",52,7.5,NA
+"Zygospores are typically lance-shaped, with a thickened conical head, 37-48 x 6-7.5(-9) Âµm,","Lancisporomyces nemouridarum_450273_25866","Zygospores","37-48 x 6-7.5(-9)",42.5,7.5,NA
+"zygospores 41-83.5(94) Âµm","Mycocladus corymbifer_454049_423","zygospores","41-83.5(94)",83.5,NA,NA
+"Zygospores short-ellipsoidal between suspensors, 60-100-45-80 Âµm,","Mycocladus corymbifer_454049_11404","Zygospores","60-100-45-80",72.5,NA,NA
+"Zygospores (fide Ellis & Hesseltine, 1966, p. 68) heterothallic, 41-83,5 (-94) Âµm","Mycocladus corymbifer_454049_13935","Zygospores","41-83,5 (-94)",83.5,NA,NA
+"Zygospores (compiled from Ellis & Hesseltine, 1966 and Nottebrock, Scholer & Wall, 1974) borne in the aerial mycelium, globose to slightly compressed, 41-94 Âµm","Mycocladus corymbifer_454049_14820","Zygospores","41-94",67.5,NA,NA
+"zygospores up to 38 Âµm.","Siepmannia parricida_456273_7565","zygospores","38",38,NA,NA
+"zygospores unknown, presumably heterothallic; chlamydospores not seen; sucker-type mycelium present in great abundance in the substrate, thin-walled, very twisted and with short blunt branches from 1.5-4.5 Âµm","Siepmannia zychae_456288_25918","zygospores","1.5-4.5",3,NA,NA
+"zygospores unknown, presumably heterothallic; chlamydospores not seen; sucker-type mycelium present in great abundance in the substrate, thin-walled, very twisted and with short blunt branches from 1.5-4.5 Âµm","Siepmannia zychae_457568_25918","zygospores","1.5-4.5",3,NA,NA
+"zygospores up to 38 Âµm.","Siepmannia parricida_457562_7565","zygospores","38",38,NA,NA
+"Zygospores spherical, 14-16 Âµm","Asellaria jatibonicua_458774_46453","Zygospores","14-16",15,NA,NA
+"Zygospores biconical, 35-40 x 7-8 Âµm;","Smittium bulbosporophorum_463827_17913","Zygospores","35-40 x 7-8",37.5,7.5,NA
+"Zygospores rare, biconical, (46-)52(-58) x (5.5-)6(-8) Âµm,","Smittium culisetae_463875_53114","Zygospores","(46-)52(-58) x (5.5-)6(-8)",52,6,NA
+"Zygospores rare, biconical, (46-) 52 (-58) x (5.5-) 6(-8) Âµm,","Smittium culisetae_463875_53115","Zygospores","(46-) 52 (-58) x (5.5-) 6(-8)",52,6,NA
+"zygospores 47-66.5 x 6.5-9.5 Âµm","Laculus insecticola_477547_49807","zygospores","47-66.5 x 6.5-9.5",56.75,8,NA
+"zygospores [CBS 640.67 (-) x CBS 144.24 (+), on beerwort agar at 15Â°C] globose to compressed between suspensors, up to 250 x 200 Âµm,","Ascophora vulgaris_481955_15865","zygospores","250 x 200",250,200,NA
+"Zygospores biconical, (40-)43(-49)-(7.0-)8.3(-10) Âµm","Ephemerellomyces kandelii_478591_52027","Zygospores","(40-)43(-49)-(7.0-)8.3(-10)",28,NA,NA
+"zygospores not produced. At 37Â°C on synthetic mucor agar, colonies spread and covered 65 mm plate in 72 hr; aerial mycelium wheat grey and well-developed; reverse colony dirty white; diffusible pigment none, sporulation abundant; zygospores profusely produced. Mycelium hyaline, smooth, aseptate and branched; sporangiophores branched, developed from stolons, lateral in position, mostly aseptate, very rarely with one septum at the proximal end, each branch bears a fertile sporangium; occasionally 2-3 branches develop in a verticillate fashion, aseptate, one, a few or all of them bear abortive sporangia. Sporangia globose, multispored, smooth, columellate with deliquescent hyaline wall, 52-102 Âµm","Thermomucor abortosporangium_480728_52658","zygospores","52-102",77,NA,NA
+"zygospores profusely produced. Mycelium hyaline, smooth, aseptate and branched; sporangiophores branched, developed from stolons, lateral in position, mostly aseptate, very rarely with one septum at the proximal end, each branch bears a fertile sporangium; occasionally 2-3 branches develop in a verticillate fashion, aseptate, one, a few or all of them bear abortive sporangia. Sporangia globose, multispored, smooth, columellate with deliquescent hyaline wall, 52-102 Âµm","Thermomucor abortosporangium_480728_52658","zygospores","52-102",77,NA,NA
+"Zygospores smooth, reddish brown, 28-34 Âµm,","Thermomucor abortosporangium_480728_52658","Zygospores","28-34",31,NA,NA
+"Zygospores formed between adjacent conjugating cells of a hyphal body. Mature zygospores smooth, globose or subglobose, 25-31 Âµm","Conidiobolus sinensis_480733_52670","Zygospores","25-31",28,NA,NA
+"zygospores smooth, globose or subglobose, 25-31 Âµm","Conidiobolus sinensis_480733_52670","zygospores","25-31",28,NA,NA
+"Zygospores rare, biconical, (46-)52(-58) x (5.5-)6(-8) Âµm,","Zancudomyces culisetae_481021_53114","Zygospores","(46-)52(-58) x (5.5-)6(-8)",52,6,NA
+"Zygospores rare, biconical, (46-) 52 (-58) x (5.5-) 6(-8) Âµm,","Zancudomyces culisetae_481021_53115","Zygospores","(46-) 52 (-58) x (5.5-) 6(-8)",52,6,NA
+"Zygospores produced homothallically, helically coiled (one 360Â° coil plus one 270Â° coil) with a distal straight portion , overall (34-)40-46.5 x 6.5-8.5 Âµm","Orphella italica_481275_53355","Zygospores","(34-)40-46.5 x 6.5-8.5",40,7.5,NA
+"Zygospores biconical, 72-74 x 18-20 Âµm,","Harpellomyces aprutinus_481276_53356","Zygospores","72-74 x 18-20",73,19,NA
+"zygospores (CBS 196.71 (-) x CBS 195.71 (+) on PDA at 25Â°C) mainly produced in the upper portion of the colony, sometimes in a ladder-1ike fashion, globose, compressed between suspensors, up to 160 x 125 Âµm,","Backusella recurva_507952_15787","zygospores","160 x 125",160,125,NA
+"zygospores up to 18 Âµm","Backusella recurva_507952_15787","zygospores","18",18,NA,NA
+"zygospores unknown. Influence of temperature: at 37Â°C no growth; at 30Â°C poor growth; at 25-5Â°C growth and sporulation, at 25-20Â°C optimal development, at 5Â°C very slow. At 5Â°C repeatedly sympodial short branches develop with small, often sterile sporangia and a long apical branch with a fertile sporangium. Influence of light: insignificant. Influence of medium: on beerwort agar + 20% saccharose at 20Â°C the sporangiospores were subglobose, 10.8-13.5 Âµm","Backusella tuberculispora_507954_15791","zygospores","10.8-13.5",12.15,NA,NA
+"Zygospores globose to subglobose, 35-55 Âµm","Mucor ctenidius_507959_34589","Zygospores","35-55",45,NA,NA
+"Zygospores biconical (Type II) , 61-74.5 Âµm","Smittium gronthidium_508060_55757","Zygospores",")61-74.5",67.75,NA,NA
+"Zygospores (Type II), 50-61 Âµm","Legeriosimilis hiemalis_508132_55837","Zygospores",")50-61",55.5,NA,NA
+"zygospores (Type I), 26-34 Âµm","Spartiella aurensis_508133_55839","zygospores",")26-34",30,NA,NA
+"Zygospores biconical, Type II, 55-65(-73) x 8-9.5 Âµm,","Tectimyces gallaecicus_508356_56035","Zygospores","55-65(-73) x 8-9.5",65,8.75,NA
+"Zygospores produced homothallically, tightly coiled (two coils min) , overall measuring 17-20 x 4.5-5.5 Âµm","Orphella lusitanica_508358_56037","Zygospores","17-20 x 4.5-5.5",18.5,5,NA
+"Zygospores (Fig. 3k, l) are ellipsoidal with smooth and dark brown to black episporium, 31.75-40.83 Âµm","Neozygites osornensis_508746_56410","Zygospores","31.75-40.83",36.29,NA,NA
+"Zygospores ellipsoidal, with episporium smooth, darkbrown to black, 31.8-40.8 x 21.5-22.7 Âµm;","Neozygites osornensis_508746_67481","Zygospores","31.8-40.8 x 21.5-22.7",36.3,22.1,NA
+"Zygospores biconical, (30-)35-45 x 9-11 Âµm,","Legeriosimilis cebennensis_511649_58736","Zygospores","(30-)35-45 x 9-11",35,10,NA
+"Zygospores biconical, 45-52 x 8.5-10 Âµm,","Glotzia distorta_519864_60716","Zygospores","45-52 x 8.5-10",48.5,9.25,NA
+"Zygospores are not observed. Rhizoids are not well developed. On PDA, colonies grow more rapidly than on SMA, reaching 31.5-33 mm in diam. after 7 days at 25 Â°C. The initial color of the colonies at 25 Â°C is light white, which later turned to cotton white. The color of the colony reverse is light-colored to white. The center of the colony appeared moist. Sporangiophores are 2.8-3.0 Âµm","Gongronella koreana_542779_67091","Zygospores","2.8-3.0",2.9,NA,NA
+"Zygospores are not observed on this medium. Colonies on MEA attain a diameter of 27.0-28.5 mm. after 7 days at 25 Â°C. The color of the colonies is creamy-white. The colony reverse color is milky-white. Sporangiophores are 2.4-2.7 Âµm","Gongronella koreana_542779_67091","Zygospores","2.4-2.7",2.55,NA,NA
+"zygospores mixed with trichospores in the same spore head, helicoid, 42-45 around the coil, with the terminal end projecting prominently from the coil. Coil at the widest part 12.5-13.5 Âµm","Orphella sinica_543380_67916","zygospores","12.5-13.5",13,NA,NA
+"Zygospores are not observed in this medium. Colonies exhibit slower growth on PDA than on SMA, attaining 39.5-41 mm in diam. after 4 days at 25 Â°C, which is about 15 mm higher than that attained in 3 days. The colonies exhibit slower growth on PDA than on SMA, attaining 39.5-41 mm in diam., and 1.5 mm in height after 4 days at 25 Â°C. At 25 Â°C, the colonies appear dark brown in the center, with a lighter margin. The colony reverse is white, with the wavy zonation much more pronounced than that shown by colonies grown on the SMA medium. Sporangiophores are 3.69-4.68 Âµm","Absidia koreana_545191_69859","Zygospores","3.69-4.68",4.185,NA,NA
+"Zygospores stellate, 44.3-66.9 x 36.3-59.2 Âµm","Mucor lilianae_545895_70550","Zygospores","44.3-66.9 x 36.3-59.2",55.6,47.75,NA
+"Zygospores bluntly stellate, 31.9-44.6 x 27.4-41.7 Âµm","Mucor rudolphii_545896_70551","Zygospores","31.9-44.6 x 27.4-41.7",38.25,34.55,NA
+"Zygospores formed after 5 days, mature zygospores smooth, colorless, subglobose, 15-19 Âµm","Conidiobolus stilbeus_555316_73888","Zygospores","15-19",17,NA,NA
+"zygospores smooth, colorless, subglobose, 15-19 Âµm","Conidiobolus stilbeus_555316_73888","zygospores","15-19",17,NA,NA
+"Zygospores 38-83 x 45-86 Âµm","Mucor stercorarius_555567_74144","Zygospores","38-83 x 45-86",60.5,65.5,NA
+"Zygospores can be produced homothallically, helically coiled, 25-27.5 x 5.5-6.5 Âµm","Orphella cataloochensis_556278_74769","Zygospores","25-27.5 x 5.5-6.5",26.25,6,NA
+"Zygospores produced homothallically, coiled in a helix, similar to trichospores in shape but larger, 37-41 x 10.5-11.5 Âµm","Orphella pseudoavalonensis_556279_74770","Zygospores","37-41 x 10.5-11.5",39,11,NA
+"Zygospores 45-55 x 57-63 Âµm,","Jimgerdemannia flammicorona_560480_77713","Zygospores","45-55 x 57-63",50,60,NA
+"Zygospores lance-shaped (131.1-164.1 Âµm","Lancisporomyces tsukubaensis_561076_77998","Zygospores","(131.1-164.1",147.6,NA,NA
+"Zygospores biconical, 36.5-42.2 x 8.3-9.8Âµm,","Zygopolaropsis sphaerica_561078_78000","Zygospores","36.5-42.2 x 8.3-9.8",39.35,9.05,NA
+"Zygospores formed buried in the agar medium (on LCA and HSA) at 18 Â°C in dark, naked, smooth-walled, globose, 25-45 Âµm","Mortierella sugadairana_561127_78003","Zygospores","25-45",35,NA,NA
+"Zygospores always present, 60-83.5 x 61.5-84 Âµm.","Absidia jindoensis_561469_78188","Zygospores","60-83.5 x 61.5-84",71.75,72.75,NA
