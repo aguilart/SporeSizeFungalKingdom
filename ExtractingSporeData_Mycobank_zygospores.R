@@ -168,8 +168,11 @@ Zygospores <- Zygospores %>%
 
 ### Any manual changes needed, do below ###
 
-# for example
-# Zygospores$Dim1[...]<- ...
+# hist(Zygospores$Dim1)
+# filter(Zygospores, Dim1 > 2000)
+# head(filter(Zygospores, Dim1 < 0.2))
+
+Zygospores$Dim1[c(96, 99, 350)]<- 172.5
 # Zygospores$Dim2[...]<- ...
 
 

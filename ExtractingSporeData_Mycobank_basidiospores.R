@@ -223,6 +223,14 @@ Basidiospores[grep('73554_5408', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <-
 Basidiospores[grep('71145_5408', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <- c(13, 11)
 
 
+# large values:
+# filter(Basidiospores, Dim1 > 500)
+
+Basidiospores$Dim1[c(1196, 8472)] <- 16
+Basidiospores[14921, c('Dim1', 'Dim2')] <- c(18.5, 6.5)
+Basidiospores$Dim1[6825] <- 9.25
+Basidiospores[11300, c('Dim1', 'Dim2')] <- c(4.5, 4)
+
 
 ### write to file
 write.csv(Basidiospores, 'output/basidiospores_mycobank.csv', row.names=F)

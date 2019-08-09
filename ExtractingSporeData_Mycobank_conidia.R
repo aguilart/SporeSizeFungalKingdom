@@ -108,12 +108,13 @@ text<-lapply(Conidia_text,plyr::ldply, rbind)
 text<-plyr::rbind.fill(text)
 names(text)[1]<-"text_entry"
 
-temp_text<-lapply(temp,plyr::ldply, rbind)
-temp_text<-plyr::rbind.fill(temp_text)
-names(temp_text)[1]<-"text_entry_temp"
+# temp_text<-lapply(temp,plyr::ldply, rbind)
+# temp_text<-plyr::rbind.fill(temp_text)
+# names(temp_text)[1]<-"text_entry_temp"
 
 #Creation of the object "Conidia" containing all the data
-Conidia<-cbind(temp_text,text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Conidia_text and Conidia_values. However, it seems fine!
+# Conidia<-cbind(temp_text,text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Conidia_text and Conidia_values. However, it seems fine!
+Conidia<-cbind(text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Conidia_text and Conidia_values. However, it seems fine!
 Conidia<-data.frame(
   sapply(Conidia, as.character),
   stringsAsFactors = F)#This creates a dataframe conatianing 47032 entries
@@ -139,6 +140,7 @@ Conidia$measure_orig <- gsub('[[:punct:]]  ', '', Conidia$measure_orig)
 Conidia$measure_orig <- gsub('  ', ' x ', Conidia$measure_orig)
 Conidia$measure_orig <- gsub(' ', ' x ', Conidia$measure_orig)
 Conidia$measure_orig <- gsub('[[:space::]]{2,}', ' x ', Conidia$measure_orig)
+Conidia$measure_orig <- gsub('^x', '', Conidia$measure_orig)
 
 
 ####  Extracting the spore ranges  ######
@@ -229,18 +231,27 @@ Conidia[grep('560.75', Conidia$Dim2),  c('Dim1', 'Dim2')] <-  c(16.25, 11)
 
 # Note1 : the "ca" issue. when the text contain ca, 
 #        such as 4.0-5.0 x ca. 1.0 µm, the code only pick up 
-#        the later value, i.e. 1.0 in this case
+#        the later value, i.e. 1.0 in this case  (FIXED)
 
 
 ### Note 2 : when the measure_orig contained x in there, 
 ###          it always did not pick up the value for Dim 1 
 ###          and only put them into Dim2
 
+Conidia[11272,  c('Dim1', 'Dim2')] <-  c(50, NA)
+Conidia[15114,  c('Dim1', 'Dim2')] <-  c(5.3, NA)
+Conidia[19580,  c('Dim1', 'Dim2')] <-  c(50, NA)
+Conidia[26212,  c('Dim1', 'Dim2')] <-  c(115, NA)
+
 
 ## Note 3 : check the small values for Dim1 and Dim2, 
 ## seems the code did not extract the right value 
 ## and just give the wrong value, all the value 
 ## below than 1 um should be checked.
+
+# head(filter(Conidia, Dim1 > 200))
+# head(filter(Conidia, Dim1 < 0.2))
+
 
 ### write to file
 write.csv(Conidia, 'output/conidia_mycobank.csv', row.names=F)
