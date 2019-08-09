@@ -125,6 +125,7 @@ Ascospores$measure_orig <- gsub('[[:punct:]]  ', '', Ascospores$measure_orig)
 Ascospores$measure_orig <- gsub('  ', ' x ', Ascospores$measure_orig)
 Ascospores$measure_orig <- gsub(' ', ' x ', Ascospores$measure_orig)
 Ascospores$measure_orig <- gsub('[[:space::]]{2,}', ' x ', Ascospores$measure_orig)
+Ascospores$measure_orig <- gsub('^x', '', Ascospores$measure_orig)
 
 
 ####  Extracting the spore ranges  ######
