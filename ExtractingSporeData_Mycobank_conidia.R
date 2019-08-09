@@ -108,12 +108,12 @@ text<-lapply(Conidia_text,plyr::ldply, rbind)
 text<-plyr::rbind.fill(text)
 names(text)[1]<-"text_entry"
 
-temp_text<-lapply(temp,plyr::ldply, rbind)
-temp_text<-plyr::rbind.fill(temp_text)
-names(temp_text)[1]<-"text_entry_temp"
+# temp_text<-lapply(temp,plyr::ldply, rbind)
+# temp_text<-plyr::rbind.fill(temp_text)
+# names(temp_text)[1]<-"text_entry_temp"
 
 #Creation of the object "Conidia" containing all the data
-Conidia<-cbind(temp_text,text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Conidia_text and Conidia_values. However, it seems fine!
+Conidia<-cbind(text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Conidia_text and Conidia_values. However, it seems fine!
 Conidia<-data.frame(
   sapply(Conidia, as.character),
   stringsAsFactors = F)#This creates a dataframe conatianing 47032 entries
