@@ -113,10 +113,7 @@ names(text)[1]<-"text_entry"
 # names(temp_text)[1]<-"text_entry_temp"
 
 #Creation of the object "Conidia" containing all the data
-<<<<<<< HEAD
 # Conidia<-cbind(temp_text,text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Conidia_text and Conidia_values. However, it seems fine!
-=======
->>>>>>> e1c1414b09d4b997c1089be19c2ca1e013da9539
 Conidia<-cbind(text,values_df)#For some reason the transformations above return 47032, instead of 45416 elements that has Conidia_text and Conidia_values. However, it seems fine!
 Conidia<-data.frame(
   sapply(Conidia, as.character),
