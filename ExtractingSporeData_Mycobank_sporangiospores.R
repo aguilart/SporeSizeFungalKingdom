@@ -174,6 +174,11 @@ Sporangiospores$Dim1[c(1,560)]<-mean(dim1)
 Sporangiospores$Dim2[c(1,560)]<-mean(dim2)
 rm(dim1,dim2)
 
+Sporangiospores$Dim1[Sporangiospores$spec=="Circinella linderi_10326_34591"]<-(6+10)/2
+Sporangiospores$Dim2[Sporangiospores$spec=="Circinella linderi_10326_34591"]<-(5+7.5)/2
+Sporangiospores$Dim1[Sporangiospores$spec=="Fennellomyces linderi_10325_34591"]<-(6+10)/2
+Sporangiospores$Dim2[Sporangiospores$spec=="Fennellomyces linderi_10325_34591"]<-(5+7.5)/2
+
 #Exclude data with dimensions above 200um
 Sporangiospores<-Sporangiospores[which(Sporangiospores$Dim1<=200),]
 
