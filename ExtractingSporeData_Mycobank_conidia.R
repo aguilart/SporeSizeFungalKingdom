@@ -134,11 +134,14 @@ Conidia_long<-Conidia[t>510,]#This needs to be manually checked
 #Just standarizing the "x"
 
 Conidia$measure_orig<-gsub("X","x",Conidia$measure_orig)
+Conidia$measure_orig <- gsub('\\<U\\+F02D>', ' - ', Conidia$measure_orig)
 Conidia$measure_orig <- gsub(' [[:punct:]] ', ' x ', Conidia$measure_orig)
 Conidia$measure_orig <- gsub('\\s+x\\s+', ' x ', Conidia$measure_orig)
 Conidia$measure_orig <- gsub('[[:punct:]]  ', '', Conidia$measure_orig)
 Conidia$measure_orig <- gsub('  ', ' x ', Conidia$measure_orig)
 Conidia$measure_orig <- gsub(' ', ' x ', Conidia$measure_orig)
+Conidia$measure_orig <- gsub(' ◊ ', ' x ', Conidia$measure_orig)
+Conidia$measure_orig <- gsub('∑', '.', Conidia$measure_orig)
 Conidia$measure_orig <- gsub('[[:space::]]{2,}', ' x ', Conidia$measure_orig)
 Conidia$measure_orig <- gsub('^x', '', Conidia$measure_orig)
 
