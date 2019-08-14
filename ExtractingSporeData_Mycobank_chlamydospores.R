@@ -201,7 +201,7 @@ Chlamydospores <- Chlamydospores %>%
 #Chlamydospores[which(Chlamydospores$Dim1>600),]
 #Chlamydospores[grep("±",Chlamydospores$text_entry),]
 
-#t<-sapply(list(Chlamydospores$text_entry), nchar)
+
 #Here we have cases where the text is very long: 
 #length(Chlamydospores$spec[t>510])#Returning 1329 entries
 
@@ -212,6 +212,7 @@ Chlamydospores$Dim1[which(Chlamydospores$spec=="Raffaelea scolytodis_451037_2612
   Chlamydospores$Dim2[which(Chlamydospores$spec=="Raffaelea scolytodis_451037_26125")]<-5
   
 Chlamydospores<-Chlamydospores[-which(Chlamydospores$spec=="Staphylotrichum indicum_551131_71816"),]
+t<-sapply(list(Chlamydospores$text_entry), nchar)
 Chlamydospores<-Chlamydospores[-which(t>510),]
 
 Chlamydospores<-Chlamydospores[-which(Chlamydospores$spec=="Cyrenella elegans_7697_6817")[1],]
