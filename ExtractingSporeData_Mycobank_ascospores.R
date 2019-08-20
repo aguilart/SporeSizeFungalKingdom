@@ -392,6 +392,7 @@ Ascospores<-Ascospores[-grep("conidia",Ascospores$text_entry),]
 Ascospores<-Ascospores[-grep("onidiogenous",Ascospores$text_entry),]
 Ascospores<-Ascospores[-grep("onidiophores",Ascospores$text_entry),]
 Ascospores<-Ascospores[-grep("Ascomata",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("\\. Perithecia",Ascospores$text_entry),]
 
 #Removing Ascospore values that are too small (these ones were checked manually and correspond to substructure of the ascospore)
 Ascospores<-Ascospores[which(Ascospores$Dim1>=0.72),]
