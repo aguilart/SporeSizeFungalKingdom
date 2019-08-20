@@ -308,8 +308,6 @@ Basidiospores$Dim1[grep("Phallus mengsongensis_512268_59371",Basidiospores$spec)
 Basidiospores<-
   Basidiospores[-grep("\\. Hyphae",Basidiospores$text_entry),]
 
-
-
 ### write to file
 write.csv(Basidiospores, 'output/basidiospores_mycobank.csv', row.names=F)
 
