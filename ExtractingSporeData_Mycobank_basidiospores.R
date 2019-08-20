@@ -9,10 +9,10 @@ library(tidyverse)
 source('General_dimensionExtractionFunct.R')
 
 #Source of the spore data data:
-spore.dat<- readRDS("mycobank_descriptions.RDS")#This dataset
+spore.dat<- readRDS("mycobank_descriptions_mod.RDS")#This dataset
 #contains 117,481 species); the entry called base_mycobank_nr is 
 #the mycobank code as it is found when checking in the website and it is the table
-#that Will sent us on November 2019
+#that Will sent us on November 2018, then slighlty modified to standardized the "µm" symbol
 
 #source of taxonomic data:
 Mycobank_Taxonomy <- read.csv('Mycobank_Taxonomy.csv', stringsAsFactors=F)#This dataframe was made on the "Checking_Taxonomy.R" code and 
@@ -173,7 +173,31 @@ Basidiospores <- Basidiospores %>%
 # for example
 # Basidiospores$Dim1[...]<- ...
 # Basidiospores$Dim2[...]<- ...
-# for example
+Basidiospores<-
+  Basidiospores[-grep("asidiospores absent",Basidiospores$text_entry),]
+
+Basidiospores<-
+  Basidiospores[-grep("asidiospores not observed",Basidiospores$text_entry),]
+
+Basidiospores<-
+  Basidiospores[-grep("asidiospores not seen\\.",Basidiospores$text_entry),]
+
+filter(Basidiospores,Dim1==0)
+Basidiospores$text_entry[grep('Syzygospora physciacearum_81525_21531', Basidiospores$spec)]<-"Basidiospores ellipsoid or ovoid to almost limoniform, obliquely attached to steriumata, refractive at the point of attachment, 7.5-11 x 3.5-6.5 µm"
+Basidiospores$measure_orig[grep('Syzygospora physciacearum_81525_21531', Basidiospores$spec)]<-"7.5-11 x 3.5-6.5 µ"
+Basidiospores$Dim1[grep('Syzygospora physciacearum_81525_21531', Basidiospores$spec)]<-c(7.5+11)/2
+Basidiospores$Dim2[grep('Syzygospora physciacearum_81525_21531', Basidiospores$spec)]<-c(3.5+6.5)/2
+
+Basidiospores$text_entry[grep('Syzygospora bachmannii_81523_21527', Basidiospores$spec)]<-"Basidiospores ellipsoid or ovoid to almost limoniform, obliquely attached to steriumata, refractive at the point of attachment, 7-9 x 4.5-6 µm"
+Basidiospores$measure_orig[grep('Syzygospora bachmannii_81523_21527', Basidiospores$spec)]<-"7-9 x 4.5-6 µ"
+Basidiospores$Dim1[grep('Syzygospora bachmannii_81523_21527', Basidiospores$spec)]<-c(7+9)/2
+Basidiospores$Dim2[grep('Syzygospora bachmannii_81523_21527', Basidiospores$spec)]<-c(4.5+6)/2
+
+Basidiospores$text_entry[grep('Syzygospora parmeliicola_81524_21529', Basidiospores$spec)]<-"Basidiospores ellipsoid, symmetrically attached to steriµmata, released passively, not refractive at the point of attachment, 4-5.5 x 3-4 µm"
+Basidiospores$measure_orig[grep('Syzygospora parmeliicola_81524_21529', Basidiospores$spec)]<-"4-5.5 x 3-4 µ"
+Basidiospores$Dim1[grep('Syzygospora parmeliicola_81524_21529', Basidiospores$spec)]<-c(4+5.5)/2
+Basidiospores$Dim2[grep('Syzygospora parmeliicola_81524_21529', Basidiospores$spec)]<-c(3+4)/2
+
 Basidiospores[grep('202783', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(18.2, 17.1)
 Basidiospores[grep('440865', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(18.2, 17.1)
 Basidiospores[grep('508322', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(18.2, 17.1)
@@ -227,11 +251,91 @@ Basidiospores[grep('71145_5408', Basidiospores$spec),  c('Dim1', 'Dim2')][1,] <-
 # large values:
 # filter(Basidiospores, Dim1 > 500)
 
-Basidiospores$Dim1[c(1196, 8472)] <- 16
-Basidiospores[14921, c('Dim1', 'Dim2')] <- c(18.5, 6.5)
-Basidiospores$Dim1[6825] <- 9.25
-Basidiospores[11300, c('Dim1', 'Dim2')] <- c(4.5, 4)
+#Basidiospores$Dim1[c(1196, 8472)] <- 16
+Basidiospores[grep('77717_3942', Basidiospores$spec),  c('Dim1')] <- 16
+Basidiospores[grep('77718_3942', Basidiospores$spec),  c('Dim1')] <- 16
+
+
+Basidiospores[grep('276050_40593', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(9.25, 6.75)
+#Basidiospores$Dim1[6825] <- 9.25
+Basidiospores[grep('90272_64638', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(4.5, 4)
+
+Basidiospores[grep('Byssocorticium efibulatum_69608_12324', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(5, 5)
+
+Basidiospores[grep('Craterellus shoreae_556986_75390', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(10.4, 7.2)
+
+Basidiospores[grep('Lepiota mengei_508325_54658', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(13.8, 10.5)
+Basidiospores[grep('Cryptolepiota mengei_478221_54658', Basidiospores$spec), c('Dim1', 'Dim2')] <- c(13.8, 10.5)
+
+Basidiospores<-Basidiospores[Basidiospores$Dim1<500,]
+Basidiospores<-Basidiospores[Basidiospores$Dim1>0,]
+#Several entries with small values of Basidiospores are actually reporting substructures of them.
+#These one could be corrected manually, but  I will leave this task for later on. For the moment
+#it seems that a good cut off for the basidiospore size is 1.25 um (first dimension)
+
+Basidiospores<-Basidiospores[Basidiospores$Dim1>1.2,]
+
+Basidiospores$Dim1[grep("\\(Em =",Basidiospores$text_entry)]<-
+  Basidiospores$Dim2[grep("\\(Em =",Basidiospores$text_entry)]
+
+Basidiospores$spec[grepl("\\(Em =",Basidiospores$text_entry)&is.na(Basidiospores$Dim1)]
+
+Basidiospores$Dim1[grep("Artomyces candelabrus_63751_21724",Basidiospores$spec)]<-(4+5.2)/2
+Basidiospores$Dim1[grep("Artomyces colensoi_63848_21728",Basidiospores$spec)]<-(3.6+4.4)/2
+Basidiospores$Dim1[grep("Artomyces cristatus_63924_21731",Basidiospores$spec )]<-(5.4+6)/2
+Basidiospores$Dim1[grep("Clavaria colensoi_73277_21728",Basidiospores$spec      )]<-(3.6+4.4)/2
+Basidiospores$Dim1[grep("Clavaria candelabrum_73239_21724",Basidiospores$spec)]<-(4+5.2)/2
+Basidiospores$Dim1[grep("Craterellus cristatus_65484_21731",Basidiospores$spec  )]<-(5.4+6)/2
+Basidiospores$Dim1[grep("Clavicorona cristata_60453_21731",Basidiospores$spec)]<-(5.4+6)/2
+Basidiospores$Dim1[grep("Clavicorona candelabrum_62116_21724",Basidiospores$spec)]<-(4+5.2)/2
+Basidiospores$Dim1[grep("Clavicorona colensoi_62142_21728",Basidiospores$spec)]<-(3.6+4.4)/2
+Basidiospores$Dim1[grep("Clavicorona microspora_79030_21733",Basidiospores$spec )]<-(3.2+3.6)/2
+Basidiospores$Dim1[grep("Artomyces microsporus_428394_21733",Basidiospores$spec )]<-(3.2+3.6)/2
+
+Basidiospores$Dim1[grep("mellisii",Basidiospores$spec)]<-2.5
+Basidiospores$Dim1[grep("mellissii",Basidiospores$spec)]<-2.5
+
+Basidiospores$Dim1[grep("Mucronella belalongensis_104633_7885",Basidiospores$spec)]<-2.75
+Basidiospores$Dim1[grep("Lactarius megalopterus_510766_57855",Basidiospores$spec)]<-9.6
+Basidiospores$Dim2[grep("Lactarius megalopterus_510766_57855",Basidiospores$spec)]<-9
+Basidiospores$Dim1[grep("Cyathus isometricus_561184_78020",Basidiospores$spec)]<-(14.41+17.58)/2
+
+Basidiospores$text_entry[grep("Phallus mengsongensis_512268_59371",Basidiospores$spec)]<-"Basidiospores [100/4/4] 3.5-5 × 1.5-2 um"
+Basidiospores$text_entry[grep("Phallus mengsongensis_512268_59371",Basidiospores$spec)]<-"3.5-5 × 1.5-2 u"
+Basidiospores$Dim1[grep("Phallus mengsongensis_512268_59371",Basidiospores$spec)]<-(3.5+5)/2
+Basidiospores$Dim1[grep("Phallus mengsongensis_512268_59371",Basidiospores$spec)]<-(1.5+2)/2
+
+Basidiospores<-
+  Basidiospores[-grep("\\. Hyphae",Basidiospores$text_entry),]
+
 
 
 ### write to file
 write.csv(Basidiospores, 'output/basidiospores_mycobank.csv', row.names=F)
+
+# 
+# #Changing last odd entries (really large values)
+# b<-c(1195,8463)
+# Basidiospores[rownames(Basidiospores) %in% b,]$Dim1<-(15+17)/2
+# 
+# Basidiospores<-
+# Basidiospores[-which(Basidiospores$spec=="Confertextum microsporum_542031_65952")[1],]
+# 
+# b<-6816
+# Basidiospores[rownames(Basidiospores) %in% b,]$Dim1<-(8+10.5)/2
+# 
+# b<-11290
+# Basidiospores[rownames(Basidiospores) %in% b,]$Dim1<-(4+5)/2
+# Basidiospores[rownames(Basidiospores) %in% b,]$Dim2<-(3.5+4.5)/2
+# 
+# 
+# b<-6162
+# Basidiospores[rownames(Basidiospores) %in% b,]$Dim1<-(9+17)/2
+# 
+# Basidiospores<-
+#   Basidiospores[-which(Basidiospores$spec=="Neohygrocybe sect. Neohygrocybe_511641_58723"),]
+# 
+# b<-14420
+# Basidiospores[rownames(Basidiospores) %in% b,]$Dim1<-(14+18.5)/2
+# Basidiospores[rownames(Basidiospores) %in% b,]$Dim2<-(5.2+6.6)/2
+
