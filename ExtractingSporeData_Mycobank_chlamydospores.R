@@ -7,12 +7,15 @@ rm(list=ls())
 library(tidyverse)
 
 source('General_dimensionExtractionFunct.R')
+#Note!!!!! It could be that running the functions via "source" could alter some features of the functions!!!
+#Thus, better run the functions directly from the script
+
 
 #Source of the spore data data:
-spore.dat<- readRDS("mycobank_descriptions.RDS")#This dataset
+spore.dat<- readRDS("mycobank_descriptions_mod.RDS")#This dataset
 #contains 117,481 species); the entry called base_mycobank_nr is 
 #the mycobank code as it is found when checking in the website and it is the table
-#that Will sent us on November 2019
+#that Will sent us on November 2018, then slighlty modified to standardized the "µm" symbol
 
 #source of taxonomic data:
 Mycobank_Taxonomy <- read.csv('Mycobank_Taxonomy.csv', stringsAsFactors=F)#This dataframe was made on the "Checking_Taxonomy.R" code and 
@@ -46,7 +49,7 @@ spore.dat<-left_join(spore.dat,Mycobank_Taxonomy[c(4,12:19)],
 textos<-spore.dat$description_description_
 names(textos)<-paste(spore.dat$base_name, spore.dat$base__id, spore.dat$description__id, sep ="_")
 
-
+#[c(315 , 821 ,1645, 1694, 1708, 1724, 1801, 2054, 2204, 2524)]
 #Now I can extract Chlamydospores out of these subset
 
 Chlamydospores_text<-
@@ -76,7 +79,7 @@ Chlamydospores_values<-#Chlamydospores_text[[632]] Chlamydospores$text_entry_tem
          extract.regex="[^a-wy-zA-WY-Z]+\\s?µm")
 #Chlamydospores_values<-Chlamydospores_values$`1`
 
-#txt<-Chlamydospores$text_entry_temp[128]
+#textos<-Chlamydospores$text_entry_temp[128]
 
 #Reformatting it into a dataframe
 
@@ -123,11 +126,6 @@ Chlamydospores<-Chlamydospores[-which(
   Chlamydospores$text_entry=="Result not found"),]#Which is actually the majority of cases: 37768!
 #Removing them reduces the dataframe to 9264 entries
 
-t<-sapply(list(Chlamydospores$text_entry), nchar)
-#Here we have cases where the text is very long: 
-length(Chlamydospores$spec[t>510])#Returning 1329 entries
-
-Chlamydospores_long<-Chlamydospores[t>510,]#This needs to be manually checked
 
 #s<-sapply(list(Chlamydospores_long$text_entry), nchar)
 
@@ -183,13 +181,7 @@ Chlamydospores <- cbind(Chlamydospores, temp)
 Chlamydospores <- Chlamydospores %>% 
   rename(Dim1 = V1, 
          Dim2 = V2, 
-         Dim3 = V3, 
-         Dim4 = V4)
- 
-# Chlamydospores$Dim2[which(is.na(Chlamydospores$Dim2))][
-#   -grep("x",Chlamydospores$measure_orig[which(is.na(Chlamydospores$Dim2))])]<-
-#     Chlamydospores$Dim1[which(is.na(Chlamydospores$Dim2))][
-#       -grep("x",Chlamydospores$measure_orig[which(is.na(Chlamydospores$Dim2))])]
+         Dim3 = V3)
 
 
 ### Any manual changes needed, do below ###
@@ -197,13 +189,6 @@ Chlamydospores <- Chlamydospores %>%
 # Chlamydospores$Dim1[...]<- ...
 # Chlamydospores$Dim2[...]<- ...
 
-#p<-
-#Chlamydospores[which(Chlamydospores$Dim1>600),]
-#Chlamydospores[grep("±",Chlamydospores$text_entry),]
-
-
-#Here we have cases where the text is very long: 
-#length(Chlamydospores$spec[t>510])#Returning 1329 entries
 
 Chlamydospores$Dim1[which(Chlamydospores$spec=="Umbelopsis nana_28349_71232")]<-(4+9)/2  
 Chlamydospores$Dim1[which(Chlamydospores$spec=="Umbelopsis nana_28349_71232")]<-(6+9)/2  
@@ -212,11 +197,66 @@ Chlamydospores$Dim1[which(Chlamydospores$spec=="Raffaelea scolytodis_451037_2612
   Chlamydospores$Dim2[which(Chlamydospores$spec=="Raffaelea scolytodis_451037_26125")]<-5
   
 Chlamydospores<-Chlamydospores[-which(Chlamydospores$spec=="Staphylotrichum indicum_551131_71816"),]
-t<-sapply(list(Chlamydospores$text_entry), nchar)
-Chlamydospores<-Chlamydospores[-which(t>510),]
 
 Chlamydospores<-Chlamydospores[-which(Chlamydospores$spec=="Cyrenella elegans_7697_6817")[1],]
 Chlamydospores$Dim1[Chlamydospores$spec=="Cyrenella elegans_7697_6817"]<-6
+
+#Removing cases where Chlamydospores are absent
+Chlamydospores<-
+Chlamydospores[-grep("hlamydospores absent",Chlamydospores$text_entry),]
+
+Chlamydospores<-
+  Chlamydospores[-grep("hlamydospores not observed",Chlamydospores$text_entry),]
+
+# Chlamydospores<-
+#   Chlamydospores[-grep("hlamydospores not present",Chlamydospores$text_entry),]
+
+Chlamydospores<-
+  Chlamydospores[-grep("hlamydospores none",Chlamydospores$text_entry),]
+
+Chlamydospores<-
+  Chlamydospores[-grep("hlamydospores lacking",Chlamydospores$text_entry),]
+
+Chlamydospores<-
+  Chlamydospores[-grep("hlamydospores are not produced",Chlamydospores$text_entry),]
+
+Chlamydospores<-
+  Chlamydospores[-grep("hlamydospores were absent",Chlamydospores$text_entry),]
+
+Chlamydospores<-
+  Chlamydospores[-grep("asidiospores",Chlamydospores$text_entry),]
+
+Chlamydospores<-
+  Chlamydospores[-grep("scoma",Chlamydospores$text_entry),]
+
+Chlamydospores<-
+  Chlamydospores[-grep("\\. Conidi",Chlamydospores$text_entry),]
+
+Chlamydospores<-
+  Chlamydospores[-grep("\\. Hyph",Chlamydospores$text_entry),]
+
+Chlamydospores$text_entry[grep("with l/w",Chlamydospores$text_entry)]<-"Chlamydospores first noted after 6-8 d, scanty, mainly in the center around the point of inoculation, smooth, terminal on hyphae, oval to subclavate, often truncated at one end, and intercalary in hyphal cells, oval to ellipsoidal, (6.9-)7.5-10.8(-12.9) x (5-)5.6-7.4(-8.2)  with l/w = (1.2-)1.2-1.6(-1.7) (n = 12)"
+Chlamydospores$measure_orig[grep("with l/w",Chlamydospores$text_entry)]<-"(6.9-)7.5-10.8(-12.9) x (5-)5.6-7.4(-8.2)"
+Chlamydospores$Dim1[grep("with l/w",Chlamydospores$text_entry)]<-(7.5+10.8)/2
+Chlamydospores$Dim2[grep("with l/w",Chlamydospores$text_entry)]<-(5.6+7.4)/2
+
+#Chlamydospores$text_entry[Chlamydospores$spec=="Sporotrichum pruinosum_26227_968"]<-"chlamydospores numerous, terminal and intercalary, globose to ovoid with walls noticeably thick and often appearing sculptured, 10.5-16.5 x 7.5-12.0 µm"
+# Chlamydospores$text_entry[Chlamydospores$spec=="Haploporus fraxineus_64163_674"]<-"chlamydospores numerous, terminal and intercalary, globose to ovoid with walls noticeably thick and often appearing sculptured, 10.5-16.5 x 7.5-12.0 µm"
+# Chlamydospores$measure_orig[Chlamydospores$spec=="Haploporus fraxineus_64163_674"]<-"10.5-16.5 x 7.5-12.0 µ"
+
+
+#Removing very long descriptions that do not contain the right description
+t<-sapply(list(Chlamydospores$text_entry), nchar)
+Chlamydospores<-Chlamydospores[-which(t>500),]
+
+#Final specific changes: 
+Chlamydospores$Dim1[Chlamydospores$spec== "Trichoderma aethiopicum_481130_53233"]<-5
+Chlamydospores$Dim2[Chlamydospores$spec== "Trichoderma aethiopicum_481130_53233"]<-10
+
+Chlamydospores<-Chlamydospores[-which(Chlamydospores$Dim1==0.8),]
+
+
+#
 
 ### write to file
 write.csv(Chlamydospores, 'output/Chlamydospores_mycobank.csv', row.names=F)
