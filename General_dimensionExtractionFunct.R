@@ -4,6 +4,7 @@ library(stringr)
 get_text<-function(txt,start.regex,end.regex){
   
     ## some character normalizations; mainly changing diverse comma seperations to comma
+    
     txt <- gsub("\u2013", "-", txt) ## en dash to minus
     txt <- gsub("\u2014", "-", txt) ## en dash to minus
     txt <- gsub("–", "-", txt) ## en dash to minus
@@ -13,9 +14,12 @@ get_text<-function(txt,start.regex,end.regex){
     txt <- gsub("μm", "µm", txt)
     txt <- gsub('\n', ' ', txt)
     txt <- gsub('[a-zA-Z]µm[a-zA-Z]', 'um', txt)
+    txt <- gsub('[a-zA-Z]µ[a-zA-Z]', 'u', txt)
     txt <- gsub('\\-[lI]', '-1', txt)
     txt <- gsub('\\-[lI]', '-1', txt)
     txt <- gsub('[lIO]0', '10', txt)
+    txt <- gsub("À¬m","µm",txt)
+    txt <- gsub("À¬","µ",txt)
     
     #get the start of the text
     starts <- txt %>%
