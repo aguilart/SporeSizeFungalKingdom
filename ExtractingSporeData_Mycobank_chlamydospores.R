@@ -6,8 +6,8 @@ rm(list=ls())
 
 library(tidyverse)
 
-source('General_dimensionExtractionFunct.R')
-#Note!!!!! It could be that running the functions via "source" could alter some features of the functions!!!
+source('General_dimensionExtractionFunct.R')#!!!!!!!!!!!NOTE!!!!!!!!!!!!!!!!! 
+#NOTE!!!!! It could be that running the functions via "source" could alter some features of the functions!!!
 #Thus, better run the functions directly from the script
 
 
