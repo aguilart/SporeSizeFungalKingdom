@@ -6,7 +6,9 @@ rm(list=ls())
 
 library(tidyverse)
 
-source('General_dimensionExtractionFunct.R')
+source('General_dimensionExtractionFunct.R')#!!!!!!!!!!!NOTE!!!!!!!!!!!!!!!!! 
+#NOTE!!!!! It could be that running the functions via "source" could alter some features of the functions!!!
+#Thus, better run the functions directly from the script
 
 
 # spore.dat<- readRDS("mycobank_descriptions.RDS")#This dataset
@@ -76,6 +78,16 @@ Ascospores_text<-lapply(Ascospores_text,
                            function(x)gsub('－', '-', x))
 Ascospores_text<-lapply(Ascospores_text, 
                            function(x)gsub('−', '-', x))
+Ascospores_text<-lapply(Ascospores_text, 
+                           function(x)gsub("\\<U\\+F0B4\\>","x",x))
+Ascospores_text<-lapply(Ascospores_text, 
+                        function(x)gsub("\\<x\\>","x",x))
+Ascospores_text<-lapply(Ascospores_text, 
+                        function(x)gsub("\\<U\\+2012\\>","-",x))
+
+# Ascospores_NA$text_entry[grep("\\<U\\+F0B4\\>",Ascospores_NA$text_entry)]
+# Ascospores_NA$text_entry[grep("\\<x\\>",Ascospores_NA$text_entry)]
+# Ascospores_NA$text_entry[grep("\\<U\\+2012\\>",Ascospores_NA$text_entry)]
 
 
 #Extracting Ascospores values
@@ -156,6 +168,14 @@ temp <- apply(temp, 2, function(x)gsub('plmn[0-9].', '', x))
 temp <- apply(temp, 2, function(x)gsub('--', '-', x))
 temp <- apply(temp, 2, function(x)gsub('^[[:punct:]]+', '', x))
 temp <- apply(temp, 2, function(x)gsub('[[:punct:]]+$', '', x))
+temp <- apply(temp, 2, function(x)gsub('\\[', '-', x))
+temp <- apply(temp, 2, function(x)gsub('\\]', '-', x))
+temp <- apply(temp, 2, function(x)gsub('--', '-', x))
+temp <- apply(temp, 2, function(x)gsub('<->', '-', x))
+temp <- apply(temp, 2, function(x)gsub("·","\\.",x))
+temp <- apply(temp, 2, function(x)gsub("\\*\\*","-",x))
+temp <- apply(temp, 2, function(x)gsub("~","-",x))
+temp <- apply(temp, 2, function(x)gsub('--', '-', x))
 temp <- apply(temp, 2, str_trim)
 
 temp <- apply(temp, 2, function(x){
@@ -172,10 +192,12 @@ Ascospores <- Ascospores %>%
   rename(Dim1 = V1, 
          Dim2 = V2, 
          Dim3 = V3, 
-         Dim4 = V4)
+         Dim4 = V4,
+         Dim5 = V5)
 
 
 ### Manual changes ###
+#To check: why there are NA in the table
 
 Ascospores<-
   Ascospores[-grep("scospores absent",Ascospores$text_entry),]
@@ -209,7 +231,7 @@ Ascospores<-Ascospores[!Ascospores$spec %in% b,] #Exclude from dataframe
 
 
 #b<-c(9454,11933,14158,14540,20954,39375,42145)
-#Ascospores[rownames(Ascospores) %in% b,]$spec###TO TEST!!!!!!!!!!!!
+
 b<-c("Hypoxylon carabayanse_342730_52991", "Nummularia carabayanse_342731_52991","Hypoxylon carabayense_420679_52991",
      "Nummularia carabayensis_421850_52991","Penzigia carabayensis_236754_52991","Nummularia carabayense_461679_52991",
      "Xylaria carabayensis_480927_52991")
@@ -376,13 +398,89 @@ Ascospores$measure_orig[Ascospores$spec=="Lophodermium durilabrum_169620_15592"]
 Ascospores$Dim1[Ascospores$spec=="Lophodermium durilabrum_169620_15592"]<-(90+105)/2
 Ascospores$Dim2[Ascospores$spec=="Lophodermium durilabrum_169620_15592"]<-1.5
 
-Ascospores[grep("oreadum",Ascospores$spec),]$measure_orig<-"(4.7-)5.0-6.1 x (0.8-)0.9-1.1(-1.3)µ"
+b<-which(Ascospores$spec=="Thielavia terricola_27159_38434"&Ascospores$Dim1==140)
+Ascospores$text_entry[b]<-"Ascospores 11-16 x 6.5-8"
+Ascospores$text_entry[b]<-"11-16 x 6.5-8"
+Ascospores$Dim1[b]<-(11+16)/2
+Ascospores$Dim2[b]<-(6.5+8)/2
+
+b<-which(Ascospores$spec=="Chaetomium terricola_271272_38434"&Ascospores$Dim1==140)
+Ascospores$text_entry[b]<-"Ascospores 11-16 x 6.5-8"
+Ascospores$measure_orig[b]<-"11-16 x 6.5-8"
+Ascospores$Dim1[b]<-(11+16)/2
+Ascospores$Dim2[b]<-(6.5+8)/2
+
+Ascospores$text_entry[Ascospores$spec=="Magnaporthe garrettii_481662_54103"]<-"Ascospores uniseriate, cylindrical to fusiform, straight or slightly curved with rounded ends, 3-septate, with dark brown middle cells and hyaline end cells shorter than the coloured cells, 19-25 x 5-7 ?m."
+Ascospores$measure_orig[Ascospores$spec=="Magnaporthe garrettii_481662_54103"]<-"19-25 x 5-7"
+Ascospores$Dim1[Ascospores$spec=="Magnaporthe garrettii_481662_54103"]<-(19+25)/2
+Ascospores$Dim2[Ascospores$spec=="Magnaporthe garrettii_481662_54103"]<-(5+7)/2
+
+Ascospores$text_entry[Ascospores$spec=="Magnaporthe griffinii_481663_54105"]<-"Ascospores uniseriate, slightly overlapping, fusiform, straight or slightly curved with bluntly pointed ends, 3-septate, with dark brown middle cells and hyaline end cells of similar length to coloured cells, 24-35 x 6-9 ?m"
+Ascospores$measure_orig[Ascospores$spec=="Magnaporthe griffinii_481663_54105"]<-"24-35 x 6-9"
+Ascospores$Dim1[Ascospores$spec=="Magnaporthe griffinii_481663_54105"]<-(24+35)/2
+Ascospores$Dim2[Ascospores$spec=="Magnaporthe griffinii_481663_54105"]<-(6+9)/2
+
+Ascospores$text_entry[Ascospores$spec=="Abrothallus parmotrematis_140656_52259"]<-"Ascospores brown, verruculose, 1-septate, (12.0-)13.1-16.4 (-20.0)-(4.8-)5.3-6.1(-6.8) µm"
+Ascospores$measure_orig[Ascospores$spec=="Abrothallus parmotrematis_140656_52259"]<-"(12.0-)13.1-16.4 (-20.0) x (4.8-)5.3-6.1(-6.8) µm"
+Ascospores$Dim1[Ascospores$spec=="Abrothallus parmotrematis_140656_52259"]<-(13.1+16.4)/2
+Ascospores$Dim2[Ascospores$spec=="Abrothallus parmotrematis_140656_52259"]<-(5.3+6.1)/2
+
+Ascospores$text_entry[Ascospores$spec=="Abrothallus parmotrematis_478991_52259"]<-"Ascospores brown, verruculose, 1-septate, (12.0-)13.1-16.4 (-20.0)-(4.8-)5.3-6.1(-6.8) µm"
+Ascospores$measure_orig[Ascospores$spec=="Abrothallus parmotrematis_478991_52259"]<-"(12.0-)13.1-16.4 (-20.0) x (4.8-)5.3-6.1(-6.8) µm"
+Ascospores$Dim1[Ascospores$spec=="Abrothallus parmotrematis_478991_52259"]<-(13.1+16.4)/2
+Ascospores$Dim2[Ascospores$spec=="Abrothallus parmotrematis_478991_52259"]<-(5.3+6.1)/2
+
+Ascospores$text_entry[Ascospores$spec=="Chaetomium distortum_4508_38402"][1]<-"Ascospores 6.5-8 x 5.5-6 µm"
+Ascospores$measure_orig[Ascospores$spec=="Chaetomium distortum_4508_38402"][1]<-"6.5-8 x 5.5-6 µm"
+Ascospores$Dim1[Ascospores$spec=="Chaetomium distortum_4508_38402"][1]<-(6.5+8)/2
+Ascospores$Dim2[Ascospores$spec=="Chaetomium distortum_4508_38402"][1]<-(5.5+6)/2
+
+Ascospores[grep("oreadum",Ascospores$spec),]$measure_orig<-"(4.7-)5.0-6.1 x (0.8-)0.9-1.1(-1.3)"
 Ascospores[grep("oreadum",Ascospores$spec),]$Dim1<-(5.0+6.1)/2
 Ascospores[grep("oreadum",Ascospores$spec),]$Dim2<-(0.9+1.1)/2
 
+b<-which(Ascospores$measure_orig=="3:1:214-27 x 4-9")
+Ascospores$measure_orig[b]<-"14-27 x 4-9"
+Ascospores$Dim1[b]<-(14+27)/2
+Ascospores$Dim2[b]<-(4+9)/2
+
+
+b<-which(Ascospores$measure_orig=="12-15 ‘ 5-7")
+Ascospores$measure_orig[b]<-"12-15 x 5-7"
+Ascospores$Dim1[b]<-(12+15)/2
+Ascospores$Dim2[b]<-(5+7)/2
+
 t<-sapply(list(Ascospores$text_entry), nchar)
 Ascospores<-Ascospores[-which(t>800),]
+#Ascospores_c<-Ascospores
 
+Ascospores$measure_orig[Ascospores$spec=="Chrysoporthe austroafricana_124636_8364"]<-"(5.5-)6-7 x (2-)2.5"
+Ascospores$Dim1[Ascospores$spec=="Chrysoporthe austroafricana_124636_8364"]<-(6+7)/2
+Ascospores$Dim2[Ascospores$spec=="Chrysoporthe austroafricana_124636_8364"]<-2.5
+
+Ascospores$measure_orig[Ascospores$spec=="Biscogniauxia viscosicentra var. macrospora_445733_25434"]<-"12-15 x 6-7.5(8)"
+Ascospores$Dim1[Ascospores$spec=="Biscogniauxia viscosicentra var. macrospora_445733_25434"]<-(12+15)/2
+Ascospores$Dim2[Ascospores$spec=="Biscogniauxia viscosicentra var. macrospora_445733_25434"]<-(6+7.5)/2
+
+Ascospores$measure_orig[Ascospores$spec=="Graphilbum tsugae_522962_64952"]<-"3-5 x 1"
+Ascospores$Dim1[Ascospores$spec=="Graphilbum tsugae_522962_64952"]<-3.8
+Ascospores$Dim2[Ascospores$spec=="Graphilbum tsugae_522962_64952"]<-1
+
+Ascospores$measure_orig[Ascospores$spec=="Sodiomyces magadii_542577_66882"]<-"6-8 x 4-7"
+Ascospores$Dim1[Ascospores$spec=="Sodiomyces magadii_542577_66882"]<-(6+8)/2
+Ascospores$Dim2[Ascospores$spec=="Sodiomyces magadii_542577_66882"]<-(4+7)/2
+
+Ascospores$measure_orig[Ascospores$spec=="Biscogniauxia breviappendiculata_559008_76753"]<-"(8.9-)9.5-11.9(-12.6) x (5.5-)6.1-7(-7.4)"
+Ascospores$Dim1[Ascospores$spec=="Biscogniauxia breviappendiculata_559008_76753"]<-(9.5+11.9)/2
+Ascospores$Dim2[Ascospores$spec=="Biscogniauxia breviappendiculata_559008_76753"]<-(6.1+7)/2
+
+Ascospores$measure_orig[Ascospores$spec=="Biscogniauxia martinicensis_559009_76754"]<-"(9-)9.5-12.8(-13.3) x (6.6-)7.4-9.8(-10.4)"
+Ascospores$Dim1[Ascospores$spec=="Biscogniauxia martinicensis_559009_76754"]<-(9.5+12.8)/2
+Ascospores$Dim2[Ascospores$spec=="Biscogniauxia martinicensis_559009_76754"]<-(7.4+9.8)/2
+
+Ascospores$measure_orig[Ascospores$spec=="Stamnaria yugrana_563512_79387"]<-"variable in length, *19.8 x 4.8 (16.5-24.5 x 4.2-5.6), n=18, Q=4.1 (YSU-F-04933); †20.5 x 4.0 (17.2-24.2 x 3.6-4.6)"
+Ascospores$Dim1[Ascospores$spec=="Stamnaria yugrana_563512_79387"]<-19.8
+Ascospores$Dim1[Ascospores$spec=="Stamnaria yugrana_563512_79387"]<-4.8
 
 #Removing the few cases where measurments correspond to Acervuli or Sporodochia and not Ascospores
 Ascospores<-Ascospores[-grep("cervuli",Ascospores$text_entry),]
@@ -393,12 +491,27 @@ Ascospores<-Ascospores[-grep("onidiogenous",Ascospores$text_entry),]
 Ascospores<-Ascospores[-grep("onidiophores",Ascospores$text_entry),]
 Ascospores<-Ascospores[-grep("Ascomata",Ascospores$text_entry),]
 Ascospores<-Ascospores[-grep("\\. Perithecia",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("\\. Phialides",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("\\. Margin",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("\\. Asci",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("\\. Cleisto",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("\\. Paraphyses",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("\\. PARAPHYSES",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("\\. Pseudoparaphyses",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("pseudoparaphyses\\.",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("wider pseudoparaphyses",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("\\. Hamathecium",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("\\. Conidiomata",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("perithelcia",Ascospores$text_entry),]
+Ascospores<-Ascospores[-grep("perithecia",Ascospores$text_entry)[-c(2,10)],]
+Ascospores<-Ascospores[-grep("Perithecia",Ascospores$text_entry),]
 
 #Removing Ascospore values that are too small (these ones were checked manually and correspond to substructure of the ascospore)
-Ascospores<-Ascospores[which(Ascospores$Dim1>=0.72),]
+Ascospores<-Ascospores[-which(Ascospores$Dim1<=0.72),]
+
+Ascospores<-Ascospores[-which(is.na(Ascospores$Dim1)),]
 
 write.csv(Ascospores, 'output/ascospores_mycobank.csv', row.names=F)
-
 
 
 ##############################################################################################################
