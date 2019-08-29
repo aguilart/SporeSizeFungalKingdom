@@ -482,8 +482,10 @@ Conidia<-
 
 #2. NA entries in Dim1
 #After all the cleaning there are 64 NA entries that can be solved by manual checking.
-#For the moment I will leave that for later
+#For the moment I will leave that for later. And just remove them
 Conidia_NA<-Conidia[which(is.na(Conidia$Dim1)),]
+
+Conidia<-Conidia[-which(is.na(Conidia$Dim1)),]
 #Plus this changes
 
 
@@ -594,6 +596,7 @@ Conidia$Dim1[grep("1221 \\(26\\) x 3\\-5",Conidia$measure_orig)]<-16.5
 
 Conidia$Dim1[grep("1213\\-30 x 4\\-5",Conidia$measure_orig)]<-12.5
 #solve cases with % in measure orig
+Conidia$n_char<-NULL
 
 ### write to file
 write.csv(Conidia, 'output/conidia_mycobank.csv', row.names=F)
