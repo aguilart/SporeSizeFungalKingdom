@@ -470,6 +470,9 @@ Basidiospores_long<-Basidiospores[which(t>800),]
 Basidiospores<-Basidiospores[-which(t>800),]
 rm(Basidiospores_long)
 
+b<-grep("Aureoboletus zangii_507107_54926",Basidiospores$spec)
+Basidiospores$Dim2[b]<-4.5
+
 #"35-45 x 6-9"
 
 Basidiospores<-
