@@ -415,6 +415,48 @@ Spores_allSources<-Spores_allSources[order(Spores_allSources$phylum,
                                            Spores_allSources$SporeName,
                                            Spores_allSources$description__id),]
 
+#Fixing some wrong entries
+
+Spores_allSources[which(Spores_allSources$phylum=="Mollusca"),c(1,2,9,10,17:25)]<-
+  Spores_allSources[which(Spores_allSources$Col_acc_names=="Pseudocolus fusiformis"),c(1,2,9,10,17:25)]
+
+
+
+Spores_allSources[which(Spores_allSources$phylum=="Foraminifera"),c(1,2,5,6,9,17:25)]<-c(NA,NA,NA,NA,NA,"Fungi","Ascomycota","Lecanoromycetes",
+                                                                                         "Ostropales","Graphidaceae","Fissurina",
+                                                                                         "Fissurina radiata",NA,"Mycobank")
+
+Spores_allSources[which(Spores_allSources$base_name=="Graphis japonica"),c(1,2,5,6,9,17:25)]<-c(NA,NA,NA,NA,NA,"Fungi","Ascomycota","Lecanoromycetes",
+                                                                                                "Ostropales","Graphidaceae","Graphis",
+                                                                                                "Graphis japonica",NA,"Mycobank")
+
+#Removing cases where the virus that affect a fungus is also reported
+Spores_allSources<-Spores_allSources[-which(Spores_allSources$kingdom=="Viruses"),]
+
+
+
+length(which(is.na(Spores_allSources$Col_acc_names)))
+length(which(!is.na(Spores_allSources$Col_acc_names)))
+
+unique(Spores_allSources[which(Spores_allSources$phylum=="Zygomycota"),]$class)
+unique(Spores_allSources[which(Spores_allSources$phylum_=="Zygomycota"),]$order)
+#The lower fungi: Catalogue of Life still uses Zygomycota for the following
+#groups: Mucoromycetes,Zoopagomycetes,Entomophthoromycetes,Mortierellomycetes.
+#For the moment, my plan is to place them individual phylum
+
+Spores_allSources$phylum_<-Spores_allSources$phylum
+Spores_allSources$phylum_[which(Spores_allSources$class=="Mucoromycetes")]<-"Mucoromycota"
+Spores_allSources$phylum_[which(Spores_allSources$order=="Endogonales")]<-"Mucoromycota"
+Spores_allSources$phylum_[which(Spores_allSources$order=="Umbelopsidales")]<-"Mucoromycota"
+
+Spores_allSources$phylum_[which(Spores_allSources$class=="Zoopagomycetes")]<-"Zoopagomycota"
+Spores_allSources$phylum_[which(Spores_allSources$class=="Entomophthoromycetes")]<-"Entomophthoromycota"
+Spores_allSources$phylum_[which(Spores_allSources$class=="Mortierellomycetes")]<-"Mortierellomycota"
+
+Spores_allSources$phylum_[which(Spores_allSources$order=="Harpellales")]<-"Kickxellomycota"
+Spores_allSources$phylum_[which(Spores_allSources$order=="Dimargaritales")]<-"Kickxellomycota"
+
+Spores_allSources$phylum_[which(Spores_allSources$order=="Basidiobolales")]<-"Basidiobolomycota"
 
 ### write to file
 write.csv(Spores_allSources, 'output/Spores_All_Sources.csv', row.names=F)
