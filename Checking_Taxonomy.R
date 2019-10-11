@@ -1,5 +1,7 @@
 #Checking taxonomy.
 
+library(taxize)
+
 #Mycobank taxonomy
 
 #The dataset called "MycobankNames_list" does not come from the data that
@@ -426,61 +428,152 @@ table(Mycobank_Taxonomy$Phylum)
 write.csv(Mycobank_Taxonomy,"Mycobank_Taxonomy.csv", row.names = F)
 
 ##############################
-#Older stuff
+#Catalogue of life data
 
 
 #Downloading all names within Fungi down to species recorded
 #in the catalogue of life.
-prueba<-downstream("Fungi", downto = "Species", db = "col")
+Fungi_accepted<-downstream("Fungi", downto = "Species", db = "col")
 #This retrieves a database of accepted species names and their id fron the catalogue of life
-length(unique(prueba$Fungi$childtaxa_name))#135101 names according to the catalogue of life
+length(unique(Fungi_accepted$Fungi$childtaxa_name))#135101 names according to the catalogue of life
 #It seems these would be accedpted names but I am not 100% sure. The number is similar to what
 #the paper of Hawksworth and Lücking report in their paper in Microbioloy Spectrum (2017)
 
 #Extracting the column with just the species names or ID
-col_acceptedFungalNames<-prueba$Fungi$childtaxa_name
-col_acceptedFungalNames_ID<-prueba$Fungi$childtaxa_id
+col_acceptedFungalNames<-Fungi_accepted$Fungi$childtaxa_name
+col_acceptedFungalNames_ID<-Fungi_accepted$Fungi$childtaxa_id
 
-#Now I have to transform (for some reason) these ID´s as a "colid" object:
-col_acceptedFungalNames_ID_01<-as.colid(col_acceptedFungalNames_ID[1:30000])#This takes 40 min
-col_acceptedFungalNames_ID_02<-as.colid(col_acceptedFungalNames_ID[30001:60000])#This takes 40 min
-col_acceptedFungalNames_ID_03<-as.colid(col_acceptedFungalNames_ID[60001:90000])#This takes 40 min
-col_acceptedFungalNames_ID_04<-as.colid(col_acceptedFungalNames_ID[90001:120000])#This takes 40 min
-col_acceptedFungalNames_ID_05<-as.colid(col_acceptedFungalNames_ID[120001:135101])#This takes 40 min
-#I will save this to avoid doing it again (btw, I did all this in April 2019)
-saveRDS(col_acceptedFungalNames_ID_01,"CatalogueOfLifeData\\col_acceptedFungalNames_ID_01")
-saveRDS(col_acceptedFungalNames_ID_02,"CatalogueOfLifeData\\col_acceptedFungalNames_ID_02")
-saveRDS(col_acceptedFungalNames_ID_03,"CatalogueOfLifeData\\col_acceptedFungalNames_ID_03")
-saveRDS(col_acceptedFungalNames_ID_04,"CatalogueOfLifeData\\col_acceptedFungalNames_ID_04")
-saveRDS(col_acceptedFungalNames_ID_05,"CatalogueOfLifeData\\col_acceptedFungalNames_ID_05")
+#"af9e4ed3f893c55c802338015a2e12b7"
+#"af9e4ed3f893c55c802338015a2e12b7"
 
-#Now, using the function classification to get all the higher taxonomic rankings of the species
-#according to the catalogue of life:
-s_01<-classification(col_acceptedFungalNames_ID_01, db = 'col')#it takes 40 minutes
-s_02<-classification(col_acceptedFungalNames_ID_02, db = 'col')#it takes 40 minutes
-s_03<-classification(col_acceptedFungalNames_ID_03, db = 'col')#it takes 40 minutes
-s_04<-classification(col_acceptedFungalNames_ID_04, db = 'col')#it takes 40 minutes
-s_05<-classification(col_acceptedFungalNames_ID_05, db = 'col')#it takes 40 minutes
-#I should save all these ones as RDS to avoid doing this again
-saveRDS(s_01,"CatalogueOfLifeData\\s_01.rds")
-saveRDS(s_02,"CatalogueOfLifeData\\s_02.rds")
-saveRDS(s_03,"CatalogueOfLifeData\\s_03.rds")
-saveRDS(s_04,"CatalogueOfLifeData\\s_04.rds")
-saveRDS(s_05,"CatalogueOfLifeData\\s_05.rds")
+#Now I have to transform (for some reason) these ID´s as a "colid" object. Note: I could run this code on 
+#my laptop sometime early 2019. However when I tried on the desktop in the printer room, I could not run it
+#So instead I copied the ones I have in my laptop. In principle this same exact code commented out below
+#should produce the col_acceptedFungalNames_ID´s series.
 
-rm(s_01,s_02,s_03,s_04,s_05)
-#I can then transform this into a dataframe format
-Group_01<-cbind(s_01);saveRDS(Group_01,"CatalogueOfLifeData\\Group_01")
-Group_02<-cbind(s_02);saveRDS(Group_02,"CatalogueOfLifeData\\Group_02")
-Group_03<-cbind(s_03);saveRDS(Group_03,"CatalogueOfLifeData\\Group_03")
-Group_04<-cbind(s_04);saveRDS(Group_04,"CatalogueOfLifeData\\Group_04")
-Group_05<-cbind(s_05);saveRDS(Group_05,"CatalogueOfLifeData\\Group_05")
+# col_acceptedFungalNames_ID_01<-as.colid(col_acceptedFungalNames_ID[1:30000])#This takes 40 min
+# col_acceptedFungalNames_ID_02<-as.colid(col_acceptedFungalNames_ID[30001:60000])#This takes 40 min
+# col_acceptedFungalNames_ID_03<-as.colid(col_acceptedFungalNames_ID[60001:90000])#This takes 40 min
+# col_acceptedFungalNames_ID_04<-as.colid(col_acceptedFungalNames_ID[90001:120000])#This takes 40 min
+# col_acceptedFungalNames_ID_05<-as.colid(col_acceptedFungalNames_ID[120001:135101])#This takes 40 min
+# #I will save this to avoid doing it again (btw, I did all this in April 2019)
+# saveRDS(col_acceptedFungalNames_ID_01,"CatalogueOfLifeData\\col_acceptedFungalNames_ID_01")
+# saveRDS(col_acceptedFungalNames_ID_02,"CatalogueOfLifeData\\col_acceptedFungalNames_ID_02")
+# saveRDS(col_acceptedFungalNames_ID_03,"CatalogueOfLifeData\\col_acceptedFungalNames_ID_03")
+# saveRDS(col_acceptedFungalNames_ID_04,"CatalogueOfLifeData\\col_acceptedFungalNames_ID_04")
+# saveRDS(col_acceptedFungalNames_ID_05,"CatalogueOfLifeData\\col_acceptedFungalNames_ID_05")
+
+# #Now, using the function classification to get all the higher taxonomic rankings of the species
+# #according to the catalogue of life:
+# s_01<-classification(col_acceptedFungalNames_ID_01, db = 'col')#it takes 40 minutes
+# s_02<-classification(col_acceptedFungalNames_ID_02, db = 'col')#it takes 40 minutes
+# s_03<-classification(col_acceptedFungalNames_ID_03, db = 'col')#it takes 40 minutes
+# s_04<-classification(col_acceptedFungalNames_ID_04, db = 'col')#it takes 40 minutes
+# s_05<-classification(col_acceptedFungalNames_ID_05, db = 'col')#it takes 40 minutes
+# #I should save all these ones as RDS to avoid doing this again
+# saveRDS(s_01,"CatalogueOfLifeData\\s_01.rds")
+# saveRDS(s_02,"CatalogueOfLifeData\\s_02.rds")
+# saveRDS(s_03,"CatalogueOfLifeData\\s_03.rds")
+# saveRDS(s_04,"CatalogueOfLifeData\\s_04.rds")
+# saveRDS(s_05,"CatalogueOfLifeData\\s_05.rds")
+# 
+# rm(s_01,s_02,s_03,s_04,s_05)
+# #I can then transform this into a dataframe format
+# Group_01<-cbind(s_01);saveRDS(Group_01,"CatalogueOfLifeData\\Group_01")
+# Group_02<-cbind(s_02);saveRDS(Group_02,"CatalogueOfLifeData\\Group_02")
+# Group_03<-cbind(s_03);saveRDS(Group_03,"CatalogueOfLifeData\\Group_03")
+# Group_04<-cbind(s_04);saveRDS(Group_04,"CatalogueOfLifeData\\Group_04")
+# Group_05<-cbind(s_05);saveRDS(Group_05,"CatalogueOfLifeData\\Group_05")
+
+Group_01<-readRDS("CatalogueOfLifeData\\Group_01")
+Group_02<-readRDS("CatalogueOfLifeData\\Group_02")
+Group_03<-readRDS("CatalogueOfLifeData\\Group_03")
+Group_04<-readRDS("CatalogueOfLifeData\\Group_04")
+Group_05<-readRDS("CatalogueOfLifeData\\Group_05")
+
 
 FungalTaxanomy_col<-rbind(Group_01,Group_02,Group_03,Group_04,Group_05)
 rm(Group_01,Group_02,Group_03,Group_04,Group_05)
 FungalTaxanomy_col$query<-NULL
+FungalTaxanomy_col<-FungalTaxanomy_col[,c(1:7,14)]
+table(FungalTaxanomy_col$phylum)
+
+
+Fungi_status<-get_colid_(Fungi_accepted$Fungi$childtaxa_name)
+saveRDS(Fungi_status,"CatalogueOfLifeData\\Fungi_status.rds")
+Fungi_status<-do.call("rbind",Fungi_status)
+names(Fungi_status)[1]<-"species_id"
+
+FungalTaxanomy_col<-left_join(FungalTaxanomy_col,Fungi_status)
 
 table(FungalTaxanomy_col$phylum)
+
+table(FungalTaxanomy_col$order[FungalTaxanomy_col$phylum=="Zygomycota"])
+
+#Removing weird cases where things that are not fungi were downloaded
+
+FungalTaxanomy_col<-FungalTaxanomy_col[-which(FungalTaxanomy_col$phylum=="Arthropoda"),]
+FungalTaxanomy_col<-FungalTaxanomy_col[-which(FungalTaxanomy_col$phylum=="Bryophyta"),]
+
+### write to file
+write.csv(FungalTaxanomy_col, 'output/FungalTaxanomy_col.csv', row.names=F)
+
+##Visualizing the Fungal Kingdom!!!
+temp<-data.frame(table(FungalTaxanomy_col$phylum))%>%
+  mutate(Prop=(Freq/sum(Freq))*100)
+
+
+data.frame(table(FungalTaxanomy_col$phylum))%>%
+  mutate(Prop=(Freq/sum(Freq))*100)%>%
+  #mutate(lab.ypos = cumsum(Prop) - 0.5*Prop)%>%
+  #mutate(lab.ypos=cumsum(Prop) - Prop / 2)%>%
+  ggplot()+
+  aes(x = 2, y =Prop, fill = Var1) +
+  geom_bar(stat = "identity", color = "white") +
+  coord_polar(theta = "y",start = 0)+
+
+  scale_fill_brewer(palette="Dark2")+
+  
+  #coord_polar(theta='y')+ 
+   
+    theme_void()+
+  xlim(0.5, 2.5)
+
+
+
+
+library(VennDiagram)
+venn.diagram(list(
+  #Mycobank=unique(Mycobank_Taxonomy$name[!is.na(Mycobank_Taxonomy$name)]),
+  #Mycobank=unique(Fungi_accepted$name[which((Fungi_accepted$status=="accepted name"))]),#Out of this comparison all fungal accepted names from which we have spore data are included in the accepted names of Catalogue of life
+  Spore_database=unique(AllFungi$Col_acc_names[which(!is.na(AllFungi$Col_acc_names))]),
+  #Cataloge_Of_Life=unique(FungalSynonyms_col$name[FungalSynonyms_col$status=="accepted name"])
+  Cataloge_Of_Life=unique(FungalTaxanomy_col$species)
+),
+height = 3480 , 
+width = 3480 ,
+cat.pos = c(-23, 23),
+cex=1.5,
+cat.cex= 1.5,
+lty = 'blank',
+#main = "Overlap of Taxonomy mycobank and col (accepted names_by_name)",
+main = "Overlap of Taxonomy mycobank and col (accepted names_byNombres)",
+main.cex = 2,
+main.pos = c(0.5,0.8),
+margin=0.3,
+filename = "Taxonomy_overlap_Mycobank_CoL3.png",
+fill=c("blue","red"))
+
+
+
+
+
+
+
+#################################################################################################################################################################################################################
+#Older stuff
+
+
 
 ###########################################
 rm(col_acceptedFungalNames_ID_01,
@@ -492,6 +585,8 @@ rm(col_acceptedFungalNames_ID_01,
 
 #Now, I found later that one could explicitly download accpeted names using the 
 #get_colid function. So, because I want to be extra sure, I will do that
+
+prueba<-get_colid(Fungi_accepted$Fungi$childtaxa_name[1],kingdom = "Fungi",rank = "species",status = "accepted name",ask = T)
 
 col_acceptedFungalNames_doubleChecked_01<-get_colid(col_acceptedFungalNames[1:21300],rank = "species",status = "accepted name",ask = T)
 col_acceptedFungalNames_doubleChecked_02<-get_colid(col_acceptedFungalNames[21301:21308],kingdom = "Fungi",rank = "species",status = "accepted name",ask = T)
@@ -657,22 +752,22 @@ length(which(is.na(Mycobank_SporeData$status)))
 length(unique(Mycobank_SporeData$base_name))
 length(which(is.na(Mycobank_SporeData$status)))
 
-prueba<-Mycobank_SporeData[c(16:24)]
+Fungi_accepted<-Mycobank_SporeData[c(16:24)]
 
-prueba$nombres<-NA
-prueba$nombres[which(prueba$status=="accepted name")]<-prueba$name[which((prueba$status=="accepted name"))]
-prueba$nombres[which(prueba$status=="synonym")]<-prueba$acc_name[which((prueba$status=="synonym"))]
-prueba$nombres[which(prueba$status=="ambiguous synonym")]<-prueba$acc_name[which((prueba$status=="ambiguous synonym"))]
-prueba$nombres[which(prueba$status=="misapplied name")]<-prueba$acc_name[which((prueba$status=="misapplied name"))]
-length(which(is.na(prueba$nombres)))
+Fungi_accepted$nombres<-NA
+Fungi_accepted$nombres[which(Fungi_accepted$status=="accepted name")]<-Fungi_accepted$name[which((Fungi_accepted$status=="accepted name"))]
+Fungi_accepted$nombres[which(Fungi_accepted$status=="synonym")]<-Fungi_accepted$acc_name[which((Fungi_accepted$status=="synonym"))]
+Fungi_accepted$nombres[which(Fungi_accepted$status=="ambiguous synonym")]<-Fungi_accepted$acc_name[which((Fungi_accepted$status=="ambiguous synonym"))]
+Fungi_accepted$nombres[which(Fungi_accepted$status=="misapplied name")]<-Fungi_accepted$acc_name[which((Fungi_accepted$status=="misapplied name"))]
+length(which(is.na(Fungi_accepted$nombres)))
 
 #"misapplied name"
 #Comparing taxonomy of mycobank with the taxonomy in the catalogue of life
 library(VennDiagram)
 venn.diagram(list(
   #Mycobank=unique(Mycobank_Taxonomy$name[!is.na(Mycobank_Taxonomy$name)]),
-  #Mycobank=unique(prueba$name[which((prueba$status=="accepted name"))]),#Out of this comparison all fungal accepted names from which we have spore data are included in the accepted names of Catalogue of life
-  Mycobank=unique(prueba$nombres[-which(is.na(prueba$nombres))]),
+  #Mycobank=unique(Fungi_accepted$name[which((Fungi_accepted$status=="accepted name"))]),#Out of this comparison all fungal accepted names from which we have spore data are included in the accepted names of Catalogue of life
+  Mycobank=unique(Fungi_accepted$nombres[-which(is.na(Fungi_accepted$nombres))]),
   #Cataloge_Of_Life=unique(FungalSynonyms_col$name[FungalSynonyms_col$status=="accepted name"])
   Cataloge_Of_Life=unique(All_names$nombres[-which(is.na(All_names$nombres))])
   ),

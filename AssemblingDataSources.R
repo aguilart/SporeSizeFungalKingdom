@@ -447,10 +447,12 @@ Spores_allSources$phylum_[which(Spores_allSources$class=="Mucoromycetes")]<-"Muc
 Spores_allSources$phylum_[which(Spores_allSources$order=="Endogonales")]<-"Mucoromycota"
 Spores_allSources$phylum_[which(Spores_allSources$order=="Umbelopsidales")]<-"Mucoromycota"
 
-Spores_allSources$phylum_[which(Spores_allSources$class=="Zoopagomycetes")]<-"Zoopagomycota"
+Spores_allSources$phylum_[which(Spores_allSources$order=="Zoopagales")]<-"Zoopagomycota"
+
 Spores_allSources$phylum_[which(Spores_allSources$class=="Entomophthoromycetes")]<-"Entomophthoromycota"
 Spores_allSources$phylum_[which(Spores_allSources$class=="Mortierellomycetes")]<-"Mortierellomycota"
 
+Spores_allSources$phylum_[which(Spores_allSources$order=="Kickxellales")]<-"Kickxellomycota"
 Spores_allSources$phylum_[which(Spores_allSources$order=="Harpellales")]<-"Kickxellomycota"
 Spores_allSources$phylum_[which(Spores_allSources$order=="Dimargaritales")]<-"Kickxellomycota"
 

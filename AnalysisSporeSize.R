@@ -12,51 +12,7 @@ rm(list=ls())
 #Loading spore dataset:
 
 AllFungi<-read.csv('output/Spores_All_Sources.csv',header = T, stringsAsFactors = F)
-#This dataset merges spore data from Bassler etal 2015 (as deposited in FunToFun), Aguilar etal
-#2019, Domsch etal 2007, Mycobank and taxonomic data from the Catalogue of life. For details on
-#these datasources and the assembly look at "AssemblingDataSources.R".
 
-#Fixing some wrong entries
-AllFungi[which(AllFungi$phylum=="Mollusca"),c(1,2,9,10,17:25)]<-
-AllFungi[which(AllFungi$Col_acc_names=="Pseudocolus fusiformis"),c(1,2,9,10,17:25)]
-
-
-
-AllFungi[which(AllFungi$phylum=="Foraminifera"),c(1,2,5,6,9,17:25)]<-c(NA,NA,NA,NA,NA,"Fungi","Ascomycota","Lecanoromycetes",
-                                                                   "Ostropales","Graphidaceae","Fissurina",
-                                                                   "Fissurina radiata",NA,"Mycobank")
-
-AllFungi[which(AllFungi$base_name=="Graphis japonica"),c(1,2,5,6,9,17:25)]<-c(NA,NA,NA,NA,NA,"Fungi","Ascomycota","Lecanoromycetes",
-                                                                          "Ostropales","Graphidaceae","Graphis",
-                                                                          "Graphis japonica",NA,"Mycobank")
-
-#Removing cases where the virus that affect a fungus is also reported
-AllFungi<-AllFungi[-which(AllFungi$kingdom=="Viruses"),]
-
-
-
-length(which(is.na(AllFungi$Col_acc_names)))
-length(which(!is.na(AllFungi$Col_acc_names)))
-
-unique(AllFungi[which(AllFungi$phylum=="Zygomycota"),]$class)
-unique(AllFungi[which(AllFungi$phylum_=="Zygomycota"),]$order)
-#The lower fungi: Catalogue of Life still uses Zygomycota for the following
-#groups: Mucoromycetes,Zoopagomycetes,Entomophthoromycetes,Mortierellomycetes.
-#For the moment, my plan is to place them individual phylum
-
-AllFungi$phylum_<-AllFungi$phylum
-AllFungi$phylum_[which(AllFungi$class=="Mucoromycetes")]<-"Mucoromycota"
-AllFungi$phylum_[which(AllFungi$order=="Endogonales")]<-"Mucoromycota"
-AllFungi$phylum_[which(AllFungi$order=="Umbelopsidales")]<-"Mucoromycota"
-
-AllFungi$phylum_[which(AllFungi$class=="Zoopagomycetes")]<-"Zoopagomycota"
-AllFungi$phylum_[which(AllFungi$class=="Entomophthoromycetes")]<-"Entomophthoromycota"
-AllFungi$phylum_[which(AllFungi$class=="Mortierellomycetes")]<-"Mortierellomycota"
-
-AllFungi$phylum_[which(AllFungi$order=="Harpellales")]<-"Kickxellomycota"
-AllFungi$phylum_[which(AllFungi$order=="Dimargaritales")]<-"Kickxellomycota"
-
-AllFungi$phylum_[which(AllFungi$order=="Basidiobolales")]<-"Basidiobolomycota"
 
 
 #It turns out that several species were not found in the catalogue of Life
@@ -69,6 +25,7 @@ AllFungi$names_to_use<-AllFungi$Col_acc_names
 AllFungi[which(is.na(AllFungi$names_to_use)),27]<-AllFungi[which(is.na(AllFungi$names_to_use)),3]
 
 unique(AllFungi$phylum_)
+unique(AllFungi$phylum)
 #There are left 335 cases where no phylum is assigned. In almost all of these cases no other 
 #piece of information is left, except for 64 species which they are reported as Fungi.
 #Aside from those 64, looking at the genera, it seems there are a lot of Oomycetes
@@ -83,6 +40,13 @@ length(AllFungi[which(is.na(AllFungi$phylum_)&AllFungi$kingdom=="Fungi"),1])
                     ########################################
 
 #To leave out: Protozoa, Chromista, Deuteromycota; 
+data.frame(table(AllFungi[!duplicated(AllFungi$names_to_use),18]))%>%
+  filter(Var1!="Deuteromycota")%>%
+  filter(Var1!="Choanozoa")%>%
+  filter(Var1!="Fossil Ascomycota")%>%
+  filter(Var1!="Oomycota")
+
+
 
 data.frame(table(AllFungi[!duplicated(AllFungi$names_to_use),26]))%>%
             filter(Var1!="Deuteromycota")%>%
@@ -104,6 +68,12 @@ data.frame(table(AllFungi[!duplicated(AllFungi$names_to_use),26]))%>%
                   strip.text.x = element_text(size = 20),
                   legend.text =  element_text(size = 15))+
                   scale_fill_discrete(name="Data source")
+
+
+
+devtools::install_github("hrbrmstr/waffle")
+
+
 
 #Calculating how many fungi per phylum we have or per datasource
 data.frame(table(AllFungi[!duplicated(AllFungi$Species_names),c(6,7)]))
