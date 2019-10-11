@@ -21,6 +21,8 @@ get_text<-function(txt,start.regex,end.regex){
     txt <- gsub("À¬m","µm",txt)
     txt <- gsub("À¬","µ",txt)
     
+    #txt <- gsub("\\?m","µm",txt)
+    
     #get the start of the text
     starts <- txt %>%
       strsplit(split = " ") %>%

@@ -20,10 +20,12 @@
 
 #4. Data extracted from the mycobank database. As for August 2019, this data
 #comes from the extraction and cleaning of the data by Jeff, Carlos, Coline and
-#Haiyang
-
-#5. Mycobank dataset. This is composed of the datasets extracted for Ascospores,
+#Haiyang. This is composed of the datasets extracted for Ascospores,
 #Conidia, Basidiospores, Chlaymdospores, (A)Zygospores and Teliospores
+
+#5. Finally taxonomic data comes (moslty) from the Catalogue of Life and 
+#from mycobank itself (when a given name is not present in the Catalogue of
+#Life)
 
 rm(list=ls())
 
@@ -118,6 +120,7 @@ Spores_allSources<-rbind(
         
         Spores_allSources<-Spores_allSources[-grep("\\?",Spores_allSources$Species_names),]#I discarded 4 names that have a question mark
         
+        #Adding taxonomic data drom the Catalogue of Life (CoL)
         library(taxize)
         Col_IDs<-get_colid_(Spores_allSources$Species_names)
         Col_IDs<-do.call("rbind",Col_IDs)
@@ -323,9 +326,6 @@ Mycobank_SporeData$Order<-NULL
 Mycobank_SporeData$Dim1<-as.numeric(Mycobank_SporeData$Dim1)
 Mycobank_SporeData$Dim2<-as.numeric(Mycobank_SporeData$Dim2)
 
-#Checking variation in spore
-
-
 #Merging all the data
 Spores_allSources<-bind_rows(Mycobank_SporeData,Spores_allSources)
 Spores_allSources<-Spores_allSources[order(Spores_allSources$Phylum,
@@ -363,7 +363,9 @@ Spores_allSources$spore_length[which(
 Spores_allSources<-Spores_allSources[-which(is.na(Spores_allSources$Dim1)),]
 
 all(Spores_allSources$spore_width<=Spores_allSources$spore_length)#This is TRUE!!!
-# 
+
+# Adding higher order taxonomy from the Catalogue of Life
+
 # IDs<-unique(Spores_allSources$Col_ID_acc_names)
 # IDs<-IDs[-which(is.na(IDs))]
 # 
