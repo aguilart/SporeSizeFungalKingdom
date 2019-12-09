@@ -1,6 +1,10 @@
 library(tidyverse)
 library(ape)
 library(ggtree)
+
+devtools::install_github("ropenscilabs/datastorr")
+devtools::install_github("wcornwell/taxonlookup")
+
 library(taxonlookup)
 
 # phylogeny from https://www.nature.com/articles/s41467-018-07849-9
