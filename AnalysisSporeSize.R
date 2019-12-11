@@ -230,6 +230,7 @@ AllFungi%>%
               legend.text =  element_text(size = 15))+
       ggtitle(label = "All phyla and spore types (log-log)")
 
+#
 #Scatterplot length:width and spore size (area)
 AllFungi%>%
   filter(!is.na(phylum))%>%
@@ -242,7 +243,6 @@ AllFungi%>%
   filter(SporeName!="bulbil")%>%#Filtering only because there are so few
   group_by(phylum,names_to_use,SporeName,description__id)%>%
   mutate(SporeArea=spore_width*spore_length*(pi/4))%>% 
-<<<<<<< HEAD
   mutate(length_width=spore_length/spore_width)%>%
   mutate(width_length=spore_width/spore_length)%>%
   summarise_at(c("spore_width","spore_length","SporeArea","length_width","width_length"),mean)%>%
@@ -250,13 +250,6 @@ AllFungi%>%
   ggplot()+
   aes(SporeArea,length_width,color=SporeName,size=0.3)+
   #aes(SporeArea,width_length,color=SporeName,size=0.3)+
-=======
-  mutate(length_width=spore_width/spore_length)%>%
-  summarise_at(c("spore_width","spore_length","SporeArea","width_length"),mean)%>%
-  
-  ggplot()+
-  aes(SporeArea,length_width,color=SporeName,size=0.3)+
->>>>>>> da239bc7826e8f163a67d08d233bfc573e0fbf1e
   geom_point(alpha=0.3)+
   #aes(SporeName,width_length,fill=phylum)+
   #geom_violin()+
@@ -264,11 +257,7 @@ AllFungi%>%
   scale_color_manual(values = rainbow(14))+
   #scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
   scale_x_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-<<<<<<< HEAD
   labs(y=expression("length_to_width"),x=expression("Spore size as area ("*mu*"m²)"))+
-=======
-  labs(y=expression("width_to_length"),x=expression("Spore size as area ("*mu*"m²)"))+
->>>>>>> da239bc7826e8f163a67d08d233bfc573e0fbf1e
   theme(title = element_text(size = 18),
         #axis.title.x=element_blank(),
         axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
@@ -276,7 +265,6 @@ AllFungi%>%
         strip.text.x = element_text(size = 20),
         legend.text =  element_text(size = 15))+
   ggtitle(label = "All phyla and spore types")
-
 
 #contour plot (it is like a topographic plot)
 
