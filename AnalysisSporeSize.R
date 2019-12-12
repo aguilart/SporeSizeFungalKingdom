@@ -232,7 +232,7 @@ AllFungi%>%
 
 #
 #Scatterplot length:width and spore size (area)
-AllFungi%>%
+p <- AllFungi%>%
   filter(!is.na(phylum))%>%
   filter(!is.na(SporeName))%>%
   filter(phylum!="Chytridiomycota")%>%#Filtering only because there are so few
@@ -250,12 +250,12 @@ AllFungi%>%
   ggplot()+
   aes(SporeArea,length_width,color=SporeName,size=0.3)+
   #aes(SporeArea,width_length,color=SporeName,size=0.3)+
-  geom_point(alpha=0.3)+
+  geom_point(alpha=0.1, size=0.01)+
   #aes(SporeName,width_length,fill=phylum)+
   #geom_violin()+
   facet_grid(. ~ phylum, scales = "free")+
   scale_color_manual(values = rainbow(14))+
-  #scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
   scale_x_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
   labs(y=expression("length_to_width"),x=expression("Spore size as area ("*mu*"m²)"))+
   theme(title = element_text(size = 18),
@@ -265,9 +265,10 @@ AllFungi%>%
         strip.text.x = element_text(size = 20),
         legend.text =  element_text(size = 15))+
   ggtitle(label = "All phyla and spore types")
+p
 
-#contour plot (it is like a topographic plot)
-
+#contour plot (it is like a topographic plot) -- results are really weird...
+p + geom_density_2d(aes(color = SporeName), bins=10)
 
 #Spore shape of only sexual spores
 AllFungi%>%
