@@ -241,7 +241,7 @@ p <- AllFungi%>%
   filter(!(phylum=="Basidiomycota"&SporeName=="Ascospores"))%>% #weird  cases
   filter(SporeName!="papulospore")%>%#Filtering only because there are so few
   filter(SporeName!="bulbil")%>%#Filtering only because there are so few
-  group_by(phylum,names_to_use,SporeName,description__id)%>%
+  group_by(phylum,names_to_use,SporeName)%>%
   mutate(SporeArea=spore_width*spore_length*(pi/4))%>% 
   mutate(length_width=spore_length/spore_width)%>%
   mutate(width_length=spore_width/spore_length)%>%
@@ -250,7 +250,7 @@ p <- AllFungi%>%
   ggplot()+
   aes(SporeArea,length_width,color=SporeName,size=0.3)+
   #aes(SporeArea,width_length,color=SporeName,size=0.3)+
-  geom_point(alpha=0.1, size=0.01)+
+  geom_point(alpha=0.5, size=0.5)+
   #aes(SporeName,width_length,fill=phylum)+
   #geom_violin()+
   facet_grid(. ~ phylum, scales = "free")+
