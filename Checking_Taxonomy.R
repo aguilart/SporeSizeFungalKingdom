@@ -5,8 +5,11 @@
 # contains the higher taxonomy as reported in Mycobank by mid 2019. The second one contains the higher taxonomy of all
 # described species as reported in the Catalogue of Life (CoL). 
 
-# Note: To build "output/FungalTaxanomy_col.csv" It is necessary to  load data that I downloaded from the 
-# CoL on August 2019 using taxize and that I saved them as .csv or .RDS files.
+# Note1: To build Mycobank_Taxonomy.csv one needs the file  MycobankNames_list.csv. This ones is to big to upload to the
+# repo, I can send it upon request.
+
+# Note2: To build "output/FungalTaxanomy_col.csv" It is necessary to  load data that I downloaded from the 
+# CoL on August 2019 using taxize and that I saved them as .csv or .RDS files. 
 # Although the orginial lines I used to download such data are reported here, after december 2019 CoL put restrictions on 
 # how much data can be downloaded. Thus all the lines with the downloads using taxize
 # functions (e.g. get_colid) are commented out. 
