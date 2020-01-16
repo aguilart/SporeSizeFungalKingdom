@@ -2,6 +2,13 @@
 ###########################   CONIDIA      ########################################
 ####################################################################################
 
+#Note, This script was used to extract conidia from the Mycobank descriptions on August 2019. The result
+#is the file output/conidia_mycobank.csv, which is the version currently used in the spore database.
+#However, on January 2020 I run it in another computer and for some reason when loading the descriptiosns
+#(that is,"mycobank_descriptions_mod.RDS" ) there are around 2k entries where the micrometer symbol is not
+#read anymore. Thus, if you run this again the outcome will be different
+
+
 rm(list=ls())
 
 library(tidyverse)
@@ -25,30 +32,16 @@ spore.dat$base_mycobanknr_ <- as.numeric(spore.dat$base_mycobanknr_)
 spore.dat<-left_join(spore.dat,Mycobank_Taxonomy[c(4,12:19)],
                      by="base_mycobanknr_")
 
-#1. Conidia: This goes for all the database because conida occurs Kingdom-wise
+#I. SELECT THE APPROPRIATE DESCRIPTIONS
 
-
-# #Just checking what did get NA:
-# p<-spore.dat[which(is.na(spore.dat$Phylum)),]
-# p<-p[grep("\\w\\s\\w",p$base_name),]
-# p<-p[,c(1:28)]
-# p<-left_join(p,MycobankNames_list[,c(5,7)]%>%
-#                rename(base_mycobanknr_=MycoBank__)%>%
-#                mutate(base_mycobanknr_=as.character(base_mycobanknr_)),
-#              by="base_mycobanknr_")
-# p<-p[,c(1:4,29,5:28)]
-# p<-p[grep("Fungi",p$Classification),]
-# p<-p[-grep("Fossil",p$Classification),]
-# #Out of this excericse I got that NA was attributed to only 175 species
-# #all of which are Incertae sedis. For the moment I will just ignore these
-# #species because they are so few.
-# rm(p)
-# Ascomycetes<-Ascomycetes[-which(is.na(Ascomycetes$Phylum)),]#This reduces it to 45416entries
+#For conidia, tis goes for all the database because conida occurs Kingdom-wise
 
 textos<-spore.dat$description_description_
 names(textos)<-paste(spore.dat$base_name, spore.dat$base__id, spore.dat$description__id, sep ="_")
 
 ct<-grep("onidia|ONIDIA",textos)
+
+#II. EXTRACT THE REGIONS OF TEXT WITH SPORE DIMENSIONS  Extract the regions of the text with the spore dimensions
 
 #Now I can extract Conidia out of these subset
 
@@ -57,6 +50,8 @@ Conidia_text<-
          start.regex="onidia$|ONIDIA$",
          end.regex="µm"#,
   )
+
+#III. STANDARDINZING ISSUES WITH DASHES, X, OR UM SYMBOL
 
 # temp <- Conidia_text
 
@@ -82,6 +77,8 @@ Conidia_text<-lapply(Conidia_text,
                            function(x)gsub("\\<U\\+F0B4\\>","x",x))
 Conidia_text<-lapply(Conidia_text, 
                            function(x)gsub("\\<U\\+2012\\>","-",x))
+
+#IV. EXTRACTING THE FORMATS "DIGIT x DIGIT um" CONTAINED IN THE EXTRACTED TEXT
 
 #Extracting Conidia values
 Conidia_values<-#Conidia_text[[632]] Conidia$text_entry_temp[128]
@@ -136,6 +133,7 @@ Conidia<-Conidia[-which(
   Conidia$text_entry=="Result not found"),]#Which is actually the majority of cases: 37768!
 #Removing them reduces the dataframe to 9264 entries
 
+#V. STANDARDIZING ISSUES WITH "x" WITHIN THE "DIGIT x DIGIT um"
 
 #Just standarizing the "x"
 
@@ -173,6 +171,11 @@ Conidia$measure_orig[grepl("\\)\\-\\(",Conidia$measure_orig)&grepl("x",Conidia$m
 Conidia$measure_orig <- gsub("\\)\\-\\(","\\) x \\(",Conidia$measure_orig)
 
 Conidia_c<-Conidia
+
+
+#VI. SPLITTING THE "DIGIT x DIGIT" BY THE "x" AND PLACING THEM IN SEPARATE COLUMNS
+
+
 ####  Extracting the spore ranges  ######
 
 t<-strsplit(Conidia$measure_orig,"x")
@@ -180,9 +183,8 @@ t<-strsplit(Conidia$measure_orig,"x")
 s<-sapply(t,length)
 temp<-plyr::rbind.fill(lapply(t, function(y) { as.data.frame(t(y)) }))
 
-# x<-Conidia$text_entry[Conidia$spec=="Cercospora zygophylli_113672"]
-# temp[Conidia$spec=="Cercospora zygophylli_113672",]
 
+#VIII. STANDARDIZING THE DASH
 
 temp <- apply(temp, 2, function(x)gsub(',', '.', x))
 temp <- apply(temp, 2, function(x)gsub('\\(', '-', x))
@@ -209,7 +211,10 @@ temp <- apply(temp, 2, function(x)gsub('--', '-', x))
 temp <- apply(temp, 2, str_trim)
 
 #There were some cases where the x is missing and instead there is a hyphen. This
-#cannot be solved by normal gsub. So I had to change it via a bit more complicated way:
+#cannot be solved by normal gsub. So I had to change it via a bit more complicated way.
+#The "x" separates two dimensions, in almost all cases the two dimensions follow a patter like:
+# 1-2 x 1-2 . The problem 
+
 temp_c<-temp
 no_x<-strsplit(temp_c[,1],"-")
 # Conidia$measure_orig[sapply(no_x,function(x)is.unsorted(as.numeric(x)))&!grepl("x",Conidia$measure_orig)]
@@ -247,7 +252,10 @@ z_c<-plyr::rbind.fill(lapply(z, function(y) { as.data.frame(t(y)) }));z_c<-as.ma
 temp[which(sapply(no_x,function(x)is.unsorted(as.numeric(x)))&!grepl("x",Conidia$measure_orig)),c(1,2)]<-
   z_c[which(sapply(no_x,function(x)is.unsorted(as.numeric(x)))&!grepl("x",Conidia$measure_orig)),c(1,2)]
 
-###
+###'
+
+#IX. SPLITTING BY THE HYPHEN AND STORING THE OUTUPUT IN DIFFERENT COLUMNS
+
 temp <- apply(temp, 2, function(x){
   t <- strsplit(x, '-')
   t1 <- c()
@@ -257,6 +265,9 @@ temp <- apply(temp, 2, function(x){
   })
 })
 ############
+
+
+#X. PUTTING ALL THE DATA INTO A SINGLE DATAFRAME TOGETHER WITH THE ORIGINAL EXTRACTED TEXT 
 
 Conidia <- cbind(Conidia, temp)
 Conidia <- Conidia %>% 
@@ -268,11 +279,6 @@ Conidia <- Conidia %>%
          Dim6 = V6)
 
 Conidia_c<-Conidia 
-# Conidia$Dim2[which(is.na(Conidia$Dim2))][
-#   -grep("x",Conidia$measure_orig[which(is.na(Conidia$Dim2))])]<-
-#     Conidia$Dim1[which(is.na(Conidia$Dim2))][
-#       -grep("x",Conidia$measure_orig[which(is.na(Conidia$Dim2))])]
-
 
 ### Any manual changes needed, do below ###
 
@@ -544,6 +550,12 @@ Conidia<-
 Conidia<-
   Conidia[-grep("\\. \\s?Mycel",Conidia$text_entry),]
 
+# #To test
+# Conidia<-
+#   Conidia[-grep("\\. {+}[A-Z]",Conidia$text_entry),]
+
+
+
 #To remove also: Cleistothecia
 t<-sapply(list(Conidia$text_entry), nchar)
 Conidia_long<-Conidia[t>510,]#This needs to be manually checked, but it seems most of them
@@ -599,7 +611,7 @@ Conidia$Dim1[grep("1213\\-30 x 4\\-5",Conidia$measure_orig)]<-12.5
 Conidia$n_char<-NULL
 
 ### write to file
-write.csv(Conidia, 'output/conidia_mycobank.csv', row.names=F)
+#write.csv(Conidia, 'output/conidia_mycobank.csv', row.names=F)
 
 
 #Ideas to solve the issue of really small values:
