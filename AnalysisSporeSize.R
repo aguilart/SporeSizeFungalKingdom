@@ -146,6 +146,35 @@ waffle(
 iron(A, B)
 iron(C,G,Z)
 
+#Knowing how many entries correspond to Mycobank and how many from other sources
+
+data.frame(table(AllFungi[!duplicated(AllFungi$names_to_use),c("source_base_name")]))
+
+
+#Having summary statistics on sizes and shape
+AllFungi%>%
+  filter(!is.na(phylum))%>%
+  filter(!is.na(SporeName))%>%
+  filter(!phylum=="Chytridiomycota")%>%#Filtering only because there are so few
+  filter(!(phylum=="Ascomycota"&SporeName=="Basidiospores"))%>% #weird cases
+  filter(!(phylum=="Ascomycota"&SporeName=="Teliospores"))%>% #weird  cases
+  filter(!(phylum=="Basidiomycota"&SporeName=="Ascospores"))%>% #weird  cases
+  filter(SporeName!="papulospore")%>%#Filtering only because there are so few
+  filter(SporeName!="bulbil")%>%#Filtering only because there are so few
+  group_by(phylum,names_to_use,SporeName,description__id)%>%
+  mutate(SporeArea=spore_width*spore_length*(pi/4))%>% 
+  summarise_at(c("spore_width","spore_length","SporeArea"),min)
+
+AllFungi$SporeArea<-AllFungi$spore_width*AllFungi$spore_length*(pi/4)
+AllFungi$Q_ratio<-AllFungi$length/AllFungi$spore_width
+
+#Checking errors:
+
+#Clean sporangiospores entries
+#Typhula ishikariensis from Compendium is wrong. The basidiospores should be 6-8 x 3-4 um
+#Cladophialophora minutissima is wrong (conidia entry). It has the format d+error x d+error
+#Aphanoascella galapagosensis	is wrong. It has sub-structures
+#Also check bigger sizes
 
 
                   ########################################
@@ -442,65 +471,188 @@ write_csv(orders_phylo,"phylo/orders_phylo.csv")
 
 #look which fungi are the lichens
 
+write.csv(FunGuildData,"FunGuildData.csv",row.names = F)
 
 
-# 
-# 
-# 
-#                 ########################################
-#                 ###      OVERLAP WITH FUNGUILD       ###
-#                 ###   AND SPORE SIZE ACROSS GUILDS   ###
-#                 ########################################
-# 
-# 
-# venn.diagram(list(#Tederersoo_Matches=TedersooBlastMatches$species,
-#                   SporeData=AllFungi$Species_names,
-#                   FungGuild_matches=FunGuildSpecies$names
-#                   ),
-#                   height = 3480 , 
-#                   width =3480 ,
-#                   cat.pos = c(-23, 23),
-#                   cex=2,
-#                   cat.cex= 2,
-#                   lty = 'blank',
-#                   filename = "FungGuild&Spores.png",
-#                   fill=c("yellow","green"))
-# 
-# #Spore size across Guilds and trophic modes
-# left_join(
-#   AllFungi[-c(5240,5607,5658,7283),],#Removing the entries for Bulgaria pura,Torula carbonaria,Gloeosporium succineum, Peziza pura. They reported as ascomycetes with teliospores, which is weird
-#           FunGuildData%>%
-#             #filter(taxonomicLevel=="Genus")%>%
-#             filter(taxonomicLevel=="Species")%>%
-#             #rename(Genus=taxon)%>%
-#             rename(Species_names=taxon)%>%
-#             select(#Genus,
-#                    Species_names,
-#                    trophicMode,guild,host,substrate,Function,Number_of_guilds,Guild_1)
-#             # filter(is.na(host))%>%
-#             # unique
-#           )%>%
-#           filter(Number_of_guilds==1)%>%
-#           filter(Phylum=="Ascomycota"|Phylum=="Basidiomycota")%>%
-#           filter(trophicMode!="Pathotroph-Saprotroph")%>%
-#           filter(trophicMode!="Pathotroph-Symbiotroph")%>%
-#           #filter(trophicMode!="Saprotroph")%>%
-#           ggplot()+
-#           aes(trophicMode,SporeArea,fill=Phylum)+
-#           geom_jitter(size=0.3, width = 0.3,alpha=1)+
-#           geom_boxplot(alpha=0.8)+#, draw_quantiles=c(0.25, 0.5, 0.75))+
-#           facet_grid(. ~ Phylum, scales = "free")+
-#           scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-#           labs(y=expression("Spore size as area ("*mu*"m²)"))+
-#           theme(title = element_text(size = 18),
-#                 axis.title.x=element_blank(),
-#                 axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
-#                 axis.text.y = element_text(size = 20),
-#                 strip.text.x = element_text(size = 20),
-#                 legend.position = "none")
-# 
-# 
-# 
+
+
+                ########################################
+                ###      OVERLAP WITH FUNGUILD       ###
+                ###   AND SPORE SIZE ACROSS GUILDS   ###
+                ########################################
+
+FunGuildData<-
+  read.csv("FunGuildData.csv",header = T,stringsAsFactors = F)
+
+FunGuildData[,-c(1,13)]<-sapply(FunGuildData[-c(1,13)],tolower)
+
+
+temp<-AllFungi$Col_name
+temp[which(is.na(temp))]<-AllFungi$base_name[which(is.na(temp))]
+
+venn.diagram(list(#SporeData=AllFungi$Col_name,
+                  SporeData=temp,
+                  FungGuild_matches=FunGuildData$taxon
+                  ),
+                  height = 3480 ,
+                  width =3480 ,
+                  cat.pos = c(-23, 23),
+                  cex=2,
+                  cat.cex= 2,
+                  lty = 'blank',
+                  filename = "FungGuild&Spores_3.png",
+                  fill=c("yellow","green"))
+
+#Spore size across Guilds and trophic modes
+
+#Adding it from FunGuild
+
+Spore_functions<-
+left_join(
+  
+  AllFungi#%>%
+           # group_by(phylum,names_to_use,SporeName)%>%
+            #mutate(SporeArea=spore_width*spore_length*(pi/4))%>% 
+            ,#summarise_at(c("spore_width","spore_length","SporeArea"),mean),
+  FunGuildData%>%
+            filter(taxonomicLevel=="species")%>%
+            rename(names_to_use=taxon)%>%
+            select(names_to_use,trophicMode,guild,host,substrate,Function,Number_of_guilds,Guild_1),
+                       by="names_to_use")
+
+Spore_functions[which(Spore_functions$phylum=="Glomeromycota"),
+                #c("names_to_use",
+                 c("trophicMode","host","substrate","Function","Number_of_guilds",
+                  "guild","Guild_1")]<-
+  FunGuildData[which(FunGuildData$taxon=="Glomus"),
+               c("trophicMode","host","substrate","Function","Number_of_guilds",
+                 "guild","Guild_1")]
+  
+
+Spore_functions[grep("Geosiphon",Spore_functions$names_to_use),
+                #c("names_to_use","trophicMode","host","substrate","Function","Number_of_guilds",
+                c("guild","Guild_1")]<-
+  c("arbuscular mycorrhizal","arbuscular mycorrhizal")
+
+
+
+
+Tedersoo<-read.csv("Tedersoo-DataFileS2.csv",stringsAsFactors = F)
+
+Tedersoo[,c("Trophic.status","lifestyle","decay.type" )]<-
+  sapply(Tedersoo[,c("Trophic.status","lifestyle","decay.type" )],tolower)
+
+
+unique(Tedersoo$lifestyle)
+
+
+Spore_functions[which(is.na(Spore_functions$Guild_1)),
+                #c("names_to_use",
+                c("trophicMode","host","substrate","Function","Number_of_guilds",
+                  "guild","Guild_1")]<-
+  Genera[match(Spore_functions$genus[which(is.na(Spore_functions$Guild_1))],Tedersoo$genus),
+         c("kingdom","phylum","class","order","family","genus","Taxonomy")]
+
+
+AllFungi[which(is.na(AllFungi$family)),c("kingdom","phylum","class","order","family","genus","Taxonomy")]<-
+  Genera[match(AllFungi$row_number[which(is.na(AllFungi$family))],Genera$row_number),
+         c("kingdom","phylum","class","order","family","genus","Taxonomy")]
+
+#Adding from Tedersoo (at genus level)
+
+
+
+
+#Spore size 
+Spore_functions %>% 
+  filter(!is.na(host)) %>%
+  filter(!grepl("-",host))%>%#The issue is that we only have data for 2503 species
+  
+  ggplot()+
+  
+  aes(host,SporeArea,color=SporeName)+
+  #geom_point(size=1)+
+  
+  # aes(host,SporeArea,fill=SporeName)+
+  geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
+  geom_violin(alpha=0.5, draw_quantiles=c(0.25, 0.5, 0.75))+
+  
+  facet_grid(. ~ SporeName, scales = "free")+
+  scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  labs(y=expression("Spore size as area ("*mu*"m²)"))+
+  theme(title = element_text(size = 18),
+        axis.title.x=element_blank(),
+        axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+        axis.text.y = element_text(size = 20),
+        strip.text.x = element_text(size = 20),
+        legend.position = "none")
+  #)
+
+#For analysis
+
+To_Analysis<-
+    Spore_functions %>% 
+      filter(!is.na(host)) %>%
+      filter(!grepl("-",host))
+
+
+summary(
+  aov(log10(SporeArea)~host+Error(phylum/SporeName),
+      data =To_Analysis
+        
+      )
+  )
+
+
+summary.aov(
+  lm(log10(SporeArea)~host*phylum*SporeName,data = 
+       Spore_functions %>% 
+       filter(!is.na(host)) %>%
+       filter(!grepl("-",host))
+     )
+)
+
+quick_analysis<-
+lm(log10(SporeArea)~host*phylum*SporeName,data = 
+     Spore_functions %>% 
+     filter(!is.na(host)) %>%
+     filter(!grepl("-",host)))
+
+plot(quick_analysis)
+
+#Spore shape
+Spore_functions %>% 
+  filter(!is.na(host)) %>%
+  filter(!grepl("-",host))%>%
+  mutate(Aspect_Ratio=spore_length/spore_width)%>%
+  
+  ggplot()+
+  
+  aes(host,Aspect_Ratio,color=SporeName)+
+  #geom_point(alpha=0.3)+
+  
+  # aes(host,Aspect_Ratio,fill=SporeName)+
+  geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
+  # geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
+  
+  facet_grid(. ~ SporeName, scales = "free")+
+  scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  labs(y=expression("Aspect ratio (length:width)"))+
+  theme(title = element_text(size = 18),
+        axis.title.x=element_blank(),
+        axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+        axis.text.y = element_text(size = 20),
+        strip.text.x = element_text(size = 20),
+        legend.position = "none")
+  #)
+
+#
+
+
+
+
+
+
 #                     ########################################
 #                     ###      OVERLAP WITH USDA           ###
 #                     ###    SPORE SIZE HABITAT RANGE      ###
