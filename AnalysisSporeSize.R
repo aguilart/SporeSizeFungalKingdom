@@ -9,12 +9,8 @@ rm(list=ls())
 #packages
 library(tidyverse)
 library(VennDiagram)
-
+source("MatchingSpore_FunctionData.R")
                       
-#loading file
-
-#AllFungi_c<-AllFungi                      
-AllFungi<-read.csv('output/Spore_Database_Fungi.csv', header = T,stringsAsFactors = F)
 
                                                   #########################################
                                                   ### DATA ANALYSIS AND VISUALIZATION   ###
@@ -50,8 +46,6 @@ data.frame(table(AllFungi[!duplicated(AllFungi$names_to_use),c("phylum")]))%>%
 
 #For this I am using a waffle plot from the waffle package
 #devtools::install_github("hrbrmstr/waffle")
-
-FungalTaxanomy_col<-read.csv('output/FungalTaxanomy_col.csv', header = T, stringsAsFactors = F)
 
 #For some reason there are 899 entries that are duplicated in Fungal taxonomy dataframe
 table(FungalTaxanomy_col$phylum[!duplicated(FungalTaxanomy_col$species)])
@@ -196,13 +190,14 @@ AllFungi$Q_ratio<-AllFungi$length/AllFungi$spore_width
 AllFungi%>%
           filter(!is.na(phylum))%>%
           filter(!is.na(SporeName))%>%
+          filter(phylum!="Chytridiomycota")%>%#Filtering only because there are so few
           filter(!(phylum=="Ascomycota"&SporeName=="Basidiospores"))%>% #weird cases
           filter(!(phylum=="Ascomycota"&SporeName=="Teliospores"))%>% #weird  cases
           filter(!(phylum=="Basidiomycota"&SporeName=="Ascospores"))%>% #weird  cases
           filter(SporeName!="papulospore")%>%#Filtering only because there are so few
           filter(SporeName!="bulbil")%>%#Filtering only because there are so few
           group_by(phylum,names_to_use,SporeName,description__id)%>%
-          mutate(SporeArea=spore_width*spore_length*(pi/4))%>% 
+          #mutate(SporeArea=spore_width*spore_length*(pi/4))%>% 
           summarise_at(c("SporeArea"),mean)%>%
   
           ggplot()+
@@ -471,7 +466,7 @@ write_csv(orders_phylo,"phylo/orders_phylo.csv")
 
 #look which fungi are the lichens
 
-write.csv(FunGuildData,"FunGuildData.csv",row.names = F)
+#write.csv(FunGuildData,"FunGuildData.csv",row.names = F)
 
 
 
@@ -481,17 +476,12 @@ write.csv(FunGuildData,"FunGuildData.csv",row.names = F)
                 ###   AND SPORE SIZE ACROSS GUILDS   ###
                 ########################################
 
-FunGuildData<-
-  read.csv("FunGuildData.csv",header = T,stringsAsFactors = F)
 
-FunGuildData[,-c(1,13)]<-sapply(FunGuildData[-c(1,13)],tolower)
+# temp<-AllFungi$Col_name
+# temp[which(is.na(temp))]<-AllFungi$base_name[which(is.na(temp))]
 
-
-temp<-AllFungi$Col_name
-temp[which(is.na(temp))]<-AllFungi$base_name[which(is.na(temp))]
-
-venn.diagram(list(#SporeData=AllFungi$Col_name,
-                  SporeData=temp,
+venn.diagram(list(SporeData=AllFungi$base_name,
+                  #SporeData=temp,
                   FungGuild_matches=FunGuildData$taxon
                   ),
                   height = 3480 ,
@@ -503,83 +493,37 @@ venn.diagram(list(#SporeData=AllFungi$Col_name,
                   filename = "FungGuild&Spores_3.png",
                   fill=c("yellow","green"))
 
-#Spore size across Guilds and trophic modes
+#########################################################################################################
+################### Spore size across Guilds and trophic modes ##########################################
+#########################################################################################################
 
-#Adding it from FunGuild
-
-Spore_functions<-
-left_join(
-  
-  AllFungi#%>%
-           # group_by(phylum,names_to_use,SporeName)%>%
-            #mutate(SporeArea=spore_width*spore_length*(pi/4))%>% 
-            ,#summarise_at(c("spore_width","spore_length","SporeArea"),mean),
-  FunGuildData%>%
-            filter(taxonomicLevel=="species")%>%
-            rename(names_to_use=taxon)%>%
-            select(names_to_use,trophicMode,guild,host,substrate,Function,Number_of_guilds,Guild_1),
-                       by="names_to_use")
-
-Spore_functions[which(Spore_functions$phylum=="Glomeromycota"),
-                #c("names_to_use",
-                 c("trophicMode","host","substrate","Function","Number_of_guilds",
-                  "guild","Guild_1")]<-
-  FunGuildData[which(FunGuildData$taxon=="Glomus"),
-               c("trophicMode","host","substrate","Function","Number_of_guilds",
-                 "guild","Guild_1")]
-  
-
-Spore_functions[grep("Geosiphon",Spore_functions$names_to_use),
-                #c("names_to_use","trophicMode","host","substrate","Function","Number_of_guilds",
-                c("guild","Guild_1")]<-
-  c("arbuscular mycorrhizal","arbuscular mycorrhizal")
-
-
-
-
-Tedersoo<-read.csv("Tedersoo-DataFileS2.csv",stringsAsFactors = F)
-
-Tedersoo[,c("Trophic.status","lifestyle","decay.type" )]<-
-  sapply(Tedersoo[,c("Trophic.status","lifestyle","decay.type" )],tolower)
-
-
-unique(Tedersoo$lifestyle)
-
-
-Spore_functions[which(is.na(Spore_functions$Guild_1)),
-                #c("names_to_use",
-                c("trophicMode","host","substrate","Function","Number_of_guilds",
-                  "guild","Guild_1")]<-
-  Genera[match(Spore_functions$genus[which(is.na(Spore_functions$Guild_1))],Tedersoo$genus),
-         c("kingdom","phylum","class","order","family","genus","Taxonomy")]
-
-
-AllFungi[which(is.na(AllFungi$family)),c("kingdom","phylum","class","order","family","genus","Taxonomy")]<-
-  Genera[match(AllFungi$row_number[which(is.na(AllFungi$family))],Genera$row_number),
-         c("kingdom","phylum","class","order","family","genus","Taxonomy")]
-
-#Adding from Tedersoo (at genus level)
-
-
-
-
-#Spore size 
 Spore_functions %>% 
-  filter(!is.na(host)) %>%
+  filter(!is.na(Life_style)) %>%
   filter(!grepl("-",host))%>%#The issue is that we only have data for 2503 species
+  filter(!grepl("Fungi",host))%>%
+  filter(!SporeName%in%c("Azygospores","Teliospores"))%>%
+  
+  group_by(phylum,names_to_use,SporeType,SporeName,Specific_sporeName,Life_style)%>%
+  summarise_at(c("SporeArea"),mean)%>%
   
   ggplot()+
   
-  aes(host,SporeArea,color=SporeName)+
+  aes(Life_style,SporeArea,fill=Life_style)+
+  #aes(Life_style,SporeArea,color=SporeName)+
   #geom_point(size=1)+
   
   # aes(host,SporeArea,fill=SporeName)+
   geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
-  geom_violin(alpha=0.5, draw_quantiles=c(0.25, 0.5, 0.75))+
+  geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
   
-  facet_grid(. ~ SporeName, scales = "free")+
+  facet_grid(.~SporeName , scales = "free")+
+  #facet_grid(. ~ Life_style, scales = "free")+
+  scale_color_brewer(palette="Set1")+
   scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
   labs(y=expression("Spore size as area ("*mu*"m²)"))+
+  scale_x_discrete(labels=c("AFree living" = "Free living", "Animal" = "Animal",
+                            "Lichen" = "Lichen", "Plant" = "Plant"))+
+  
   theme(title = element_text(size = 18),
         axis.title.x=element_blank(),
         axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
@@ -590,19 +534,198 @@ Spore_functions %>%
 
 #For analysis
 
-To_Analysis<-
-    Spore_functions %>% 
-      filter(!is.na(host)) %>%
-      filter(!grepl("-",host))
+#It makes sense to make a priori contrasts. However I will perform those contrasts independently for each type of Spore where
+#multiple host types occur
 
+To_Analysis<-
+  Spore_functions %>% 
+  filter(!is.na(Life_style)) %>%
+  filter(!grepl("-",host))%>%#The issue is that we only have data for 2503 species
+  #filter(!grepl("Fungi",host))%>%
+  #filter(!grepl(""))
+  group_by(phylum,names_to_use,SporeType,SporeName,Specific_sporeName,Life_style)%>%
+  summarise_at(c("SporeArea"),mean)
+
+
+#Deviations of Life_style 
+tapply(log10(To_Analysis$SporeArea),data$phylum,mean)
+
+
+tapply(log10(To_Analysis$SporeArea),list(To_Analysis$phylum,To_Analysis$SporeType,To_Analysis$Life_style),mean)
+#Here we assume that each species is an independent replicate. And Spore Area depends on the Life_style
+#But Life_style is nested within Phylum and this within Spore type. This means the following:
+
+#Phyla is not replicated: For examples there is only one Ascomycota, phylum cannot be replicated; However, all 
+#species in the Ascomycota are more similar to each other than to the Basidiomycota. Then it does not make sense
+#to determine whether spore size differe between sexual and asexual spores. Most of the asexual spores
+#are in the ascomycota anyways and there will be a huge effect of different sizes in the zygos. 
+
+#Option 1: Doing analysis as a hierachical one with error terms
 
 summary(
-  aov(log10(SporeArea)~host+Error(phylum/SporeName),
-      data =To_Analysis
-        
-      )
+  aov(log10(SporeArea)~Life_style+Error(phylum/SporeType),
+      data =To_Analysis%>%
+        filter(!grepl("Azygospores",SporeName))%>%
+        filter(!grepl("Teliospores",SporeName))
+      
   )
+)
+#####
+temporal<-To_Analysis%>%
+  filter(!grepl("Azygospores",SporeName))%>%
+  filter(!grepl("Teliospores",SporeName))
 
+temporal$SporeArea<-log10(temporal$SporeArea)
+
+summary(
+  aov(SporeArea~Life_style+Error(phylum/SporeType),
+      data =temporal
+      
+  )
+)
+
+length(temporal$SporeArea-mean(temporal$SporeArea))
+sum((tapply(temporal$SporeArea,temporal$phylum,mean)-mean(temporal$SporeArea))^2)#= 194.44
+#The problem I am finding here is that the data is extremely unbalanced
+#In the ideal world I would have the same amount of points per phylum, sexual spore and life style
+#But the data is far from that. That is why it is a better idea to do the analysis for each phyla
+#separated
+
+
+#Option 2. Doing a priori contrast separated for each spore type
+
+#Ascospores
+Ascospores<-To_Analysis[which(To_Analysis$SporeName=="Ascospores"),]
+Ascospores<-Ascospores[-which(Ascospores$Life_style=="Fungi"),]
+Ascospores$Life_style<-as.factor(Ascospores$Life_style)
+levels(Ascospores$Life_style)
+contrasts(Ascospores$Life_style)<-cbind(
+  c(3,-1,-1,-1),
+  c(0,2,-1,-1),
+  c(0,0,1,-1)
+)
+
+#Basidiospores
+Basidiospores<-To_Analysis[which(To_Analysis$SporeName=="Basidiospores"),]
+Basidiospores$Life_style<-as.factor(Basidiospores$Life_style)
+levels(Basidiospores$Life_style)
+contrasts(Basidiospores$Life_style)<-cbind(
+  c(3,-1,-1,-1),
+  c(0,2,-1,-1),
+  c(0,0,1,-1)
+)
+
+#Chlamydospores
+Chlamydospores<-To_Analysis[which(To_Analysis$SporeName=="Chlamydospores"),]
+Chlamydospores$Life_style<-as.factor(Chlamydospores$Life_style)
+levels(Chlamydospores$Life_style)
+contrasts(Chlamydospores$Life_style)<-cbind(
+  c(3,-1,-1,-1),
+  c(0,2,-1,-1),
+  c(0,0,1,-1)
+)
+
+#Conidia
+Conidia<-To_Analysis[which(To_Analysis$SporeName=="Conidia"),]
+Conidia<-Conidia[-which(Conidia$Life_style=="Fungi"),]
+Conidia$Life_style<-as.factor(Conidia$Life_style)
+levels(Conidia$Life_style)
+contrasts(Conidia$Life_style)<-cbind(
+  c(3,-1,-1,-1),
+  c(0,2,-1,-1),
+  c(0,0,1,-1)
+)
+
+#sporangiospores
+Sporangiospores<-To_Analysis[which(To_Analysis$SporeName=="Sporangiospores"),]
+Sporangiospores$Life_style<-as.factor(Sporangiospores$Life_style)
+levels(Sporangiospores$Life_style)
+contrasts(Sporangiospores$Life_style)<-cbind(
+  c(2,-1,-1),
+  c(0,1,-1)
+)
+
+#Zygospores
+Zygospores<-To_Analysis[which(To_Analysis$SporeName=="Zygospores"),]
+Zygospores$Life_style<-as.factor(Zygospores$Life_style)
+levels(Zygospores$Life_style)
+contrasts(Zygospores$Life_style)<-cbind(
+  c(2,-1,-1),
+  c(0,1,-1)
+)
+
+#Making a priori contrasts
+
+#Ascospores
+summary.lm(
+  aov(log10(SporeArea) ~ Life_style,data = Ascospores)
+)
+
+summary(
+  aov(log10(SporeArea) ~ Life_style,data = Ascospores)
+)
+
+#Basidiospores
+summary.lm(
+  aov(log10(SporeArea) ~ Life_style,data = Basidiospores)
+)
+
+summary(
+  aov(log10(SporeArea) ~ Life_style,data = Basidiospores)
+)
+
+#Chlamydospores
+summary.lm(
+  aov(log10(SporeArea) ~ Life_style,data = Chlamydospores)
+)
+
+summary(
+  aov(log10(SporeArea) ~ Life_style,data = Chlamydospores)
+)
+
+#Conidia
+summary.lm(
+  aov(log10(SporeArea) ~ Life_style,data = Conidia)
+)
+
+summary(
+  aov(log10(SporeArea) ~ Life_style,data = Conidia)
+)
+
+#sporangiospores
+summary.lm(
+  aov(log10(SporeArea) ~ Life_style,data = Sporangiospores)
+)
+
+summary(
+  aov(log10(SporeArea) ~ Life_style,data = Sporangiospores)
+)
+
+#Zygospores
+summary.lm(
+  aov(log10(SporeArea) ~ Life_style,data = Zygospores)
+)
+
+summary(
+  aov(log10(SporeArea) ~ Life_style,data = Zygospores)
+)
+
+
+
+
+#Example from the R book: page 378 in the pdf in my laptop
+levels(clipping)
+contrasts(clipping)<-cbind(c(4,-1,-1,-1,-1),c(0,1,1,-1,-1),c(0,0,0,1,-1),c(0,1,-1,0,0))
+contrasts(clipping)
+model2<-aov(biomass ~ clipping)
+summary.lm(model2)
+
+
+
+
+
+
+###
 
 summary.aov(
   lm(log10(SporeArea)~host*phylum*SporeName,data = 
@@ -624,11 +747,12 @@ plot(quick_analysis)
 Spore_functions %>% 
   filter(!is.na(host)) %>%
   filter(!grepl("-",host))%>%
-  mutate(Aspect_Ratio=spore_length/spore_width)%>%
+  group_by(phylum,names_to_use,SporeName,Specific_sporeName,description__id,host)%>%
+  summarise_at(c("Q_ratio"),mean)%>%
   
   ggplot()+
   
-  aes(host,Aspect_Ratio,color=SporeName)+
+  aes(host,Q_ratio,color=SporeName)+
   #geom_point(alpha=0.3)+
   
   # aes(host,Aspect_Ratio,fill=SporeName)+
@@ -636,8 +760,9 @@ Spore_functions %>%
   # geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
   
   facet_grid(. ~ SporeName, scales = "free")+
+  scale_color_brewer(palette="Set1")+
   scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-  labs(y=expression("Aspect ratio (length:width)"))+
+  labs(y=expression("Q ratio (length:width)"))+
   theme(title = element_text(size = 18),
         axis.title.x=element_blank(),
         axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
@@ -646,11 +771,13 @@ Spore_functions %>%
         legend.position = "none")
   #)
 
-#
+#Selecting the fungi that we have as animal symbionts
+animal_symbionts<-unique(Spore_functions$names_to_use[which(Spore_functions$host=="Animal")])
 
+table(
+FunGuildData$citationSource[FunGuildData$taxon%in%animal_symbionts])
 
-
-
+#140 species are coming from the Iriyini database on medical mycology out of 159 species that I have reported as "animal" pathogens
 
 
 #                     ########################################
