@@ -40,7 +40,7 @@ sdf<-read_csv("output/Spore_Database_Fungi.csv")
 matched_data<-filter(sdf,order%in%dropped.tree2$tip.label)
 matched_data$log.length<-log10(matched_data$spore_length)
 matched_data$log_spore_area<-log10(matched_data$spore_length*matched_data$spore_width * pi /4)
-matched_data$width_divided_by_length<-matched_data$spore_width/matched_data$spore_length
+matched_data$length_divided_by_width<-matched_data$spore_length/matched_data$spore_width
 
 #check tree
 dropped.tree2$tip.label %in% matched_data$order
@@ -56,31 +56,47 @@ dropped.tree2<-drop.tip(dropped.tree2,"Not assigned")
 match2<-filter(matched_data,!SporeName %in% c("bulbil","papulospore"))
 
 #select only necessary data
-temp<-select(match2,id,log_spore_area,SporeName,width_divided_by_length)
+temp<-select(match2,id,log_spore_area,SporeName,length_divided_by_width)
 
 
 #tree for panel 1
-p <- ggtree(dropped.tree2)+ geom_tiplab(size = 1.2)+ theme_tree2()
+p <- ggtree(dropped.tree2)+ geom_tiplab(size = 2)+ theme_tree2()
+
+tree3 <- groupClade(dropped.tree2, .node=3)
+
+ggtree(dropped.tree2,layout="equal_angle",size=1)+ geom_tiplab(size = 3)+ theme_tree2()
+
+ggtree(dropped.tree2,layout="equal_angle",size=2)+ geom_tiplab(size = 3)+ theme_tree2()
+  #geom_cladelabel(node=17, label="Some random clade", color="red")
+
 
 # spore size for panel 2
 p1 <- facet_plot(
   p,
-  panel = "log_spore_area",
+  panel = "Spore area (log)",
   data = temp,
   geom = geom_point,
   mapping = aes(x = log_spore_area,col=SporeName),
-  alpha=0.1
-  #colour = guide_legend(override.aes = list(alpha=1)))
- # outlier.size = 0.1
-)
+  alpha=0.1,size=2
+  #colour = guide_legend(override.aes = list(alpha=1)),
+  #outlier.size = 0.1
+)+
+  #scale_color_brewer(palette="Set1")
+  scale_color_manual(values = rainbow(8))
 
 #spore shape for panel 3
 p2<-facet_plot(p1,
-               panel = "width_divided_by_length",
+               panel = "Q ratio (length/width)",
                data = temp,
                geom = geom_point,
-               mapping = aes(x = width_divided_by_length,col=SporeName),
-               alpha=0.1)
+               mapping = aes(x = length_divided_by_width,col=SporeName),
+               alpha=0.1, size=2)+
+  theme(title = element_text(size = 20),
+        axis.title.x=element_blank(),
+        axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+        #axis.text.y = element_text(size = 20),
+        strip.text.x = element_text(size = 20),
+        legend.text =  element_text(size = 15))
                
                
 p2
