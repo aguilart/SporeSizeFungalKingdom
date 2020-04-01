@@ -614,6 +614,12 @@ Conidia$n_char<-NULL
 #write.csv(Conidia, 'output/conidia_mycobank.csv', row.names=F)
 
 
+
+
+
+
+
+
 #Ideas to solve the issue of really small values:
 #number of words
 # prueba<-"(10–)25–45(–70) x (2–)2.5–3 µm."
