@@ -11,6 +11,58 @@ library(tidyverse)
 library(VennDiagram)
 source("MatchingSpore_FunctionData.R")
                       
+                      
+                      
+#####################################
+#work done to create "phylogenetic tree" with Will on 09 Dec 2019  
+
+#   if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+#   
+#   BiocManager::install("ggtree")
+#   
+#   
+# library(ggtree)
+#   
+#   tr <- rtree(30) 
+#   p <- ggtree(tr)
+#   d1 <- data.frame(id=tr$tip.label, 
+#                    location=sample(c("GZ", "HK", "CZ"), 30, replace=TRUE)) 
+#   
+#   p1 <- p %<+% d1 + geom_tippoint(aes(color=location)) 
+#   
+#   d2 <- data.frame(id=tr$tip.label, val=rnorm(30, sd=3)) 
+#   
+#   p2 <- facet_plot(p1, panel="dot", data=d2, geom=geom_point, aes(x=val), color="firebrick") + theme_tree2()
+#   
+#   ##
+#   d3 <- data.frame(id = rep(tr$tip.label, each=2),
+#                    value = abs(rnorm(60, mean=100, sd=50)),
+#                    category = rep(LETTERS[1:2], 30))
+#   library(ggstance)
+#   p3 <- facet_plot(p2, panel = 'Stacked Barplot', data = d3, 
+#                    geom = geom_barh, 
+#                    mapping = aes(x = value, fill = as.factor(category)), 
+#                    stat='identity' ) 
+
+genus_names<-read_csv("phylo/genus_names.csv")
+
+length(
+  unique(genus_names$genus)  )
+
+orders_phylo<-
+  AllFungi[which(
+    AllFungi$genus%in%genus_names$genus),
+    c("genus","order")
+    ]
+
+orders_phylo<-
+  orders_phylo[-which(duplicated(paste(orders_phylo$genus,orders_phylo$order,sep = "_")
+  )),];rownames(orders_phylo)<-NULL
+
+write_csv(orders_phylo,"phylo/orders_phylo.csv")
+
+                      
 
                                                   #########################################
                                                   ### DATA ANALYSIS AND VISUALIZATION   ###
@@ -20,7 +72,6 @@ source("MatchingSpore_FunctionData.R")
                                                   ########################################
                                                   ### Number of unique sps in AllFungi ###
                                                   ########################################
-
 
 data.frame(table(AllFungi[!duplicated(AllFungi$names_to_use),c("phylum")]))%>%
   ggplot()+
@@ -162,13 +213,6 @@ AllFungi%>%
 AllFungi$SporeArea<-AllFungi$spore_width*AllFungi$spore_length*(pi/4)
 AllFungi$Q_ratio<-AllFungi$length/AllFungi$spore_width
 
-#Checking errors:
-
-#Clean sporangiospores entries
-#Typhula ishikariensis from Compendium is wrong. The basidiospores should be 6-8 x 3-4 um
-#Cladophialophora minutissima is wrong (conidia entry). It has the format d+error x d+error
-#Aphanoascella galapagosensis	is wrong. It has sub-structures
-#Also check bigger sizes
 
 
                   ########################################
@@ -239,16 +283,17 @@ AllFungi%>%
   summarise_at(c("spore_width","spore_length","SporeArea"),mean)%>%
   
         ggplot()+
-        aes(spore_length,spore_width,color=SporeName,size=0.3)+
+        aes(y=spore_length,x=spore_width,color=SporeName,size=0.3)+
         geom_point()+
-        facet_grid(. ~ phylum, scales = "free")+
+        facet_grid(. ~ phylum)+
         scale_color_manual(values = rainbow(14))+
         scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
         scale_x_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-        labs(y=expression("Spore width ("*mu*"m)"),x=expression("Spore length ("*mu*"m)"))+
+        labs(y=expression("Spore length ("*mu*"m)"),x=expression("Spore width ("*mu*"m)"))+
         theme(title = element_text(size = 18),
               #axis.title.x=element_blank(),
-              axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+              #axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+              axis.text.x = element_text(size = 20),
               axis.text.y = element_text(size = 20),
               strip.text.x = element_text(size = 20),
               legend.text =  element_text(size = 15))+
@@ -365,120 +410,11 @@ AllFungi%>%
 
 
 
-
-# #Standarized major axis series of analysis:
-# # 1. Testing wehther host influces the slope of the relationship & wehther the relationship
-# # is inversely proportinal (testing wehther slope = -1)
-# 
-# #I need to make this one for each spore type, across the taxonomy
-# library(smatr)
-# 
-# # AllFungi_filtered%>%
-# #   group_by(codigo)%>%
-# #   summari
-# 
-# Spores_filtered<-
-# AllFungi%>%
-#   filter(!is.na(phylum))%>%
-#   filter(!is.na(SporeName))%>%
-#   filter(phylum!="Chytridiomycota")%>%#Filtering only because there are so few
-#   filter(!(phylum=="Ascomycota"&SporeName=="Basidiospores"))%>% #weird cases
-#   filter(!(phylum=="Ascomycota"&SporeName=="Teliospores"))%>% #weird  cases
-#   filter(!(phylum=="Basidiomycota"&SporeName=="Ascospores"))%>% #weird  cases
-#   filter(SporeName!="papulospore")%>%#Filtering only because there are so few
-#   filter(SporeName!="bulbil")%>%#Filtering only because there are so few
-#   group_by(phylum,lclass,order,family,genus,names_to_use,
-#            SporeName,Specific_sporeName)%>%#In this way we have a value for a given species per spore type
-#   mutate(SporeArea=spore_width*spore_length*(pi/4))%>% 
-#   summarise_at(c("spore_width","spore_length","SporeArea"),mean)%>%
-#   summarise_at()
-# 
-# AllFungi_filtered$codigo<-paste(AllFungi_filtered$names_to_use,
-#                                 AllFungi_filtered$SporeName,
-#                                 AllFungi_filtered$Specific_sporeName,
-#                                 AllFungi_filtered$description__id,
-#                                 sep = "_")
-# 
-# 
-# scalings<-
-# function(x){
-#   sma(spore_width ~ spore_length,
-#       data = x, log = "xy",slope.test = 1)
-#   }
-# 
-# 
-# lapply(
-#   split(Spores_filtered,Spores_filtered$SporeName),
-#   scalings)
-# 
-#   trial<-
-#   sma(spore_width ~ spore_length,
-#       data = AllFungi_filtered, log = "xy",slope.test = 1)
-  
-#####################################
-#work done to create "phylogenetic tree" with Will on 09 Dec 2019  
-  
-#   if (!requireNamespace("BiocManager", quietly = TRUE))
-#     install.packages("BiocManager")
-#   
-#   BiocManager::install("ggtree")
-#   
-#   
-# library(ggtree)
-#   
-#   tr <- rtree(30) 
-#   p <- ggtree(tr)
-#   d1 <- data.frame(id=tr$tip.label, 
-#                    location=sample(c("GZ", "HK", "CZ"), 30, replace=TRUE)) 
-#   
-#   p1 <- p %<+% d1 + geom_tippoint(aes(color=location)) 
-#   
-#   d2 <- data.frame(id=tr$tip.label, val=rnorm(30, sd=3)) 
-#   
-#   p2 <- facet_plot(p1, panel="dot", data=d2, geom=geom_point, aes(x=val), color="firebrick") + theme_tree2()
-#   
-#   ##
-#   d3 <- data.frame(id = rep(tr$tip.label, each=2),
-#                    value = abs(rnorm(60, mean=100, sd=50)),
-#                    category = rep(LETTERS[1:2], 30))
-#   library(ggstance)
-#   p3 <- facet_plot(p2, panel = 'Stacked Barplot', data = d3, 
-#                    geom = geom_barh, 
-#                    mapping = aes(x = value, fill = as.factor(category)), 
-#                    stat='identity' ) 
-  
-genus_names<-read_csv("phylo/genus_names.csv")
-
-length(
-unique(genus_names$genus)  )
-  
-orders_phylo<-
-AllFungi[which(
-AllFungi$genus%in%genus_names$genus),
-c("genus","order")
-]
-
-orders_phylo<-
-  orders_phylo[-which(duplicated(paste(orders_phylo$genus,orders_phylo$order,sep = "_")
-                                             )),];rownames(orders_phylo)<-NULL
-
-write_csv(orders_phylo,"phylo/orders_phylo.csv")
-
-#look which fungi are the lichens
-
-#write.csv(FunGuildData,"FunGuildData.csv",row.names = F)
-
-
-
-
                 ########################################
                 ###      OVERLAP WITH FUNGUILD       ###
                 ###   AND SPORE SIZE ACROSS GUILDS   ###
                 ########################################
 
-
-# temp<-AllFungi$Col_name
-# temp[which(is.na(temp))]<-AllFungi$base_name[which(is.na(temp))]
 
 venn.diagram(list(SporeData=AllFungi$base_name,
                   #SporeData=temp,
@@ -497,54 +433,99 @@ venn.diagram(list(SporeData=AllFungi$base_name,
 ################### Spore size across Guilds and trophic modes ##########################################
 #########################################################################################################
 
-Spore_functions %>% 
-  filter(!is.na(Life_style)) %>%
-  filter(!grepl("-",host))%>%#The issue is that we only have data for 2503 species
-  filter(!grepl("Fungi",host))%>%
-  filter(!SporeName%in%c("Azygospores","Teliospores"))%>%
-  
-  group_by(phylum,names_to_use,SporeType,SporeName,Specific_sporeName,Life_style)%>%
-  summarise_at(c("SporeArea"),mean)%>%
-  
+To_Analysis %>% 
+  #filter(phylum=="Ascomycota") %>% 
+  #filter(SporeName=="Conidia") %>% 
+  #filter(!(SporeName=="Conidia" | SporeName=="Chlamydospores")) %>% 
+  #filter(!(phylum=="Basidiomycota" & simpleFunct=="Ectomycorrhiza")) %>% 
+  #filter(!(phylum=="Zygomycota" & simpleFunct=="Plant Pathogen")) %>% 
   ggplot()+
-  
-  aes(Life_style,SporeArea,fill=Life_style)+
-  #aes(Life_style,SporeArea,color=SporeName)+
-  #geom_point(size=1)+
-  
-  # aes(host,SporeArea,fill=SporeName)+
+  aes(simpleFunct,SporeArea,fill=Life_style)+
+  #aes(simpleFunct,SporeArea,fill=SporeName)+
   geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
   geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
-  
-  facet_grid(.~SporeName , scales = "free")+
-  #facet_grid(. ~ Life_style, scales = "free")+
+  #facet_grid(SporeName~phylum, scales = "free")+
+  #facet_grid(phylum~SporeName, scales = "free")+
+  facet_grid(phylum~SporeName, scales = "free_y")+
   scale_color_brewer(palette="Set1")+
   scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
   labs(y=expression("Spore size as area ("*mu*"m²)"))+
-  scale_x_discrete(labels=c("AFree living" = "Free living", "Animal" = "Animal",
-                            "Lichen" = "Lichen", "Plant" = "Plant"))+
+  scale_x_discrete(labels=c("AFree living" = "Free living", "Human"="Human pathogen","Insect"="Insect pathogen",
+                            "Plant Endophyte"="Endophyte","Lichen" = "Lichen*","Plant Pathogen"="Plant Pathogen",
+                            "Plant Ectomycorrhizal"="Ectomycorrhiza","Plant AMF"="Arbuscular Mycorrhiza"))+
+  my_theme2+
+  coord_flip()
+
+
+
+
+#Ascomycota or #Conidia
+p1<-
+To_Analysis %>% 
+  ungroup() %>% 
+  filter(phylum=="Ascomycota" | phylum=="Basidiomycota") %>% 
+  filter(!SporeName=="Teliospores") %>% 
+  mutate(SporeName=gsub("Ascospores|Basidiospores","Sexual spores",SporeName)) %>% 
+  #filter(SporeName=="Conidia") %>% 
+  #filter(!(phylum=="Basidiomycota" & simpleFunct=="Human")) %>% 
+  #filter(!(phylum=="Basidiomycota" & simpleFunct=="Ectomycorrhiza")) %>% 
+  #filter(!(phylum=="Zygomycota" & simpleFunct=="Plant Pathogen")) %>% 
+  ggplot()+
+  aes(simpleFunct,SporeArea,fill=Life_style)+
+  geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
+  geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
+  #facet_grid(SporeName~phylum, scales = "free")+
+  facet_grid(phylum~SporeName, scales = "free_y")+
+  scale_color_brewer(palette="Set1")+
+  scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  labs(y=expression("Spore size as area ("*mu*"m²)"))+
+  scale_x_discrete(labels=c("AFree living" = "Free living", "Human"="Human pathogen","Insect"="Insect pathogen",
+                            "Plant Endophyte"="Endophyte","Lichen" = "Lichen*","Plant Pathogen"="Plant Pathogen",
+                            "Plant Ectomycorrhizal"="Ectomycorrhiza","Plant AMF"="Arbuscular Mycorrhiza"))+
+  my_theme3+#theme(axis.text.x = element_blank(),axis.title.x=element_blank())+
+  coord_flip()
   
-  theme(title = element_text(size = 18),
-        axis.title.x=element_blank(),
-        axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
-        axis.text.y = element_text(size = 20),
-        strip.text.x = element_text(size = 20),
-        legend.position = "none")
-  #)
+  
+#Basidiomycota or sexual spores
+p2<-
+  To_Analysis %>% 
+  filter(phylum=="Basidiomycota") %>%
+  filter(!SporeName=="Teliospores") %>% 
+  ggplot()+
+  aes(simpleFunct,SporeArea,fill=Life_style)+
+  geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
+  geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
+  facet_grid(phylum~SporeName, scales = "free_y")+
+  scale_color_brewer(palette="Set1")+
+  scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  labs(y=expression("Spore size as area ("*mu*"m²)"))+
+  scale_x_discrete(labels=c("AFree living" = "Free living", "Human"="Human pathogen","Insect"="Insect pathogen",
+                            "Plant Endophyte"="Endophyte","Lichen" = "Lichen*","Plant Pathogen"="Plant Pathogen",
+                            "Plant Ectomycorrhizal"="Ectomycorrhiza","Plant AMF"="Arbuscular Mycorrhiza"))+
+  my_theme3+
+  coord_flip()
 
-#For analysis
-
-#It makes sense to make a priori contrasts. However I will perform those contrasts independently for each type of Spore where
-#multiple host types occur
-
-To_Analysis<-
-  Spore_functions %>% 
-  filter(!is.na(Life_style)) %>%
-  filter(!grepl("-",host))%>%#The issue is that we only have data for 2503 species
-  #filter(!grepl("Fungi",host))%>%
-  #filter(!grepl(""))
-  group_by(phylum,names_to_use,SporeType,SporeName,Specific_sporeName,Life_style)%>%
-  summarise_at(c("SporeArea"),mean)
+#Zygomycota
+p3<-
+  To_Analysis %>% 
+  filter(!c(SporeName=="Azygospores" & phylum=="Zygomycota")) %>% 
+  filter(phylum=="Zygomycota" | phylum=="Glomeromycota") %>% 
+  mutate(phylum_="Lower Fungi") %>% 
+  
+  ggplot()+
+  aes(simpleFunct,SporeArea,fill=Life_style)+
+  geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
+  geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
+  facet_grid(phylum_~SporeName , scales = "free_y")+
+  scale_color_brewer(palette="Set1")+
+  scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  labs(y=expression("Spore size as area ("*mu*"m²)"))+
+  scale_x_discrete(labels=c("AFree living" = "Free living", "Human"="Human pathogen","Insect"="Insect pathogen",
+                            "Plant Endophyte"="Endophyte","Lichen" = "Lichen*","Plant Pathogen"="Plant Pathogen",
+                            "Plant Ectomycorrhizal"="Ectomycorrhiza","Plant AMF"="Arbuscular Mycorrhiza"))+
+  my_theme3+
+  coord_flip()
+#grid.arrange(p1,p2);p3
 
 
 #Deviations of Life_style 
@@ -586,51 +567,61 @@ summary(
 
 length(temporal$SporeArea-mean(temporal$SporeArea))
 sum((tapply(temporal$SporeArea,temporal$phylum,mean)-mean(temporal$SporeArea))^2)#= 194.44
+
 #The problem I am finding here is that the data is extremely unbalanced
 #In the ideal world I would have the same amount of points per phylum, sexual spore and life style
 #But the data is far from that. That is why it is a better idea to do the analysis for each phyla
 #separated
 
-
 #Option 2. Doing a priori contrast separated for each spore type
 
 #Ascospores
 Ascospores<-To_Analysis[which(To_Analysis$SporeName=="Ascospores"),]
-Ascospores<-Ascospores[-which(Ascospores$Life_style=="Fungi"),]
-Ascospores$Life_style<-as.factor(Ascospores$Life_style)
-levels(Ascospores$Life_style)
-contrasts(Ascospores$Life_style)<-cbind(
-  c(3,-1,-1,-1),
-  c(0,2,-1,-1),
-  c(0,0,1,-1)
-)
-
-#Basidiospores
-Basidiospores<-To_Analysis[which(To_Analysis$SporeName=="Basidiospores"),]
-Basidiospores$Life_style<-as.factor(Basidiospores$Life_style)
-levels(Basidiospores$Life_style)
-contrasts(Basidiospores$Life_style)<-cbind(
-  c(3,-1,-1,-1),
-  c(0,2,-1,-1),
-  c(0,0,1,-1)
-)
-
-#Chlamydospores
-Chlamydospores<-To_Analysis[which(To_Analysis$SporeName=="Chlamydospores"),]
-Chlamydospores$Life_style<-as.factor(Chlamydospores$Life_style)
-levels(Chlamydospores$Life_style)
-contrasts(Chlamydospores$Life_style)<-cbind(
-  c(3,-1,-1,-1),
-  c(0,2,-1,-1),
-  c(0,0,1,-1)
+Ascospores<-Ascospores[-which(Ascospores$simpleFunct=="Plant Ectomycorrhizal"),]
+Ascospores$simpleFunct<-as.factor(Ascospores$simpleFunct)
+levels(Ascospores$simpleFunct)
+contrasts(Ascospores$simpleFunct)<-cbind(
+  c(5,-1,-1,-1,-1,-1),
+  c(0,4,-1,-1,-1,-1),
+  c(0,0,3,-1,-1,-1),
+  c(0,0,0,2,-1,-1),
+  c(0,0,0,0,1,-1)
 )
 
 #Conidia
 Conidia<-To_Analysis[which(To_Analysis$SporeName=="Conidia"),]
-Conidia<-Conidia[-which(Conidia$Life_style=="Fungi"),]
-Conidia$Life_style<-as.factor(Conidia$Life_style)
-levels(Conidia$Life_style)
-contrasts(Conidia$Life_style)<-cbind(
+Conidia<-Conidia[-which(Conidia$simpleFunct=="Plant Ectomycorrhizal"),]
+Conidia$simpleFunct<-as.factor(Conidia$simpleFunct)
+levels(Conidia$simpleFunct)
+contrasts(Conidia$simpleFunct)<-cbind(
+  c(5,-1,-1,-1,-1,-1),
+  c(0,4,-1,-1,-1,-1),
+  c(0,0,3,-1,-1,-1),
+  c(0,0,0,2,-1,-1),
+  c(0,0,0,0,1,-1)
+)
+
+#Basidiospores
+Basidiospores<-To_Analysis[which(To_Analysis$SporeName=="Basidiospores"),]
+Basidiospores<-Basidiospores[-which(Basidiospores$simpleFunct=="Human"),]
+#Basidiospores<-Basidiospores[-which(Basidiospores$Life_style=="Insect"),]
+Basidiospores$simpleFunct<-as.factor(Basidiospores$simpleFunct)
+levels(Basidiospores$simpleFunct)
+contrasts(Basidiospores$simpleFunct)<-cbind(
+  c(4,-1,-1,-1,-1),
+  c(0,3,-1,-1,-1),
+  c(0,0,2,-1,-1),
+  c(0,0,0,1,-1)
+)
+
+#Chlamydospores
+Chlamydospores<-To_Analysis[which(To_Analysis$SporeName=="Chlamydospores"),]
+Chlamydospores<-Chlamydospores[-which(Chlamydospores$simpleFunct=="Lichen"),]
+Chlamydospores<-Chlamydospores[-which(Chlamydospores$simpleFunct=="Plant Ectomycorrhizal"),]
+Chlamydospores$simpleFunct<-as.factor(Chlamydospores$simpleFunct)
+levels(Chlamydospores$simpleFunct)
+table(Chlamydospores$simpleFunct)
+contrasts(Chlamydospores$simpleFunct)<-cbind(
   c(3,-1,-1,-1),
   c(0,2,-1,-1),
   c(0,0,1,-1)
@@ -638,185 +629,352 @@ contrasts(Conidia$Life_style)<-cbind(
 
 #sporangiospores
 Sporangiospores<-To_Analysis[which(To_Analysis$SporeName=="Sporangiospores"),]
-Sporangiospores$Life_style<-as.factor(Sporangiospores$Life_style)
-levels(Sporangiospores$Life_style)
-contrasts(Sporangiospores$Life_style)<-cbind(
-  c(2,-1,-1),
-  c(0,1,-1)
+Sporangiospores<-Sporangiospores[-which(Sporangiospores$simpleFunct=="AFree living"),]
+Sporangiospores<-Sporangiospores[-which(Sporangiospores$simpleFunct=="Insect"),]
+Sporangiospores$simpleFunct<-as.factor(Sporangiospores$simpleFunct)
+levels(Sporangiospores$simpleFunct)
+table(Sporangiospores$simpleFunct)
+contrasts(Sporangiospores$simpleFunct)<-cbind(
+  c(-1,1)
 )
 
 #Zygospores
 Zygospores<-To_Analysis[which(To_Analysis$SporeName=="Zygospores"),]
-Zygospores$Life_style<-as.factor(Zygospores$Life_style)
-levels(Zygospores$Life_style)
-contrasts(Zygospores$Life_style)<-cbind(
-  c(2,-1,-1),
-  c(0,1,-1)
+Zygospores<-Zygospores[-which(Zygospores$simpleFunct=="AFree living"),]
+Zygospores$simpleFunct<-as.factor(Zygospores$simpleFunct)
+levels(Zygospores$simpleFunct)
+table(Zygospores$simpleFunct)
+contrasts(Zygospores$simpleFunct)<-cbind(
+  c(-1,-1,2),
+  c(-1,1,0)
 )
 
 #Making a priori contrasts
 
-#Ascospores
+#Ascospores:
+#Contrast1:Free living vs all symbionts
+#Contrast2: Human pathogens vs all other symbionts
+#Contrast3: Insect pathogens vs the more "plant-ish" symbionts
+#Contrast4: Lichen vs Plant symbionts
+#Contrast5: Endophytes vs Plant pathogens
 summary.lm(
-  aov(log10(SporeArea) ~ Life_style,data = Ascospores)
+  aov(log10(SporeArea) ~ simpleFunct,data = Ascospores)
 )
 
 summary(
-  aov(log10(SporeArea) ~ Life_style,data = Ascospores)
+  aov(log10(SporeArea) ~ simpleFunct,data = Ascospores)
 )
+
+tapply(log10(Ascospores$SporeArea),
+       Ascospores$simpleFunct,mean)
+
+tapply(log10(Ascospores$SporeArea),
+       Ascospores$Life_style,mean)
+
+#Conidia
+#Contrast1:Free living vs all symbionts
+#Contrast2: Human pathogens vs all other symbionts
+#Contrast3: Insect pathogens vs the more "plant-ish" symbionts
+#Contrast4: Lichen vs Plant symbionts
+#Contrast5: Endophytes vs Plant pathogens
+summary.lm(
+  aov(log10(SporeArea) ~ simpleFunct,data = Conidia)
+)
+
+summary(
+  aov(log10(SporeArea) ~ simpleFunct,data = Conidia)
+)
+
+tapply(log10(Conidia$SporeArea),
+       Conidia$simpleFunct,mean)
 
 #Basidiospores
+table(Basidiospores$simpleFunct)
+#Contrast1:Free living vs all symbionts
+#Contrast2: Insect vs Plant-ish symbionts
+#Contrast3: Lichen vs Plant symbionts
+#Contrast4: Ectomycorhizal vs Plant pathogen
 summary.lm(
-  aov(log10(SporeArea) ~ Life_style,data = Basidiospores)
+  aov(log10(SporeArea) ~ simpleFunct,data = Basidiospores)
 )
 
 summary(
-  aov(log10(SporeArea) ~ Life_style,data = Basidiospores)
+  aov(log10(SporeArea) ~ simpleFunct,data = Basidiospores)
 )
 
 #Chlamydospores
+levels(Chlamydospores$simpleFunct)
+#Contrast1: Free living vs all symbionts
+#Contrast2: Human vs Plant symbionts
+#Contrast3: Plant endophyte and plant pathogens
 summary.lm(
-  aov(log10(SporeArea) ~ Life_style,data = Chlamydospores)
+  aov(log10(SporeArea) ~ simpleFunct,data = Chlamydospores)
 )
 
 summary(
-  aov(log10(SporeArea) ~ Life_style,data = Chlamydospores)
+  aov(log10(SporeArea) ~ simpleFunct,data = Chlamydospores)
 )
 
-#Conidia
-summary.lm(
-  aov(log10(SporeArea) ~ Life_style,data = Conidia)
-)
-
-summary(
-  aov(log10(SporeArea) ~ Life_style,data = Conidia)
-)
 
 #sporangiospores
+levels(Sporangiospores$simpleFunct)
+#Contrast1: Human vs Plant pathogen
 summary.lm(
-  aov(log10(SporeArea) ~ Life_style,data = Sporangiospores)
+  aov(log10(SporeArea) ~ simpleFunct,data = Sporangiospores)
 )
 
 summary(
-  aov(log10(SporeArea) ~ Life_style,data = Sporangiospores)
+  aov(log10(SporeArea) ~ simpleFunct,data = Sporangiospores)
 )
 
 #Zygospores
+levels(Zygospores$simpleFunct)
+#Contrast1:Plant pathogens vs Animal symbionts
+#Contrast2:Human vs Insect
+
 summary.lm(
-  aov(log10(SporeArea) ~ Life_style,data = Zygospores)
+  aov(log10(SporeArea) ~ simpleFunct,data = Zygospores)
 )
 
 summary(
-  aov(log10(SporeArea) ~ Life_style,data = Zygospores)
+  aov(log10(SporeArea) ~ simpleFunct,data = Zygospores)
 )
 
+#Based on the previous analysis it only makes sense to compare Ascospores and 
+#Condia because they have the largest sample sizes and span all host types and 
+#in the case of Conidia the 3 main phyla
 
-
-
-#Example from the R book: page 378 in the pdf in my laptop
-levels(clipping)
-contrasts(clipping)<-cbind(c(4,-1,-1,-1,-1),c(0,1,1,-1,-1),c(0,0,0,1,-1),c(0,1,-1,0,0))
-contrasts(clipping)
-model2<-aov(biomass ~ clipping)
-summary.lm(model2)
-
-
-
-
-
-
-###
-
-summary.aov(
-  lm(log10(SporeArea)~host*phylum*SporeName,data = 
-       Spore_functions %>% 
-       filter(!is.na(host)) %>%
-       filter(!grepl("-",host))
-     )
-)
-
-quick_analysis<-
-lm(log10(SporeArea)~host*phylum*SporeName,data = 
-     Spore_functions %>% 
-     filter(!is.na(host)) %>%
-     filter(!grepl("-",host)))
-
-plot(quick_analysis)
-
-#Spore shape
-Spore_functions %>% 
-  filter(!is.na(host)) %>%
-  filter(!grepl("-",host))%>%
-  group_by(phylum,names_to_use,SporeName,Specific_sporeName,description__id,host)%>%
-  summarise_at(c("Q_ratio"),mean)%>%
+################################################################################################################
+################################################################################################################
+############################################  SPORE SHAPE ######################################################
+################################################################################################################
+################################################################################################################
   
+#Spore shape
+  To_Analysis %>%
+  filter(SporeName%in%c("Ascospores","Conidia"))%>%
+  filter(!simpleFunct=="Plant Ectomycorrhizal") %>% 
+  #filter(!SporeName%in%c("Azygospores","Teliospores"))%>%
+  #filter(!SporeName%in%c("Teliospores"))%>%
   ggplot()+
   
-  aes(host,Q_ratio,color=SporeName)+
-  #geom_point(alpha=0.3)+
+  aes(simpleFunct,Q_ratio,fill=Life_style)+
+  #aes(Life_style,SporeArea,color=SporeName)+
+  #geom_point(size=1)+
   
-  # aes(host,Aspect_Ratio,fill=SporeName)+
+  # aes(host,SporeArea,fill=SporeName)+
   geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
-  # geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
+  geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
   
-  facet_grid(. ~ SporeName, scales = "free")+
+  facet_grid(.~SporeName , scales = "free")+
+  #facet_grid(. ~ Life_style, scales = "free")+
   scale_color_brewer(palette="Set1")+
   scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-  labs(y=expression("Q ratio (length:width)"))+
+  labs(y=expression("Spore shape as Q ratio (lengt/width)"))+
+  # scale_x_discrete(labels=c("AFree living" = "Free living", "Human"="Human pathogen","Insect"="Insect pathogen","Plant Endophyte"="Endophyte",
+  #                         "Lichen" = "Lichen*","Plant Ectomycorrhizal"="Ectomycorrhiza","Plant Pathogen"="Plant Pathogen",
+  #                         "Plant AMF"="Arbuscular Mycorrhiza"))+
+  
+  scale_x_discrete(labels=c("AFree living" = "Free living", "Human"="Human pathogen","Insect"="Insect pathogen","Plant Endophyte"="Endophyte",
+                            "Lichen" = "Lichen*","Plant Pathogen"="Plant Pathogen"))+
+  
   theme(title = element_text(size = 18),
         axis.title.x=element_blank(),
         axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
         axis.text.y = element_text(size = 20),
         strip.text.x = element_text(size = 20),
         legend.position = "none")
-  #)
-
-#Selecting the fungi that we have as animal symbionts
-animal_symbionts<-unique(Spore_functions$names_to_use[which(Spore_functions$host=="Animal")])
-
-table(
-FunGuildData$citationSource[FunGuildData$taxon%in%animal_symbionts])
-
-#140 species are coming from the Iriyini database on medical mycology out of 159 species that I have reported as "animal" pathogens
 
 
-#                     ########################################
-#                     ###      OVERLAP WITH USDA           ###
-#                     ###    SPORE SIZE HABITAT RANGE      ###
-#                     ########################################
-# 
-# 
-# #Spore size  and host range
-# AllFungi[300:1523,]%>%
-#             filter(SporeName!="bulbil"&
-#                      SporeName!="oospore"&
-#                      SporeName!="papulospore")%>%
-#             ggplot()+
-#             aes(x=log10(SporeArea),y=log10(host_range),col=SporeName)+
-#             geom_point()
-# 
-# #Plot for sexual spores & analysis of the relationship
-# AllFungi[300:1523,]%>%
-#           filter(!is.na(host_range))%>%
-#           filter(SporeName=="ascospores"|
-#                   SporeName=="Basidiospores"|
-#                   SporeName=="zygospores"
-#                    )%>%
-#           ggplot()+
-#           aes(x=SporeArea,y=host_range,col=SporeName)+
-#           geom_point()+
-#            scale_x_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-#            scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-#           labs(y="host range (log species number)",x=expression("Spore size as log area ("*mu*"m²)"))+
-#           theme(title = element_text(size = 25),
-#             axis.text.x = element_text(size = 20,hjust = 1),
-#                 axis.text.y = element_text(size = 20),
-#                 strip.text.x = element_text(size = 20))+
-#                 
-#           scale_size(guide = F)+
-#           #geom_abline(slope = 0.4600, intercept=0.3574,size=1.5,col="red")+
-#           #geom_abline( slope=(0.4600-0.7740),intercept=(0.3574+0.6359), size=1.5,col="green")+
-#           #geom_abline( slope=(0.4600-0.1119 ),intercept=(0.3574-0.5313 ), size=1.5,col="blue")+
-#           geom_smooth(method = "lm",formula = y~x)+
-#           facet_wrap(~ SporeName,scales = "free_x")+
-#           theme(legend.position="none")
+###
+library(smatr)
+#Ascospores
+model_ascospore_shape<-sma(spore_length ~ spore_width*simpleFunct,multcomp = T,
+                           data = Ascospores,log = "xy",slope.test = 1)
+
+summary(model_ascospore_shape)
+plot(model_ascospore_shape,pch = 19)
+
+model_ascospore_shape<-sma(spore_length ~ spore_width+ simpleFunct, #multcomp = T,
+                           data = Ascospores,log = "xy",elev.test =  0)
+
+summary(model_ascospore_shape)
+
+sma(spore_length ~ spore_width, #multcomp = T,#It is different from 0
+    data = Ascospores[which(Ascospores$simpleFunct=="AFree living"),],log = "xy",elev.test =  0)
+sma(spore_length ~ spore_width, #multcomp = T,
+    data = Ascospores[which(Ascospores$simpleFunct=="Human"),],log = "xy",elev.test =  0)
+sma(spore_length ~ spore_width, #multcomp = T,#It is different from 0
+    data = Ascospores[which(Ascospores$simpleFunct=="Insect"),],log = "xy",elev.test =  0)
+sma(spore_length ~ spore_width, #multcomp = T,#It is diff from 0
+    data = Ascospores[which(Ascospores$simpleFunct=="Lichen"),],log = "xy",elev.test =  0)
+sma(spore_length ~ spore_width, #multcomp = T,It is diff from 0
+    data = Ascospores[which(Ascospores$simpleFunct=="Plant Endophyte"),],log = "xy",elev.test =  0)
+sma(spore_length ~ spore_width, #multcomp = T,It is diff from 0
+    data = Ascospores[which(Ascospores$simpleFunct=="Plant Pathogen"),],log = "xy",elev.test =  0)
+
+
+#Conidia
+model_conidia_shape<-sma(spore_length ~ spore_width*simpleFunct,
+                         data = Conidia,log = "xy",slope.test = 1)
+
+model_conidia_shape2<-sma(spore_length ~ spore_width,
+                         data = Conidia[which(Conidia$simpleFunct=="Plant Pathogen"),],
+                         log = "xy",elev.test = 0)
+
+summary(model_conidia_shape)
+plot(model_conidia_shape,pch = 19)
+
+
+data(leaflife);leaf.low.soilp <- subset(leaflife, soilp == 'low')
+sma(longev~lma+rain, log="xy", data=leaf.low.soilp,elev.test = 0)
+
+For_conidia_parameters<-data.frame(
+simpleFunct=levels(Conidia$simpleFunct),
+slopes=c(1.33,1.18,0.69,0.81,1.05,1.14),
+intercetps=c(0.18,0.14,0.61,0.63,0.31,0.61),
+intercetps_2=c(0,0,0,0,0,0),
+slopes_2=c(1,1,1,1,1,1),
+Life_style=c("AFree living","Human","Insect","Lichen","Plant","Plant"))
+
+
+For_ascospores_parameters<-data.frame(
+  simpleFunct=levels(Conidia$simpleFunct),
+  slopes=rep(1,6),
+  intercetps=c(0.3061455,0,0.4379020,0.2910940,0.26287892,0.3896577),
+  intercetps_2=rep(0,6),
+  Life_style=c("AFree living","Human","Insect","Lichen","Plant","Plant")
+)
+
+#Basidiospores
+model_basidiospore_shape<-sma(spore_length ~ spore_width*simpleFunct,#multcomp = T,
+                           data = Basidiospores,log = "xy",slope.test = 1)
+
+sma(spore_length ~ spore_width,#*simpleFunct,#multcomp = T,
+    data = Basidiospores,log = "xy",elev.test = 0)
+
+summary(model_basidiospore_shape)
+
+For_basidiospores_parameters<-data.frame(
+  simpleFunct=levels(Basidiospores$simpleFunct),
+  slopes=c(0.9,1,1,1,1),
+  intercetps=c(0.28,0.56,0.16,0.19,0.14),
+  slopes_2=rep(1,5),
+  intercetps_2=rep(0,5)
+
+)
+
+
+library(hexbin)
+
+#Ascospores %>% 
+#Conidia %>% 
+Basidiospores %>% 
+  #filter(simpleFunct=="Plant Pathogen") %>% 
+ggplot()+
+  aes(x=spore_width,
+      y=spore_length,
+      color=SporeArea,
+      #fill=Life_style
+      size=2
+      )+
+  #geom_point(alpha=0.2)+
+  geom_point()+
+  scale_y_log10(breaks=c(10^0,10^1,10^2),
+    labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_x_log10(breaks=c(10^0,10^1,10^2),
+    labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  #geom_text(aes(label=good.names))+
+  labs(x=expression("Spore width ("*mu*"m)"),
+       y=expression("Spore length("*mu*"m)"))+
+  
+  #For conidia
+  #geom_abline(data=For_conidia_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
+  #geom_abline(data=For_conidia_parameters,aes(slope=slopes_2,intercept=intercetps_2),lwd=1.5,lty=2)+
+  
+  #For Ascospores
+  #geom_abline(data=For_ascospores_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
+  #geom_abline(data=For_ascospores_parameters,aes(slope=slopes,intercept=intercetps_2),lwd=1.5,lty=2)+
+  
+  #For basidiospores
+  geom_abline(data=For_basidiospores_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
+  geom_abline(data=For_basidiospores_parameters,aes(slope=slopes_2,intercept=intercetps_2),lwd=1.5,lty=2)+
+  
+  #geom_hex() +
+  
+  facet_wrap(.~simpleFunct , scales = "fixed")+
+  #scale_color_manual(values = rainbow(14))+
+  #geom_abline(slope=-1,intercept = 0.58,lty=2)+
+  my_theme3+
+  scale_color_continuous(type = "viridis",name=expression("Spore\narea ("*mu*"m²)"),trans="log10",
+                         labels = scales::trans_format("log10", scales::math_format(10^.x)))#+
+  #scale_fill_continuous(type = "viridis")
+
+#stat_function(fun=function(x)intercepts*x^slopes, geom="line",lty=2,color="black")+
+
+#the entry for :Cosmospora flammea is wrong
+
+
+
+########################################################################################################
+#Counting how many guilds occur per phyla
+Spore_functions%>%
+  filter(!duplicated(names_to_use)) %>% 
+  filter(!is.na(Life_style)) %>%
+  filter(!grepl("-",host))%>%#The issue is that we only have data for 2503 species
+  filter(!grepl("Fungi",host))%>%
+  #filter(!SporeName%in%c("Azygospores","Teliospores"))%>%
+  group_by(phylum,Guild_1)%>%
+  count(phylum) %>% 
+  ggplot()+
+  aes(fill=Guild_1,x=phylum,y=n)+
+  geom_bar(stat = "identity",position = "stack")+
+  #scale_color_brewer(palette="Set1")+
+  scale_fill_manual(values = prueba)+
+  #geom_text(aes(Freq))%>%
+  #geom_text(aes(label=Freq),vjust=-0.3, size=5)+
+  labs(y="Number of species",x="Taxonomic group")+
+  theme(title = element_text(size = 20),
+        axis.title.x=element_blank(),
+        axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+        axis.text.y = element_text(size = 20),
+        strip.text.x = element_text(size = 20),
+        legend.text =  element_text(size = 15))+
+  scale_fill_discrete(name="Functional groups")
+
+
+prueba<-c(rep("black",13),"blue","black","black","black")
+
+#Number of guilds associated to plants for fungi producing Conidia
+table(To_Analysis$trophicMode[which(To_Analysis$Life_style=="Plant"&To_Analysis$SporeName=="Conidia")])
+table(To_Analysis$guild[which(To_Analysis$Life_style=="Plant"&To_Analysis$SporeName=="Ascospores")])
+
+table(To_Analysis$guild[which(To_Analysis$Life_style=="Insect"&To_Analysis$SporeName=="Conidia")])
+table(To_Analysis$guild[which(To_Analysis$Life_style=="Human"&To_Analysis$SporeName=="Conidia")])
+
+temp2<-
+  To_Analysis %>%
+  filter(SporeName%in%c("Ascospores","Conidia"))%>%
+  filter(!simpleFunct=="Plant Ectomycorrhizal") %>% 
+  
+  group_by(SporeName,simpleFunct) %>% 
+  tally()
+  
+temp<-
+  Spore_functions %>% 
+  filter(!is.na(Life_style)) %>%
+  filter(!grepl("-",host))%>%#The issue is that we only have data for 2503 species
+  filter(!grepl("Fungi",host))%>%
+  filter(!grepl("Animal",host))%>%
+  filter(!SporeName%in%c("Azygospores","Teliospores"))%>%
+  
+  group_by(phylum,names_to_use,SporeType,SporeName,Specific_sporeName,Life_style)%>%
+  summarise_at(c("SporeArea"),mean)%>%
+  group_by(phylum,SporeName,Life_style) %>% 
+  tally()
+
+
+
+
+
+  
