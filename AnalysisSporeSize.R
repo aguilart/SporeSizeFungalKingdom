@@ -459,7 +459,7 @@ To_Analysis %>%
 
 
 
-#Ascomycota or #Conidia
+#Ascomycota and #Basidiomycota
 p1<-
 To_Analysis %>% 
   ungroup() %>% 
@@ -471,28 +471,28 @@ To_Analysis %>%
   #filter(!(phylum=="Basidiomycota" & simpleFunct=="Ectomycorrhiza")) %>% 
   #filter(!(phylum=="Zygomycota" & simpleFunct=="Plant Pathogen")) %>% 
   ggplot()+
-  aes(simpleFunct,SporeArea,fill=Life_style)+
+  aes(simpleFunct,SporeVolume,fill=Life_style)+
   geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
   geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
   #facet_grid(SporeName~phylum, scales = "free")+
   facet_grid(phylum~SporeName, scales = "free_y")+
   scale_color_brewer(palette="Set1")+
   scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-  labs(y=expression("Spore size as area ("*mu*"m²)"))+
+  labs(y=expression("Spore size as volume ("*mu*"m³)"))+
   scale_x_discrete(labels=c("AFree living" = "Free living", "Human"="Human pathogen","Insect"="Insect pathogen",
                             "Plant Endophyte"="Endophyte","Lichen" = "Lichen*","Plant Pathogen"="Plant Pathogen",
                             "Plant Ectomycorrhizal"="Ectomycorrhiza","Plant AMF"="Arbuscular Mycorrhiza"))+
-  my_theme3+#theme(axis.text.x = element_blank(),axis.title.x=element_blank())+
+  my_theme4+#theme(axis.text.x = element_blank(),axis.title.x=element_blank())+
   coord_flip()
   
   
-#Basidiomycota or sexual spores
+#Basidiomycota or sexual spores (Included in the analysis)
 p2<-
   To_Analysis %>% 
   filter(phylum=="Basidiomycota") %>%
   filter(!SporeName=="Teliospores") %>% 
   ggplot()+
-  aes(simpleFunct,SporeArea,fill=Life_style)+
+  aes(simpleFunct,SporeVolume,fill=Life_style)+
   geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
   geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
   facet_grid(phylum~SporeName, scales = "free_y")+
@@ -510,7 +510,7 @@ p3<-
   To_Analysis %>% 
   filter(!c(SporeName=="Azygospores" & phylum=="Zygomycota")) %>% 
   filter(phylum=="Zygomycota" | phylum=="Glomeromycota") %>% 
-  mutate(phylum_="Lower Fungi") %>% 
+  mutate(phylum_="Basal clades") %>% 
   
   ggplot()+
   aes(simpleFunct,SporeArea,fill=Life_style)+
@@ -519,11 +519,11 @@ p3<-
   facet_grid(phylum_~SporeName , scales = "free_y")+
   scale_color_brewer(palette="Set1")+
   scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-  labs(y=expression("Spore size as area ("*mu*"m²)"))+
+  labs(y=expression("Spore size as volume ("*mu*"m³)"))+
   scale_x_discrete(labels=c("AFree living" = "Free living", "Human"="Human pathogen","Insect"="Insect pathogen",
                             "Plant Endophyte"="Endophyte","Lichen" = "Lichen*","Plant Pathogen"="Plant Pathogen",
                             "Plant Ectomycorrhizal"="Ectomycorrhiza","Plant AMF"="Arbuscular Mycorrhiza"))+
-  my_theme3+
+  my_theme4+
   coord_flip()
 #grid.arrange(p1,p2);p3
 
@@ -658,17 +658,21 @@ contrasts(Zygospores$simpleFunct)<-cbind(
 #Contrast4: Lichen vs Plant symbionts
 #Contrast5: Endophytes vs Plant pathogens
 summary.lm(
-  aov(log10(SporeArea) ~ simpleFunct,data = Ascospores)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Ascospores)
 )
 
 summary(
-  aov(log10(SporeArea) ~ simpleFunct,data = Ascospores)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Ascospores)
 )
+
 
 tapply(log10(Ascospores$SporeArea),
        Ascospores$simpleFunct,mean)
 
 tapply(log10(Ascospores$SporeArea),
+       Ascospores$Life_style,mean)
+
+tapply(log10(Ascospores$SporeVolume),
        Ascospores$Life_style,mean)
 
 #Conidia
@@ -678,15 +682,14 @@ tapply(log10(Ascospores$SporeArea),
 #Contrast4: Lichen vs Plant symbionts
 #Contrast5: Endophytes vs Plant pathogens
 summary.lm(
-  aov(log10(SporeArea) ~ simpleFunct,data = Conidia)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Conidia)
 )
 
 summary(
-  aov(log10(SporeArea) ~ simpleFunct,data = Conidia)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Conidia)
 )
 
-tapply(log10(Conidia$SporeArea),
-       Conidia$simpleFunct,mean)
+
 
 #Basidiospores
 table(Basidiospores$simpleFunct)
@@ -695,11 +698,23 @@ table(Basidiospores$simpleFunct)
 #Contrast3: Lichen vs Plant symbionts
 #Contrast4: Ectomycorhizal vs Plant pathogen
 summary.lm(
-  aov(log10(SporeArea) ~ simpleFunct,data = Basidiospores)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Basidiospores)
 )
 
 summary(
-  aov(log10(SporeArea) ~ simpleFunct,data = Basidiospores)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Basidiospores)
+)
+
+with(Basidiospores,
+tapply(log10(SporeArea),simpleFunct,mean)
+)
+
+with(Basidiospores,
+     tapply(SporeArea,simpleFunct,mean)
+)
+
+with(Basidiospores,
+     tapply(SporeVolume,simpleFunct,mean)
 )
 
 #Chlamydospores
@@ -708,11 +723,11 @@ levels(Chlamydospores$simpleFunct)
 #Contrast2: Human vs Plant symbionts
 #Contrast3: Plant endophyte and plant pathogens
 summary.lm(
-  aov(log10(SporeArea) ~ simpleFunct,data = Chlamydospores)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Chlamydospores)
 )
 
 summary(
-  aov(log10(SporeArea) ~ simpleFunct,data = Chlamydospores)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Chlamydospores)
 )
 
 
@@ -720,11 +735,11 @@ summary(
 levels(Sporangiospores$simpleFunct)
 #Contrast1: Human vs Plant pathogen
 summary.lm(
-  aov(log10(SporeArea) ~ simpleFunct,data = Sporangiospores)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Sporangiospores)
 )
 
 summary(
-  aov(log10(SporeArea) ~ simpleFunct,data = Sporangiospores)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Sporangiospores)
 )
 
 #Zygospores
@@ -733,11 +748,11 @@ levels(Zygospores$simpleFunct)
 #Contrast2:Human vs Insect
 
 summary.lm(
-  aov(log10(SporeArea) ~ simpleFunct,data = Zygospores)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Zygospores)
 )
 
 summary(
-  aov(log10(SporeArea) ~ simpleFunct,data = Zygospores)
+  aov(log10(SporeVolume) ~ simpleFunct,data = Zygospores)
 )
 
 #Based on the previous analysis it only makes sense to compare Ascospores and 
@@ -874,19 +889,21 @@ Basidiospores %>%
 ggplot()+
   aes(x=spore_width,
       y=spore_length,
-      color=SporeArea,
+      color=SporeVolume,
+      #color=simpleFunct,
+      #shape=simpleFunct,
       #fill=Life_style
-      size=2
+      
       )+
   #geom_point(alpha=0.2)+
-  geom_point()+
-  scale_y_log10(breaks=c(10^0,10^1,10^2),
+  geom_point(size=2)+
+  scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
     labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-  scale_x_log10(breaks=c(10^0,10^1,10^2),
+  scale_x_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
     labels = scales::trans_format("log10", scales::math_format(10^.x)))+
   #geom_text(aes(label=good.names))+
-  labs(x=expression("Spore width ("*mu*"m)"),
-       y=expression("Spore length("*mu*"m)"))+
+  labs(x=expression("Basidiospores width ("*mu*"m)"),
+       y=expression("Basidiospores length ("*mu*"m)"))+
   
   #For conidia
   #geom_abline(data=For_conidia_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
@@ -906,9 +923,11 @@ ggplot()+
   #scale_color_manual(values = rainbow(14))+
   #geom_abline(slope=-1,intercept = 0.58,lty=2)+
   my_theme3+
-  scale_color_continuous(type = "viridis",name=expression("Spore\narea ("*mu*"m²)"),trans="log10",
-                         labels = scales::trans_format("log10", scales::math_format(10^.x)))#+
-  #scale_fill_continuous(type = "viridis")
+  #scale_shape_manual(values=c(15,16,17,3,8))#+
+ scale_color_continuous(type = "viridis",name=expression("Spore\nVolume ("*mu*"m³)"),trans="log10",
+                        labels = scales::trans_format("log10", scales::math_format(10^.x)))#+
+  #scale_color_viridis_d()
+#scale_fill_continuous(type = "viridis")
 
 #stat_function(fun=function(x)intercepts*x^slopes, geom="line",lty=2,color="black")+
 
@@ -973,6 +992,21 @@ temp<-
   group_by(phylum,SporeName,Life_style) %>% 
   tally()
 
+
+
+Conidia %>% 
+  filter(simpleFunct=="Insect") %>% 
+  ggplot()+
+  aes(x=spore_width,
+          y=spore_length,
+          #color=SporeArea,
+          color=order)+
+  geom_point(size=2)+
+  scale_y_log10(#breaks=c(10^0,10^1,10^2),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_x_log10(#breaks=c(10^0,10^1,10^2),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))
+  
 
 
 
