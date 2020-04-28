@@ -986,14 +986,9 @@ AllFungi[which(AllFungi$names_to_use%in%c("Ascochyta tarda")&AllFungi$Dim1>50),c
 AllFungi[which(AllFungi$names_to_use%in%c("Microidium phyllanthi")&AllFungi$Dim2>50),c("Dim2")]<-c((7+10)/2)
 
 
-#Clean sporangiospores entries
-#Typhula ishikariensis from Compendium is wrong. The basidiospores should be 6-8 x 3-4 um
-#Cladophialophora minutissima is wrong (conidia entry). It has the format d+error x d+error
-#Aphanoascella galapagosensis	is wrong. It has sub-structures
-#Also check bigger sizes
-#the entry for :Cosmospora flammea is wrong
+
 ##########################################################################################################
-#Trying to fixing the entries "long ... wide"
+#Fixing the entries "long ... wide"
 Conidia<-read.csv('output/conidia_mycobank.csv',header = T, stringsAsFactors = F)
 Conidia_names<- strsplit(Conidia$spec,"_")
 Conidia_names<- do.call("rbind",Conidia_names)
@@ -1239,17 +1234,17 @@ temp <- apply(temp, 2, function(x){
 Conidia <- cbind(Conidia, temp)
 Conidia <- Conidia %>% 
   rename(Dim1 = V1, 
-         Dim2 = V2, 
-         Dim3 = V3, 
-         Dim4 = V4,
-         Dim5 = V5,
-         Dim6 = V6)
+         Dim2 = V2)#, 
+         #Dim3 = V3, 
+         #Dim4 = V4,
+         #Dim5 = V5,
+         #Dim6 = V6)
 
 # Conidia_<-
 # Conidia[grep("up\\s?to\\s?\\d",Conidia$text_entry),]
 
-Conidia_<-Conidia[-which(is.na(Conidia$V2)),]
-Conidia_$to_replace<-paste(Conidia_$spec,Conidia_$spore_type,Conidia_$V1)
+Conidia_<-Conidia[-which(is.na(Conidia$Dim2)),]
+Conidia_$to_replace<-paste(Conidia_$spec,Conidia_$spore_type,Conidia_$Dim1)
 
 # Conidia_old$to_replace<-paste(Conidia_old$spec,Conidia_old$spore_type,Conidia_old$Dim1)
 # Conidia_$to_replace[which(!Conidia_$to_replace%in%Conidia_old$to_replace)]
@@ -1278,6 +1273,7 @@ names(Conidia_)[c(5,6)]<-c("Dim1","Dim2")
 Conidia_$to_replace<-paste(Conidia_$spec,Conidia_$spore_type,Conidia_$Dim1)
 Conidia_$to_replace<-gsub("_"," ",Conidia_$to_replace)
 
+#Replacing wrong values with the corrrected conidia data to AllFungi
 
 AllFungi$to_replace<-paste(AllFungi$base_name,AllFungi$Mycobank_base__id,
                           AllFungi$description__id,AllFungi$Specific_sporeName,AllFungi$Dim1)
@@ -1290,9 +1286,53 @@ AllFungi[which(AllFungi$to_replace%in%Conidia_$to_replace&AllFungi$Dim1==AllFung
          c("Dim1","Dim2")]<-
   Conidia_[match(AllFungi$to_replace[which(AllFungi$to_replace%in%Conidia_$to_replace&AllFungi$Dim1==AllFungi$Dim2)],
                  Conidia_$to_replace),c("Dim1", "Dim2")]
+AllFungi_c<-AllFungi
+#Fixing some typos
 
+AllFungi[which(AllFungi$base_name=="Mucor ardhlaengiktus"&
+                           AllFungi$Dim1==600),c("SporeName","Dim1","Dim2","Specific_sporeName")]<-
+  c("Sporangiospores",7,2.8,"sporangiospores")
+
+AllFungi[which(AllFungi$base_name=="Umbelopsis westeae"&
+                 AllFungi$SporeName=="Sporangiospores"),c("Dim1","Dim2")]<-
+  c(7,2.5)#The sporangiospores are actually  (4-)5-6(-8) x 2-2.5(-3) µm
+
+AllFungi<-
+AllFungi[-which(AllFungi$base_name=="Helminthosporium cesatii"&
+                 AllFungi$Dim1==1.3),];rownames(AllFungi)<-NULL
+AllFungi<-
+  AllFungi[-which(AllFungi$base_name=="Typhula ishikariensis"&
+                    AllFungi$Dim1==0.55),];rownames(AllFungi)<-NULL
+
+
+AllFungi[which(AllFungi$base_name=="Cladophialophora minutissima"&
+                 AllFungi$Dim2==0.29),c("Dim1","Dim2")]<-
+  c(1.7,13.9)#1-2 (1.7 + 0.29) x 8-22 µm (13.9 + 6.5)
+
+
+AllFungi[which(AllFungi$base_name=="Cladophialophora minutissima"&
+                 AllFungi$Dim2==0.2),c("Dim1","Dim2")]<-
+  c(1.9,12.4)#1.5-2 (1.9 + 0.2) x 9-17 µm (12.4 + 2.2)
+
+AllFungi[which(AllFungi$base_name=="Aphanoascella galapagosensis"&
+                 AllFungi$Dim2==0.75),c("Dim1","Dim2")]<-
+  c(5.5,3.75)#5-6 x 3-4.5 µm
+
+
+AllFungi<-
+  AllFungi[-which(AllFungi$base_name=="Cosmospora flammea"&
+                    AllFungi$Dim1==107.5),];rownames(AllFungi)<-NULL
+
+AllFungi<-
+  AllFungi[-which(AllFungi$base_name=="Cosmospora flammea"&
+                    AllFungi$Dim1==25),];rownames(AllFungi)<-NULL
+
+
+#Clean sporangiospores entries
 
 #Now I need to update entries
+AllFungi$Dim1<-as.numeric(AllFungi$Dim1)
+AllFungi$Dim2<-as.numeric(AllFungi$Dim2)
 
 #Getting spore widht
 AllFungi$spore_width<-NA
@@ -1350,21 +1390,15 @@ AllFungi$length_extreme<-rep(FALSE,length(AllFungi$base_name))
 AllFungi$length_extreme[as.numeric(For_length$row_number)]<-TRUE
 rm(For_length,For_width)
 
-#The entry for Mucor ardhlaengiktus, azygospore of 600 um is an error. This entry should be deleted
-#The entry for Umbelopsis westeae for sporangiospores of 0.25um is an error. The sporangiospores are actually  (4-)5-6(-8) x 2-2.5(-3) µm
-
-
-
-#Clean sporangiospores entries
-#Typhula ishikariensis from Compendium is wrong. The basidiospores should be 6-8 x 3-4 um
-#Cladophialophora minutissima is wrong (conidia entry). It has the format d+error x d+error
-#Aphanoascella galapagosensis	is wrong. It has sub-structures
-#Also check bigger sizes
-#the entry for :Cosmospora flammea is wrong
-
+rownames(AllFungi)<-NULL
 
 #Saving the updated dataset
 write.csv(AllFungi,'output/Spore_Database_Fungi.csv',row.names = F)
+
+
+
+
+
 
 #OPTIONAL Checking how many have the same name, same description and same values but differ only the ID´s
 
