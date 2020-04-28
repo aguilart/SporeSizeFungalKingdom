@@ -1,0 +1,385 @@
+---
+title: "SummarySporeTraitAnalysis"
+author: "Carlos"
+date: "22/04/2020"
+output:
+  html_document: default
+  word_document: default
+---
+
+
+```{r, message=FALSE, warning=FALSE}
+source("MatchingSpore_FunctionData.R")
+library(smatr)
+```
+
+
+# Figure 1
+
+## Note: This figure was further modified manually in inkscape
+```{r}
+#You might need to install these two packages:
+#devtools::install_github("ropenscilabs/datastorr")
+#devtools::install_github("wcornwell/taxonlookup")
+
+#tree for panel 1
+p <- ggtree(dropped.tree2)+ geom_tiplab(size = 2)+ theme_tree2()
+
+# spore size for panel 2
+p1 <- facet_plot(
+  p,
+  panel = "Spore volume (log)",
+  data = temp,
+  geom = geom_point,
+  mapping = aes(x = log_spore_volume,col=SporeName),
+  #alpha=0.1,
+  size=2
+  #colour = guide_legend(override.aes = list(alpha=1)),
+  #outlier.size = 0.1
+)+
+  #scale_color_brewer(palette="Set1")
+  scale_color_manual(values = rainbow(8))
+
+#spore shape for panel 3
+p2<-facet_plot(p1,
+               panel = "Q ratio (length/width)",
+               data = temp,
+               geom = geom_point,
+               mapping = aes(x = length_divided_by_width,col=SporeName),
+               #alpha=0.1, 
+               size=2)+
+  theme(title = element_text(size = 20),
+        axis.title.x=element_blank(),
+        axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+        #axis.text.y = element_text(size = 20),
+        strip.text.x = element_text(size = 20),
+        legend.text =  element_text(size = 15))
+p2
+```
+
+
+# Figure 2
+
+## Ascospores
+```{r}
+#These values come from the SMA analysis (see below in section materials and methods)
+For_ascospores_parameters<-data.frame(
+  simpleFunct=levels(Conidia$simpleFunct),
+  slopes=rep(1,6),
+  intercetps=c(0.3061455,0,0.4379020,0.2910940,0.26287892,0.3896577),
+  intercetps_2=rep(0,6),
+  Life_style=c("AFree living","Human","Insect","Lichen","Plant","Plant")
+)
+
+Ascospores %>% 
+ggplot()+
+  aes(x=spore_width,
+      y=spore_length,
+      color=SporeVolume,
+      
+      )+
+  #geom_point(alpha=0.2)+
+  geom_point(size=2)+
+  scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+    labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_x_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+    labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  labs(x=expression("Basidiospores width ("*mu*"m)"),
+       y=expression("Basidiospores length ("*mu*"m)"))+
+  
+  #For Ascospores
+  geom_abline(data=For_ascospores_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
+  geom_abline(data=For_ascospores_parameters,aes(slope=slopes,intercept=intercetps_2),lwd=1.5,lty=2)+
+  
+  facet_wrap(.~simpleFunct , scales = "fixed")+
+  
+  my_theme3+
+  
+  scale_color_continuous(type = "viridis",name=expression("Spore\nVolume ("*mu*"m³)"),trans="log10",
+                        labels = scales::trans_format("log10", scales::math_format(10^.x)))
+
+```
+
+## Conidia
+```{r}
+#These values come from the SMA analysis (see below in section materials and methods)
+For_conidia_parameters<-data.frame(
+simpleFunct=levels(Conidia$simpleFunct),
+slopes=c(1.33,1.18,0.69,0.81,1.05,1.14),
+intercetps=c(0.18,0.14,0.61,0.63,0.31,0.61),
+intercetps_2=c(0,0,0,0,0,0),
+slopes_2=c(1,1,1,1,1,1),
+Life_style=c("AFree living","Human","Insect","Lichen","Plant","Plant"))
+
+Conidia %>% 
+ggplot()+
+  aes(x=spore_width,
+      y=spore_length,
+      color=SporeVolume,
+      
+      )+
+  #geom_point(alpha=0.2)+
+  geom_point(size=2)+
+  scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+    labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_x_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+    labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+
+  labs(x=expression("Basidiospores width ("*mu*"m)"),
+       y=expression("Basidiospores length ("*mu*"m)"))+
+  
+  #For conidia
+  geom_abline(data=For_conidia_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
+  geom_abline(data=For_conidia_parameters,aes(slope=slopes_2,intercept=intercetps_2),lwd=1.5,lty=2)+
+  
+  facet_wrap(.~simpleFunct , scales = "fixed")+
+  
+  my_theme3+
+  
+  scale_color_continuous(type = "viridis",name=expression("Spore\nVolume ("*mu*"m³)"),trans="log10",
+                        labels = scales::trans_format("log10", scales::math_format(10^.x)))
+```
+
+## Basidiospores
+```{r}
+#These values come from the SMA analysis (see below in section materials and methods)
+For_basidiospores_parameters<-data.frame(
+  simpleFunct=levels(Basidiospores$simpleFunct),
+  slopes=c(0.9,1,1,1,1),
+  intercetps=c(0.28,0.56,0.16,0.19,0.14),
+  slopes_2=rep(1,5),
+  intercetps_2=rep(0,5)
+)
+
+Basidiospores %>% 
+ggplot()+
+  aes(x=spore_width,
+      y=spore_length,
+      color=SporeVolume,
+      
+      )+
+  #geom_point(alpha=0.2)+
+  geom_point(size=2)+
+  scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+    labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  scale_x_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+    labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+
+  labs(x=expression("Basidiospores width ("*mu*"m)"),
+       y=expression("Basidiospores length ("*mu*"m)"))+
+  
+  #For basidiospores
+  geom_abline(data=For_basidiospores_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
+  geom_abline(data=For_basidiospores_parameters,aes(slope=slopes_2,intercept=intercetps_2),lwd=1.5,lty=2)+
+  
+  facet_wrap(.~simpleFunct , scales = "fixed")+
+  
+  my_theme3+
+  
+  scale_color_continuous(type = "viridis",name=expression("Spore\nVolume ("*mu*"m³)"),trans="log10",
+                        labels = scales::trans_format("log10", scales::math_format(10^.x)))
+```
+
+# Figure S1
+```{r}
+data.frame(table(AllFungi[!duplicated(AllFungi$names_to_use),c("phylum")]))
+  
+Ascos<-c(`Spore` = 17656,`No_spore` = 66169)
+Basidios<-c(`Spore` = 7530,`No_spore` = 40875)
+Chytrids<-c(`Spore` = 2,`No_spore` = 1216)
+Glomeros<-c(`Spore` = 274,`No_spore` = 10)
+Zygos<-c(`Spore` = 295,`No_spore` = 1071)
+
+library(waffle)
+library(RColorBrewer)
+
+waffle(
+  Ascos / 100, rows = 20, size = 0.5,
+  colors = c("blue","light blue"),
+  title = "Ascomycota",
+  #xlab = "1 square = 100 Species",
+  pad = 3,
+  legend_pos = "none"
+  #use_glyph = "star"
+)->A
+
+waffle(
+  Basidios / 100, rows = 12, size = 0.5,
+  colors = c("blue","light blue"),
+  title = "Basidiomycota",
+  #xlab = "1 square = 100 Species",
+  pad = 3,
+  legend_pos = "none"
+  #use_glyph = "star"
+)->B
+
+waffle(
+  Chytrids , rows = 20, size = 0.5,
+  colors = c("blue","light blue"),
+  title = "Chytridiomycota",
+  #xlab = "1 square = 1 Species", 
+  pad = 3,
+  legend_pos = "none"
+  #use_glyph = "star"
+)->C
+
+waffle(
+  Glomeros , rows = 7, size = 0.5,
+  colors = c("blue","light blue"),
+  title = "Glomeromycota",
+  #xlab = "1 square = 1 Species",
+  pad = 3,
+  legend_pos = "none"
+  #use_glyph = "star"
+)->G
+
+waffle(
+  Zygos , rows = 20, size = 0.5,
+  colors = c("blue","light blue"),
+  title = "Zygomycota",
+  #xlab = "1 square = 1 Species", 
+  pad = 3,
+  legend_pos = "none"
+  #use_glyph = "star"
+)->Z
+
+#Ploting them. First the "higher fungi (A and B) and then the lower fungi (C,G,Z)
+iron(A, B)
+iron(C,G,Z)
+```
+
+
+# Figure S2
+
+## Ascomycota and Basidiomycota
+```{r}
+
+To_Analysis %>% 
+  ungroup() %>% 
+  filter(phylum=="Ascomycota" | phylum=="Basidiomycota") %>% 
+  filter(!SporeName=="Teliospores") %>% 
+  mutate(SporeName=gsub("Ascospores|Basidiospores","Sexual spores",SporeName)) %>% 
+  
+  ggplot()+
+  aes(simpleFunct,SporeVolume,fill=Life_style)+
+  geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
+  geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
+  #facet_grid(SporeName~phylum, scales = "free")+
+  facet_grid(phylum~SporeName, scales = "free_y")+
+  scale_color_brewer(palette="Set1")+
+  scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  labs(y=expression("Spore size as volume ("*mu*"m³)"))+
+  scale_x_discrete(labels=c("AFree living" = "Free living", "Human"="Human pathogen","Insect"="Insect pathogen",
+                            "Plant Endophyte"="Endophyte","Lichen" = "Lichen*","Plant Pathogen"="Plant Pathogen",
+                            "Plant Ectomycorrhizal"="Ectomycorrhiza","Plant AMF"="Arbuscular Mycorrhiza"))+
+  my_theme4+#theme(axis.text.x = element_blank(),axis.title.x=element_blank())+
+  coord_flip()
+```
+
+## Glomeromycota and "zygomycetous fungi"
+```{r}
+To_Analysis %>% 
+  filter(!c(SporeName=="Azygospores" & phylum=="Zygomycota")) %>% 
+  filter(phylum=="Zygomycota" | phylum=="Glomeromycota") %>% 
+  mutate(phylum_="Basal clades") %>% 
+  
+  ggplot()+
+  aes(simpleFunct,SporeArea,fill=Life_style)+
+  geom_jitter(size=1.5, width = 0.3,alpha=0.8)+
+  geom_violin(alpha=0.8, draw_quantiles=c(0.25, 0.5, 0.75))+
+  facet_grid(phylum_~SporeName , scales = "free_y")+
+  scale_color_brewer(palette="Set1")+
+  scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  labs(y=expression("Spore size as volume ("*mu*"m³)"))+
+  scale_x_discrete(labels=c("AFree living" = "Free living", "Human"="Human pathogen","Insect"="Insect pathogen",
+                            "Plant Endophyte"="Endophyte","Lichen" = "Lichen*","Plant Pathogen"="Plant Pathogen",
+                            "Plant Ectomycorrhizal"="Ectomycorrhiza","Plant AMF"="Arbuscular Mycorrhiza"))+
+  my_theme4+
+  coord_flip()
+```
+
+
+# Material and methods: Statistical analysis
+
+## A priori contrast of spore size among functional groups per spore type
+```{r}
+#Ascospores:
+#Contrast1:Free living vs all symbionts
+#Contrast2: Human pathogens vs all other symbionts
+#Contrast3: Insect pathogens vs the more "plant-ish" symbionts
+#Contrast4: Lichen vs Plant symbionts
+#Contrast5: Endophytes vs Plant pathogens
+summary.lm(
+  aov(log10(SporeVolume) ~ simpleFunct,data = Ascospores)
+)
+```
+
+```{r}
+#Conidia
+#Contrast1:Free living vs all symbionts
+#Contrast2: Human pathogens vs all other symbionts
+#Contrast3: Insect pathogens vs the more "plant-ish" symbionts
+#Contrast4: Lichen vs Plant symbionts
+#Contrast5: Endophytes vs Plant pathogens
+summary.lm(
+  aov(log10(SporeVolume) ~ simpleFunct,data = Conidia)
+)
+```
+
+```{r}
+#Basidiospores
+table(Basidiospores$simpleFunct)
+#Contrast1:Free living vs all symbionts
+#Contrast2: Insect vs Plant-ish symbionts
+#Contrast3: Lichen vs Plant symbionts
+#Contrast4: Ectomycorhizal vs Plant pathogen
+summary.lm(
+  aov(log10(SporeVolume) ~ simpleFunct,data = Basidiospores)
+)
+```
+
+```{r}
+#Chlamydospores
+levels(Chlamydospores$simpleFunct)
+#Contrast1: Free living vs all symbionts
+#Contrast2: Human vs Plant symbionts
+#Contrast3: Plant endophyte and plant pathogens
+summary.lm(
+  aov(log10(SporeVolume) ~ simpleFunct,data = Chlamydospores)
+)
+```
+
+```{r}
+#sporangiospores
+levels(Sporangiospores$simpleFunct)
+#Contrast1: Human vs Plant pathogen
+summary.lm(
+  aov(log10(SporeVolume) ~ simpleFunct,data = Sporangiospores)
+)
+```
+
+## Standard major regression of spore length and spore width per spore type
+
+```{r}
+#Ascospores
+model_ascospore_shape<-sma(spore_length ~ spore_width+ simpleFunct, #multcomp = T,
+                           data = Ascospores,log = "xy",elev.test =  0)
+
+
+summary(model_ascospore_shape)
+```
+
+```{r}
+model_conidia_shape<-sma(spore_length ~ spore_width*simpleFunct,
+                         data = Conidia,log = "xy",slope.test = 1)
+
+summary(model_conidia_shape)
+```
+
+```{r}
+model_basidiospore_shape<-sma(spore_length ~ spore_width*simpleFunct,#multcomp = T,
+                           data = Basidiospores,log = "xy",slope.test = 1)
+
+summary(model_basidiospore_shape)
+```
+

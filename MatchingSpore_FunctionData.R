@@ -21,7 +21,7 @@ FungalTaxanomy_col<-read.csv('output/FungalTaxanomy_col.csv', header = T, string
 #Loading functional group data
 
 FunGuildData<-
-  read.csv("GuildData.csv",header = T,stringsAsFactors = F)
+  read.csv("output/GuildData.csv",header = T,stringsAsFactors = F)
 
 l<-sapply(strsplit(FunGuildData$taxon, " "), length)
 FunGuildData$taxonomicLevel<-"Species"
@@ -42,17 +42,6 @@ Spore_functions<-
       select(names_to_use,trophicMode,guild,host,substrate,Function,Number_of_guilds,Guild_1),
       by="names_to_use")
       
-
-# Spore_functions2<-
-#   left_join(AllFungi,
-#             FunGuildData %>% 
-#               rename(base_name=taxon)%>%
-#               select(base_name,trophicMode,guild,host,substrate,Function,Number_of_guilds,Guild_1),
-#             by="base_name")
-# length(Spore_functions$names_to_use%in%Spore_functions2$names_to_use);
-# Spore_functions2<-Spore_functions2[-which(is.na(Spore_functions2$trophicMode)),]
-# length(which(Spore_functions2$base_name%in%Spore_functions$base_name))
-
 Spore_functions[which(Spore_functions$phylum=="Glomeromycota"),
                 #c("names_to_use",
                 c("trophicMode","host","substrate","Function","Number_of_guilds",
@@ -190,6 +179,73 @@ contrasts(Zygospores$simpleFunct)<-cbind(
   c(-1,-1,2),
   c(-1,1,0)
 )
+
+#Code for figure 1 (phylogenetic tree)
+library(ape)
+library(ggtree)
+
+#devtools::install_github("ropenscilabs/datastorr")
+#devtools::install_github("wcornwell/taxonlookup")
+
+library(taxonlookup)
+
+# phylogeny from https://www.nature.com/articles/s41467-018-07849-9
+tt<-read.nexus("phylo/Lutzoni_fungi_timetree.nex")
+vcapply<-taxonlookup:::vcapply
+
+split<-function(str){
+  str_split <- strsplit(str, "[_ ]+")
+  vcapply(str_split, "[[", 2L)
+}
+
+#generate genus in order lookup table
+#fungal_genera<-split(nnn)[1:197]
+#write_csv(tibble(genus=fungal_genera),"phylo/genus_names.csv")
+
+#read in genus in order lookup
+orders<-read_csv("phylo/orders_phylo.csv")
+orders %>% group_by(order) %>%
+  summarize(genus=genus[1]) -> only_one_genera_per_order
+
+#getting a tree with one tip per order
+nnn<-tt$tip.label
+tt$tip.label<-split(nnn)
+dropped.tree<-drop.tip(tt,tt$tip.label[which(!tt$tip.label %in% only_one_genera_per_order$genus)])
+dup.tips<-names(which(table(dropped.tree$tip.label)>1))
+tips<-dropped.tree$tip.label 
+dropped.tree2<-drop.tip(dropped.tree,which(duplicated(tips)))
+dropped.tree2$tip.label<-orders$order[match(dropped.tree2$tip.label,orders$genus)]
+
+
+#read in spore data and calculate size and shape variables
+sdf<-read_csv("output/Spore_Database_Fungi.csv")
+matched_data<-filter(sdf,order%in%dropped.tree2$tip.label)
+matched_data$log.length<-log10(matched_data$spore_length)
+#matched_data$log_spore_area<-log10(matched_data$spore_length*matched_data$spore_width * pi /4)
+matched_data$log_spore_volume<-log10((matched_data$spore_width^2)*matched_data$spore_length*(pi/6))
+matched_data$length_divided_by_width<-matched_data$spore_length/matched_data$spore_width
+
+#check tree
+dropped.tree2$tip.label %in% matched_data$order
+
+#relabel to ggtree convention
+matched_data$id <- matched_data$order
+
+#drop not assigned taxa; there are multiple spots on tree with non assigned taxa
+matched_data<-filter(matched_data,order!="Not assigned")
+dropped.tree2<-drop.tip(dropped.tree2,"Not assigned")
+
+#drop small spore size categories for plotting
+match2<-filter(matched_data,!SporeName %in% c("bulbil","papulospore"))
+
+#select only necessary data
+#temp<-select(match2,id,log_spore_area,SporeName,length_divided_by_width)
+temp<-select(match2,id,log_spore_volume,SporeName,length_divided_by_width)
+
+
+
+
+
 
 ###
 my_theme<-
