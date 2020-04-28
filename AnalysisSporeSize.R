@@ -948,8 +948,8 @@ Spore_functions%>%
   ggplot()+
   aes(fill=Guild_1,x=phylum,y=n)+
   geom_bar(stat = "identity",position = "stack")+
-  #scale_color_brewer(palette="Set1")+
-  scale_fill_manual(values = prueba)+
+  scale_color_brewer(palette="Set1")+
+  #scale_fill_manual(values = prueba)+
   #geom_text(aes(Freq))%>%
   #geom_text(aes(label=Freq),vjust=-0.3, size=5)+
   labs(y="Number of species",x="Taxonomic group")+
@@ -962,7 +962,7 @@ Spore_functions%>%
   scale_fill_discrete(name="Functional groups")
 
 
-prueba<-c(rep("black",13),"blue","black","black","black")
+#prueba<-c(rep("black",13),"blue","black","black","black")
 
 #Number of guilds associated to plants for fungi producing Conidia
 table(To_Analysis$trophicMode[which(To_Analysis$Life_style=="Plant"&To_Analysis$SporeName=="Conidia")])

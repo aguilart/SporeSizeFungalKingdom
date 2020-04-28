@@ -248,8 +248,31 @@ iron(A, B)
 iron(C,G,Z)
 ```
 
-
 # Figure S2
+```{r}
+Spore_functions%>%
+  filter(!duplicated(names_to_use)) %>% 
+  filter(!is.na(Life_style)) %>%
+  filter(!grepl("-",host))%>%
+  filter(!grepl("Fungi",host))%>%
+  group_by(phylum,Guild_1)%>%
+  count(phylum) %>% 
+  ggplot()+
+  aes(fill=Guild_1,x=phylum,y=n)+
+  geom_bar(stat = "identity",position = "stack")+
+  scale_color_brewer(palette="Set1")+
+  labs(y="Number of species",x="Taxonomic group")+
+  theme(title = element_text(size = 20),
+        axis.title.x=element_blank(),
+        axis.text.x = element_text(size = 20,angle = 45,hjust = 1),
+        axis.text.y = element_text(size = 20),
+        strip.text.x = element_text(size = 20),
+        legend.text =  element_text(size = 15))+
+  scale_fill_discrete(name="Functional groups")
+```
+
+
+# Figure S3
 
 ## Ascomycota and Basidiomycota
 ```{r}
