@@ -14,3 +14,8 @@ b) output/FungalTaxanomy_col.csv: Fungal taxonomy as in the Catalogue of Life
 c) output/GuildData.csv: Fungal functional groups.
 
 The three datasets are already uploaded to this repo. Further details on those datasets and the r packages used can be found in "MatchingSpore_FunctionData.R"
+7
+
+# Information about the algorithm for spore extraction
+
+The algorithm for spore extraction was developed by Franz Krah (the original code can be found as "AlgorithmSporeExtraction/extract_spore_info_FromFranz_original.R"). The code identifies text from downloaded Mycobank descriptions that follows the format "spore ----- d x d um", then it extracts the dimentions from this text and place it into a dataframe with rows representing each species name. This original code allows extractions for all spore types at once. Carlos Aguilar and Jeff Powell later modifed the code to make extractions separately for each spore type to better deal with specific issues found for each spore type descriptions (these modified codes can be found in the folder "AlgorithmSporeExtraction").
