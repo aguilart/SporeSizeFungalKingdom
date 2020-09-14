@@ -216,14 +216,16 @@ Spore_functions<-
       select(names_to_use,trophicMode,guild,host,simpleFunct,Life_style,Number_of_guilds,Guild_1),
       by="names_to_use")
       
+
 #fixing some entries
 Spore_functions[which(Spore_functions$phylum=="Glomeromycota"),
                 #c("names_to_use",
                 c("trophicMode","host","substrate","Function","Number_of_guilds",
-                  "guild","Guild_1")]<-
+                  "guild","Guild_1","simpleFunct","Life_style")]<-
   FunGuildData[which(FunGuildData$taxon=="Glomus intraradices"),
                c("trophicMode","host","substrate","Function","Number_of_guilds",
-                 "guild","Guild_1")]
+                 "guild","Guild_1","simpleFunct","Life_style")]
+
 
 
 Spore_functions[grep("Geosiphon",Spore_functions$names_to_use),
@@ -232,6 +234,27 @@ Spore_functions[grep("Geosiphon",Spore_functions$names_to_use),
   c("Arbuscular Mycorrhizal","Arbuscular Mycorrhizal")
 
 Spore_functions$simpleFunct[which(Spore_functions$names_to_use%in%c("Lyophyllum decastes","Rhodocollybia butyracea"))]<-"Plant Ectomycorrhizal"
+
+
+
+# #fixing some entries
+# Spore_functions[which(Spore_functions$phylum=="Glomeromycota"),
+#                 #c("names_to_use",
+#                 c("trophicMode","host","substrate","Function","Number_of_guilds",
+#                   "guild","Guild_1")]<-
+#   FunGuildData[which(FunGuildData$taxon=="Glomus intraradices"),
+#                c("trophicMode","host","substrate","Function","Number_of_guilds",
+#                  "guild","Guild_1")]
+# 
+# 
+# Spore_functions[grep("Geosiphon",Spore_functions$names_to_use),
+#                 #c("names_to_use","trophicMode","host","substrate","Function","Number_of_guilds",
+#                 c("guild","Guild_1")]<-
+#   c("Arbuscular Mycorrhizal","Arbuscular Mycorrhizal")
+# 
+# Spore_functions$simpleFunct[which(Spore_functions$names_to_use%in%c("Lyophyllum decastes","Rhodocollybia butyracea"))]<-"Plant Ectomycorrhizal"
+
+
 
 
 ############################################################################################################
