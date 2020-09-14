@@ -11,16 +11,293 @@ output:
 ```{r, message=FALSE, warning=FALSE}
 source("MatchingSpore_FunctionData.R")
 library(smatr)
+library(performance)
+library(tidyverse)
+library(lme4)
+```
+
+# Statistical analysis
+
+
+Correct for phylogeny using as a random factor (spore type as main factors)
+```{r}
+
+model0<-
+lmer(log10(SporeVolume)~1+(1|phylum/class/order/family),data = 
+       To_Analysis#[which(To_Analysis$SporeType=="Meiospores"),]
+     )
+
+model1<-
+lmer(log10(SporeVolume)~SporeType+(1|phylum/class/order/family),data = 
+       To_Analysis)
+
+
+summary(model0)
+
 ```
 
 
-# Figure 1
+```{r}
+summary(model1)
+```
+
+"The marginal r-squared considers only the variance of the fixed effects, while the conditional r-squared takes both the fixed and random effects into account."
+```{r}
+r2_nakagawa(model1)
+```
+
+
+## Importanc of lifestyle in explaining interpecific spore varaiton (after correcting for phylogeny using order as a random factor) for each spore type
+
+Ascospores
+```{r}
+ascospores_lifestyle<-
+  lmer(log10(SporeVolume)~simpleFunct+(1|order),data = 
+       Ascospores)
+
+summary(ascospores_lifestyle)
+```
+
+```{r}
+r2_nakagawa(ascospores_lifestyle)
+
+```
+
+```{r}
+tapply(log10(Ascospores$SporeVolume),Ascospores$simpleFunct,mean)
+```
+
+Basidiospores
+```{r}
+#Basidiospores
+#table(Basidiospores$simpleFunct)
+basidiospore_lifestyle<-
+  lmer(log10(SporeVolume)~simpleFunct+(1|order),data = 
+       Basidiospores)
+
+summary(basidiospore_lifestyle)
+
+r2_nakagawa(basidiospore_lifestyle)
+```
+
+
+Conidia (Mitospores)
+```{r}
+conidia_lifestyle<-
+  lmer(log10(SporeVolume)~simpleFunct+(1|order),data = 
+       Conidia)
+
+summary(conidia_lifestyle)
+
+r2_nakagawa(conidia_lifestyle)
+```
+
+
+## Determinig the relative importance of climate vs life style in explaining interpecific spore variation (From Jeff, sent on September 2020)
+
+```{r}
+## read data (only includes species with a single spore type)
+#dat <- read_csv('derivedData/df_species_byPrimerSet.csv')
+dat <- read_csv('output/df_species_byPrimerSet.csv')
+
+## spore volume, establish a common dataset for all models
+tmp <- dat %>% 
+  select(log10.sporeVolume, Primers.name, phylum:order, host.assoc, ends_with('mean')) %>% 
+  filter(complete.cases(.))
+
+# global model
+m1 <- lmer(log10.sporeVolume ~ host.assoc + 
+             alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean + 
+             (1|order) + (1|Primers.name), data=tmp, REML=TRUE)
+summary(m1)
+
+# host-only model
+m2 <- lmer(log10.sporeVolume ~ host.assoc + (1|order) + (1|Primers.name), data=tmp, REML=TRUE)
+
+# environment-only model
+m3 <- lmer(log10.sporeVolume ~ alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean + 
+             (1|order) + (1|Primers.name), data=tmp, REML=TRUE)
+```
+
+Compare
+```{r}
+# compare
+anova(m1, m2)
+```
+
+
+```{r}
+anova(m1, m3)
+
+```
+
+```{r}
+r2_nakagawa(m1)
+```
+
+
+#Combining Jeff and Carlos approach
+```{r}
+conidia_lifestyle<-
+  lmer(log10(SporeVolume)~simpleFunct+(1|order),data = 
+       Conidia)
+dat <- read_csv('output/df_species_byPrimerSet.csv')
+
+dat$names_to_use<-gsub("_"," ",dat$Species)
+
+trial<-left_join(To_Analysis[,c("names_to_use","SporeType","simpleFunct","SporeVolume",
+                                "phylum","class","order")],
+                 dat %>% 
+                  select(names_to_use,Primers.name,ends_with('mean')))
+
+trial<-trial[complete.cases(trial),]
+
+
+# global model
+m_all <- lmer(log10(SporeVolume) ~ SporeType + simpleFunct + 
+             alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean + 
+             (1|order) + (1|Primers.name), data=trial, REML=TRUE)
+
+m_all
+```
+```{r}
+r2_nakagawa(m_all)
+```
+
+
+# Figures
+
+```{r}
+library(ggridges)
+To_Analysis_c<-To_Analysis
+To_Analysis_c$phylum[To_Analysis_c$phylum=="\"Zygomycetous fungi\""]<-"Zygomycetous fungi"
+
+To_Analysis_c<-To_Analysis_c %>% 
+  mutate(simpleFunct=factor(simpleFunct,levels = c("Saprotroph","Human","Plant Endophyte","Plant necrotroph","Plant Pathogen undefined","Plant Ectomycorrhizal","Insect","Lichen","Plant Pathogen Smut","Plant Pathogen Mildew","Plant Pathogen Rust")))
+```
+
+
+## Figure 2 (colors were modified manually in inkscape)
+
+Upper panel
+```{r}
+To_Analysis_c %>% 
+  #filter(SporeType=="Meiospores"|SporeType=="Mitospores") %>% 
+  filter(SporeType=="Meiospores") %>% 
+  filter(!(SporeName=="Ascospores"&simpleFunct=="Plant Ectomycorrhizal")) %>% 
+  filter(!(SporeName=="Ascospores"&simpleFunct=="Plant Pathogen Smut")) %>% 
+  filter(!(phylum=="Basidiomycota"&simpleFunct=="Human")) %>% 
+  mutate(simpleFunct=factor(simpleFunct,levels = c("Saprotroph","Human","Plant Endophyte","Plant necrotroph","Plant Pathogen undefined","Plant Ectomycorrhizal","Insect","Lichen","Plant Pathogen Smut","Plant Pathogen Mildew","Plant Pathogen Rust"))) %>%
+  
+  ggplot()+
+  aes(y=simpleFunct,
+      x=SporeVolume,
+      
+  )+
+geom_density_ridges(aes(fill = phylum,point_alpha=0.05),jittered_points = TRUE, #position = "raincloud",
+     alpha=0.9,scale = 2,rel_min_height = 0.01)+
+  scale_x_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  facet_wrap(.~phylum, strip.position =  "top",nrow = 1,drop=FALSE)+
+  
+    theme(title = element_text(size = 18),
+        panel.background = element_blank(),
+        
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line(size = 0.25, linetype = 'longdash',
+                                        colour = "gray"),
+        axis.title.y=element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(size = 10),#,angle = 45,hjust = 1),
+        axis.text.y = element_text(size = 5),
+        strip.text.x = element_text(size = 5),
+        strip.text.y = element_blank(),
+        legend.position = "none",
+        panel.spacing = unit(-3, 'inches'))+
+#   #For ascomycota
+   geom_vline(aes(xintercept=10^2.64),color="red",linetype="longdash")+
+ 
+#   #For basidiomycota
+   geom_vline(aes(xintercept=10^2.06),color="blue",linetype="longdash")
+ 
+
+```
+
+
+Lower panel
+```{r}
+
+To_Analysis_c %>% 
+  #filter(SporeType=="Meiospores"|SporeType=="Mitospores") %>% 
+  filter(SporeType=="Mitospores") %>% 
+  
+  #filter(!(simpleFunct=="Plant Ectomycorrhizal")) %>% 
+  filter(!(phylum=="Ascomycota"&simpleFunct=="Plant Pathogen Smut")) %>% #There is only 1 and it is actually a "false smut"
+  filter(!(phylum=="Basidiomycota"&simpleFunct=="Human")) %>% #Thre is only 1
+  filter(!(phylum=="Basidiomycota"&simpleFunct=="Plant Ectomycorrhizal")) %>% #There are only 3
+  filter(!(phylum=="Basidiomycota"&simpleFunct=="Plant Pathogen undefined")) %>% #There are only 3
+  
+  #filter(phylum=="Ascomycota") %>% 
+  #filter(phylum=="Basidiomycota") %>% 
+  ggplot()+
+  aes(y=simpleFunct,
+      x=SporeVolume,
+      
+  )+
+geom_density_ridges(aes(fill = phylum,point_alpha=0.05),jittered_points = TRUE, #position = "raincloud",
+     alpha=0.9,scale = 2,rel_min_height = 0.01)+
+  scale_x_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  facet_wrap(.~phylum, strip.position =  "top",nrow = 1,drop=FALSE)+
+  
+    theme(title = element_text(size = 18),
+        panel.background = element_blank(),
+        
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line(size = 0.25, linetype = 'longdash',
+                                        colour = "gray"),
+        axis.title.y=element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(size = 10),#,angle = 45,hjust = 1),
+        axis.text.y = element_text(size = 5),
+        strip.text.x = element_text(size = 5),
+        strip.text.y = element_blank(),
+        legend.position = "none",
+        panel.spacing = unit(-3, 'inches'))+
+#   #For ascomycota
+   geom_vline(aes(xintercept=10^2.17),color="red",linetype="longdash")+
+ 
+#   #For basidiomycota
+   geom_vline(aes(xintercept=10^2.6),color="green",linetype="longdash")+
+ 
+# #For zygomycota
+   geom_vline(aes(xintercept=10^2.44),color="blue",linetype="longdash")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# OLD FIGURES AND OUTDATED MATERIAL FROM PREVIOUS VERSIONS    
+
+## Figures 1
 
 ## Note: This figure was further modified manually in inkscape
-```{r}
+```{r, fig.height = 8, fig.width = 15,fig.ext='png'}
 #You might need to install these two packages:
 #devtools::install_github("ropenscilabs/datastorr")
 #devtools::install_github("wcornwell/taxonlookup")
+
+library(ggstance)
 
 #tree for panel 1
 p <- ggtree(dropped.tree2)+ geom_tiplab(size = 2)+ theme_tree2()
@@ -28,25 +305,27 @@ p <- ggtree(dropped.tree2)+ geom_tiplab(size = 2)+ theme_tree2()
 # spore size for panel 2
 p1 <- facet_plot(
   p,
+  #pltre_neutral,#Modified from Jacob Golan
   panel = "Spore volume (log)",
   data = temp,
-  geom = geom_point,
-  mapping = aes(x = log_spore_volume,col=SporeName),
-  #alpha=0.1,
-  size=2
+  #geom = geom_point,
+  geom= geom_violinh, 
+  mapping = aes(x = log_spore_volume,fill=SporeType,group=label)#,
+  #alpha=0.6#,
+  #size=2
   #colour = guide_legend(override.aes = list(alpha=1)),
   #outlier.size = 0.1
 )+
-  #scale_color_brewer(palette="Set1")
-  scale_color_manual(values = rainbow(8))
+  scale_color_brewer(palette="Set1")
+  #scale_color_manual(values = rainbow(8))
 
 #spore shape for panel 3
 p2<-facet_plot(p1,
                panel = "Q ratio (length/width)",
                data = temp,
                geom = geom_point,
-               mapping = aes(x = length_divided_by_width,col=SporeName),
-               #alpha=0.1, 
+               mapping = aes(x = log10(length_divided_by_width),col=SporeType),
+               alpha=0.6, 
                size=2)+
   theme(title = element_text(size = 20),
         axis.title.x=element_blank(),
@@ -55,28 +334,43 @@ p2<-facet_plot(p1,
         strip.text.x = element_text(size = 20),
         legend.text =  element_text(size = 15))
 p2
+
+
+png("phylo_size_shape.png",height = 1300,width = 1200)
+p2
+dev.off()
+
+png("phylo_color.png",height = 700,width = 400)
+pltre_neutral
+dev.off()
+
+
+temp %>% 
+  ggplot()+
+  aes(x=log_spore_volume,col=SporeType)+
+  geom_density()
+
 ```
 
 
 # Figure 2
 
 ## Ascospores
-```{r}
+```{r, fig.height = 8, fig.width = 15}
 #These values come from the SMA analysis (see below in section materials and methods)
-For_ascospores_parameters<-data.frame(
-  simpleFunct=levels(Conidia$simpleFunct),
-  slopes=rep(1,6),
-  intercetps=c(0.3061455,0,0.4379020,0.2910940,0.26287892,0.3896577),
-  intercetps_2=rep(0,6),
-  Life_style=c("AFree living","Human","Insect","Lichen","Plant","Plant")
-)
+# For_ascospores_parameters<-data.frame(
+#   simpleFunct=levels(Conidia$simpleFunct),
+#   slopes=rep(1,6),
+#   intercetps=c(0.3061455,0,0.4379020,0.2910940,0.26287892,0.3896577),
+#   intercetps_2=rep(0,6),
+#   Life_style=c("AFree living","Human","Insect","Lichen","Plant","Plant")
+# )
 
 Ascospores %>% 
 ggplot()+
   aes(x=spore_width,
       y=spore_length,
-      color=SporeVolume,
-      
+      color=order
       )+
   #geom_point(alpha=0.2)+
   geom_point(size=2)+
@@ -84,38 +378,38 @@ ggplot()+
     labels = scales::trans_format("log10", scales::math_format(10^.x)))+
   scale_x_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
     labels = scales::trans_format("log10", scales::math_format(10^.x)))+
-  labs(x=expression("Basidiospores width ("*mu*"m)"),
-       y=expression("Basidiospores length ("*mu*"m)"))+
+  labs(x=expression("Ascospores width ("*mu*"m)"),
+       y=expression("Ascospores length ("*mu*"m)"))+
   
-  #For Ascospores
-  geom_abline(data=For_ascospores_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
-  geom_abline(data=For_ascospores_parameters,aes(slope=slopes,intercept=intercetps_2),lwd=1.5,lty=2)+
+  # #For Ascospores
+  # geom_abline(data=For_ascospores_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
+  # geom_abline(data=For_ascospores_parameters,aes(slope=slopes,intercept=intercetps_2),lwd=1.5,lty=2)+
   
-  facet_wrap(.~simpleFunct , scales = "fixed")+
+  facet_wrap(.~simpleFunct , scales = "fixed",nrow = 2)+
   
-  my_theme3+
-  
-  scale_color_continuous(type = "viridis",name=expression("Spore\nVolume ("*mu*"m³)"),trans="log10",
-                        labels = scales::trans_format("log10", scales::math_format(10^.x)))
+  my_theme2
+
+  # scale_color_continuous(type = "viridis",name=expression("Spore\nVolume ("*mu*"m³)"),trans="log10",
+  #                       labels = scales::trans_format("log10", scales::math_format(10^.x)))
 
 ```
 
 ## Conidia
-```{r}
+```{r, fig.height = 8, fig.width = 15}
 #These values come from the SMA analysis (see below in section materials and methods)
-For_conidia_parameters<-data.frame(
-simpleFunct=levels(Conidia$simpleFunct),
-slopes=c(1.33,1.18,0.69,0.81,1.05,1.14),
-intercetps=c(0.18,0.14,0.61,0.63,0.31,0.61),
-intercetps_2=c(0,0,0,0,0,0),
-slopes_2=c(1,1,1,1,1,1),
-Life_style=c("AFree living","Human","Insect","Lichen","Plant","Plant"))
+# For_conidia_parameters<-data.frame(
+# simpleFunct=levels(Conidia$simpleFunct),
+# slopes=c(1.33,1.18,0.69,0.81,1.05,1.14),
+# intercetps=c(0.18,0.14,0.61,0.63,0.31,0.61),
+# intercetps_2=c(0,0,0,0,0,0),
+# slopes_2=c(1,1,1,1,1,1),
+# Life_style=c("AFree living","Human","Insect","Lichen","Plant","Plant"))
 
 Conidia %>% 
 ggplot()+
   aes(x=spore_width,
       y=spore_length,
-      color=SporeVolume,
+      color=order
       
       )+
   #geom_point(alpha=0.2)+
@@ -125,37 +419,37 @@ ggplot()+
   scale_x_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
     labels = scales::trans_format("log10", scales::math_format(10^.x)))+
 
-  labs(x=expression("Basidiospores width ("*mu*"m)"),
-       y=expression("Basidiospores length ("*mu*"m)"))+
+  labs(x=expression("Conidia width ("*mu*"m)"),
+       y=expression("Conidia length ("*mu*"m)"))+
   
-  #For conidia
-  geom_abline(data=For_conidia_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
-  geom_abline(data=For_conidia_parameters,aes(slope=slopes_2,intercept=intercetps_2),lwd=1.5,lty=2)+
+  # #For conidia
+  # geom_abline(data=For_conidia_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
+  # geom_abline(data=For_conidia_parameters,aes(slope=slopes_2,intercept=intercetps_2),lwd=1.5,lty=2)+
+  # 
+  facet_wrap(.~simpleFunct , scales = "fixed",nrow = 2)+
   
-  facet_wrap(.~simpleFunct , scales = "fixed")+
+  my_theme2
   
-  my_theme3+
-  
-  scale_color_continuous(type = "viridis",name=expression("Spore\nVolume ("*mu*"m³)"),trans="log10",
-                        labels = scales::trans_format("log10", scales::math_format(10^.x)))
+  #scale_color_continuous(type = "viridis",name=expression("Spore\nVolume ("*mu*"m³)"),trans="log10",
+   #                     labels = scales::trans_format("log10", scales::math_format(10^.x)))
 ```
 
 ## Basidiospores
-```{r}
+```{r, fig.height = 8, fig.width = 15}
 #These values come from the SMA analysis (see below in section materials and methods)
-For_basidiospores_parameters<-data.frame(
-  simpleFunct=levels(Basidiospores$simpleFunct),
-  slopes=c(0.9,1,1,1,1),
-  intercetps=c(0.28,0.56,0.16,0.19,0.14),
-  slopes_2=rep(1,5),
-  intercetps_2=rep(0,5)
-)
+# For_basidiospores_parameters<-data.frame(
+#   simpleFunct=levels(Basidiospores$simpleFunct),
+#   slopes=c(0.9,1,1,1,1),
+#   intercetps=c(0.28,0.56,0.16,0.19,0.14),
+#   slopes_2=rep(1,5),
+#   intercetps_2=rep(0,5)
+# )
 
 Basidiospores %>% 
 ggplot()+
   aes(x=spore_width,
       y=spore_length,
-      color=SporeVolume,
+      color=order
       
       )+
   #geom_point(alpha=0.2)+
@@ -168,17 +462,19 @@ ggplot()+
   labs(x=expression("Basidiospores width ("*mu*"m)"),
        y=expression("Basidiospores length ("*mu*"m)"))+
   
-  #For basidiospores
-  geom_abline(data=For_basidiospores_parameters,aes(slope=slopes,intercept=intercetps),lwd=1.5)+
-  geom_abline(data=For_basidiospores_parameters,aes(slope=slopes_2,intercept=intercetps_2),lwd=1.5,lty=2)+
+  # #For basidiospores
+   geom_abline(aes(slope=1,intercept=0),lwd=1.5,lty=2)+
+  # geom_abline(data=For_basidiospores_parameters,aes(slope=slopes_2,intercept=intercetps_2),lwd=1.5,lty=2)+
   
-  facet_wrap(.~simpleFunct , scales = "fixed")+
+  facet_wrap(.~simpleFunct , scales = "fixed", nrow = 2)+
   
-  my_theme3+
+  my_theme2
   
-  scale_color_continuous(type = "viridis",name=expression("Spore\nVolume ("*mu*"m³)"),trans="log10",
-                        labels = scales::trans_format("log10", scales::math_format(10^.x)))
+  # scale_color_continuous(type = "viridis",name=expression("Spore\nVolume ("*mu*"m³)"),trans="log10",
+  #                       labels = scales::trans_format("log10", scales::math_format(10^.x)))
 ```
+
+
 
 # Figure S1
 ```{r}
@@ -321,44 +617,524 @@ To_Analysis %>%
   coord_flip()
 ```
 
+#New figures
+
+```{r,fig.height =8, fig.width = 15}
+To_Analysis %>% 
+  filter(SporeType=="Meiospores"|SporeType=="Mitospores") %>% 
+  #filter(SporeType=="Meiospores") %>% 
+  mutate(simpleFunct=factor(simpleFunct,levels = c("Saprotroph","Human","Plant Endophyte","Plant necrotroph","Plant Pathogen undefined","Plant Ectomycorrhizal","Insect","Lichen","Plant Pathogen Smut","Plant Pathogen Mildew","Plant Pathogen Rust"))) %>%
+  
+  #Option 1: depicting them as bubbles per order
+  #group_by(simpleFunct,order) %>% add_tally() %>%
+  #summarise_at(c("SporeVolume","n"),mean) %>% ungroup() %>% 
+  
+  ggplot()+
+  aes(x=simpleFunct,
+      y=SporeVolume,
+      #size=n#For option 1,
+      #fill=simpleFunct
+      #shape=phylum,
+      #color=phylum
+      #fill=Life_style
+      
+  )+
+  geom_jitter(alpha=0.05,size=4,width = 0.2,aes(shape=phylum
+      ))+
+  #geom_jitter(alpha=0.6,width = 0.2,aes(color=order))+#For option 1
+    geom_violin(alpha=0.5,
+   #draw_quantiles=c(0.25, 0.5, 0.75),
+               lwd=1,
+               fill=NA)+
+  #stat_summary(fun=mean, geom="line", aes(group=1))+
+  scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+    stat_summary(fun=mean, geom="line", aes(group=1))+
+  
+  facet_wrap(.~SporeType, strip.position =  "right",nrow = 2)+
+  labs(y=expression("Spore volume ("*mu*"m³)"))+
+  
+  theme(title = element_text(size = 18),
+        panel.background = element_blank(),
+        
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line(size = 0.25, linetype = 'longdash',
+                                        colour = "gray"),
+        axis.title.x=element_blank(),
+        axis.text.x = element_text(size = 10,angle = 45,hjust = 1),
+        axis.text.y = element_text(size = 20),
+        strip.text.x = element_text(size = 20),
+        strip.text.y = element_text(size = 25),
+        legend.position = "none")
+
+```
+
+```{r}
+tapply(log10(To_Analysis_c$SporeVolume[which(To_Analysis_c$SporeType=="Meiospores")]),
+        list(To_Analysis_c$simpleFunct[which(To_Analysis_c$SporeType=="Meiospores")],
+             To_Analysis_c$phylum[which(To_Analysis_c$SporeType=="Meiospores")]),
+       mean)
+```
+
+
+
+```{r}
+tapply(log10(To_Analysis_c$SporeVolume[which(To_Analysis_c$SporeType=="Meiospores")]),
+        list(To_Analysis_c$simpleFunct[which(To_Analysis_c$SporeType=="Meiospores")],
+             To_Analysis_c$phylum[which(To_Analysis_c$SporeType=="Meiospores")]),
+       length)
+```
+
+
+
+```{r}
+#library(ggridges)
+To_Analysis_c<-To_Analysis
+To_Analysis_c$phylum[To_Analysis_c$phylum=="\"Zygomycetous fungi\""]<-"Zygomycetous fungi"
+
+To_Analysis_c<-To_Analysis_c %>% 
+  mutate(simpleFunct=factor(simpleFunct,levels = c("Saprotroph","Human","Plant Endophyte","Plant necrotroph","Plant Pathogen undefined","Plant Ectomycorrhizal","Insect","Lichen","Plant Pathogen Smut","Plant Pathogen Mildew","Plant Pathogen Rust")))
+```
+
+
+```{r}
+To_Analysis_c %>% 
+  #filter(SporeType=="Meiospores"|SporeType=="Mitospores") %>% 
+  filter(SporeType=="Meiospores") %>% 
+  filter(!(SporeName=="Ascospores"&simpleFunct=="Plant Ectomycorrhizal")) %>% 
+  filter(!(SporeName=="Ascospores"&simpleFunct=="Plant Pathogen Smut")) %>% 
+  filter(!(phylum=="Basidiomycota"&simpleFunct=="Human")) %>% 
+  mutate(simpleFunct=factor(simpleFunct,levels = c("Saprotroph","Human","Plant Endophyte","Plant necrotroph","Plant Pathogen undefined","Plant Ectomycorrhizal","Insect","Lichen","Plant Pathogen Smut","Plant Pathogen Mildew","Plant Pathogen Rust"))) %>%
+  
+  ggplot()+
+  aes(y=simpleFunct,
+      x=SporeVolume,
+      
+  )+
+geom_density_ridges(aes(fill = phylum,point_alpha=0.05),jittered_points = TRUE, #position = "raincloud",
+     alpha=0.9,scale = 2,rel_min_height = 0.01)+
+  scale_x_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  facet_wrap(.~phylum, strip.position =  "top",nrow = 1,drop=FALSE)+
+  
+    theme(title = element_text(size = 18),
+        panel.background = element_blank(),
+        
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line(size = 0.25, linetype = 'longdash',
+                                        colour = "gray"),
+        axis.title.y=element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(size = 10),#,angle = 45,hjust = 1),
+        axis.text.y = element_text(size = 5),
+        strip.text.x = element_text(size = 5),
+        strip.text.y = element_blank(),
+        legend.position = "none",
+        panel.spacing = unit(-3, 'inches'))+
+#   #For ascomycota
+   geom_vline(aes(xintercept=10^2.64),color="red",linetype="longdash")+
+ 
+#   #For basidiomycota
+   geom_vline(aes(xintercept=10^2.06),color="blue",linetype="longdash")
+ 
+
+```
+
+
+```{r}
+tapply(log10(To_Analysis_c$SporeVolume[which(To_Analysis_c$SporeType=="Mitospores")]),
+        list(To_Analysis_c$simpleFunct[which(To_Analysis_c$SporeType=="Mitospores")],
+             To_Analysis_c$phylum[which(To_Analysis_c$SporeType=="Mitospores")]),
+       mean)
+```
+
+```{r}
+tapply(log10(To_Analysis_c$SporeVolume[which(To_Analysis_c$SporeType=="Mitospores")]),
+        list(To_Analysis_c$simpleFunct[which(To_Analysis_c$SporeType=="Mitospores")],
+             To_Analysis_c$phylum[which(To_Analysis_c$SporeType=="Mitospores")]),
+       length)
+```
+
+
+
+```{r}
+
+To_Analysis_c %>% 
+  #filter(SporeType=="Meiospores"|SporeType=="Mitospores") %>% 
+  filter(SporeType=="Mitospores") %>% 
+  
+  #filter(!(simpleFunct=="Plant Ectomycorrhizal")) %>% 
+  filter(!(phylum=="Ascomycota"&simpleFunct=="Plant Pathogen Smut")) %>% #There is only 1 and it is actually a "false smut"
+  filter(!(phylum=="Basidiomycota"&simpleFunct=="Human")) %>% #Thre is only 1
+  filter(!(phylum=="Basidiomycota"&simpleFunct=="Plant Ectomycorrhizal")) %>% #There are only 3
+  filter(!(phylum=="Basidiomycota"&simpleFunct=="Plant Pathogen undefined")) %>% #There are only 3
+  
+  #filter(phylum=="Ascomycota") %>% 
+  #filter(phylum=="Basidiomycota") %>% 
+  ggplot()+
+  aes(y=simpleFunct,
+      x=SporeVolume,
+      
+  )+
+geom_density_ridges(aes(fill = phylum,point_alpha=0.05),jittered_points = TRUE, #position = "raincloud",
+     alpha=0.9,scale = 2,rel_min_height = 0.01)+
+  scale_x_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  facet_wrap(.~phylum, strip.position =  "top",nrow = 1,drop=FALSE)+
+  
+    theme(title = element_text(size = 18),
+        panel.background = element_blank(),
+        
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line(size = 0.25, linetype = 'longdash',
+                                        colour = "gray"),
+        axis.title.y=element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(size = 10),#,angle = 45,hjust = 1),
+        axis.text.y = element_text(size = 5),
+        strip.text.x = element_text(size = 5),
+        strip.text.y = element_blank(),
+        legend.position = "none",
+        panel.spacing = unit(-3, 'inches'))+
+#   #For ascomycota
+   geom_vline(aes(xintercept=10^2.17),color="red",linetype="longdash")+
+ 
+#   #For basidiomycota
+   geom_vline(aes(xintercept=10^2.6),color="green",linetype="longdash")+
+ 
+# #For zygomycota
+   geom_vline(aes(xintercept=10^2.44),color="blue",linetype="longdash")
+```
+
+
+
+```{r,fig.height =8, fig.width = 15}
+Ascospores %>% 
+  #filter(!simpleFunct=="Plant Pathogen Smut") %>% 
+  mutate(simpleFunct=factor(simpleFunct,levels = c("Saprotroph","Human","Plant Endophyte","Plant necrotroph",
+                                            "Plant Pathogen undefined","Insect","Lichen","Plant Pathogen Mildew","Plant Pathogen Rust","Plant Ectomycorrhizal"))) %>% 
+  
+  #Option 1: depicting them as bubbles per order
+  #group_by(simpleFunct,order) %>% add_tally() %>%
+  #summarise_at(c("SporeVolume","n"),mean) %>% ungroup() %>% 
+  
+  ggplot()+
+  aes(x=simpleFunct,
+      y=SporeVolume#,
+      #size=n#For option 1,
+      #fill=simpleFunct
+      #shape=simpleFunct
+      #fill=Life_style
+      
+  )+
+  geom_jitter(alpha=0.6,size=4,width = 0.2,aes(color=order))+
+  #geom_jitter(alpha=0.6,width = 0.2,aes(color=order))+#For option 1
+   geom_violin(alpha=0.5,
+  #draw_quantiles=c(0.25, 0.5, 0.75),
+              lwd=1,
+              fill=NA)+
+  scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  
+  #facet_wrap(.~Life_style , scales = "free_x",nrow = 4)+
+  #coord_flip()+
+  labs(y=expression("Ascospore size as volume ("*mu*"m³)"))+
+  my_theme2#+
+  #scale_size(range = c(10, 30))#For option 1
+
+```
+
+```{r,fig.height =8, fig.width = 15}
+Conidia %>% 
+  mutate(simpleFunct=factor(simpleFunct,levels = c("Saprotroph","Human","Plant Endophyte","Plant necrotroph",
+                                            "Plant Pathogen undefined","Insect","Lichen","Plant Pathogen Mildew","Plant Ectomycorrhizal","Plant Pathogen Rust","Plant Pathogen Smut"))) %>% 
+  #filter(!(simpleFunct=="Plant Endophyte"&!is.na(disease))) %>% 
+  ggplot()+
+  aes(x=simpleFunct,
+      y=SporeVolume#,
+      #color=SporeVolume,
+      #fill=simpleFunct
+      #shape=simpleFunct
+      #fill=Life_style
+      
+  )+
+  #geom_point(alpha=0.2)+
+  geom_jitter(alpha=0.6,size=4,width = 0.3,aes(color=order))+
+  geom_violin(alpha=0.5,
+              #draw_quantiles=c(0.25, 0.5, 0.75),
+              lwd=1,
+              fill=NA)+
+  scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  
+  #facet_wrap(.~Life_style , scales = "free_x",nrow = 1)+
+  labs(y=expression("Conidia size as volume ("*mu*"m³)"))+
+  my_theme2
+```
+
+```{r,fig.height =8, fig.width = 15}
+Basidiospores %>% 
+  #filter(!(simpleFunct=="Plant Endophyte"&!is.na(disease))) %>% 
+  mutate(simpleFunct=factor(simpleFunct,levels = c("Saprotroph","Human","Plant Endophyte","Plant necrotroph",
+                                            "Plant Pathogen undefined","Insect","Lichen","Plant Pathogen Mildew","Plant Ectomycorrhizal","Plant Pathogen Rust","Plant Pathogen Smut"))) %>% 
+  ggplot()+
+  aes(x=simpleFunct,
+      y=SporeVolume#,
+      #color=SporeVolume,
+      #fill=simpleFunct
+      #shape=simpleFunct
+      #fill=Life_style
+      
+  )+
+  #geom_point(alpha=0.2)+
+  geom_jitter(alpha=0.6,size=4,width = 0.3,aes(color=order))+
+  geom_violin(alpha=0.5,
+              #draw_quantiles=c(0.25, 0.5, 0.75),
+              lwd=1,
+              fill=NA)+
+  scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  labs(y=expression("Basidiospore size as volume ("*mu*"m³)"))+
+  
+  #facet_wrap(.~Life_style , scales = "free_x")+
+     my_theme2#+
+  # geom_tile(aes(fill=Life_style), width = 1, height = Inf,alpha=0.01)
+
+```
+
+
+# Shape
+
+```{r, fig.height = 8, fig.width = 15}
+Ascospores %>% 
+  #filter(simpleFunct=="Insect") %>% 
+  ggplot()+
+  aes(x=simpleFunct,
+      y=Q_ratio#,
+      #color=order#,
+      #fill=simpleFunct
+      #shape=simpleFunct
+      #fill=Life_style
+      
+  )+
+  #geom_point(alpha=0.8)+,aes(color=order)
+  geom_jitter(alpha=0.6,size=4,width = 0.3,aes(color=order))+
+  geom_violin(alpha=0.5,
+              #draw_quantiles=c(0.25, 0.5, 0.75),
+              lwd=1,
+              fill=NA)+
+   scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                 labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  
+  facet_wrap(.~Life_style , scales = "free_x",nrow = 1)+
+  my_theme2
+#scale_fill_brewer(palette="Set1")
+
+
+
+```
+
+
+```{r,fig.height = 8, fig.width = 15}
+Conidia %>% 
+  #filter(simpleFunct=="Insect") %>% 
+  ggplot()+
+  aes(x=simpleFunct,
+      y=Q_ratio#,
+      #color=SporeVolume,
+      #fill=simpleFunct
+      #shape=simpleFunct
+      #fill=Life_style
+      
+  )+
+  #geom_point(alpha=0.2)+
+  geom_jitter(alpha=0.6,size=4,width = 0.3,aes(color=order))+
+  geom_violin(alpha=0.5,
+              #draw_quantiles=c(0.25, 0.5, 0.75),
+              lwd=1,
+              fill=NA)+
+  scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  
+  facet_wrap(.~Life_style , scales = "free_x",nrow = 1)+
+  my_theme2
+
+
+```
+
+
+```{r,fig.height = 8, fig.width = 15}
+Basidiospores %>% 
+  #filter(!(simpleFunct=="Plant Endophyte"&!is.na(disease))) %>% 
+  ggplot()+
+  aes(x=simpleFunct,
+      y=Q_ratio#,
+      #color=SporeVolume,
+      #fill=simpleFunct
+      #shape=simpleFunct
+      #fill=Life_style
+      
+  )+
+  #geom_point(alpha=0.2)+
+  geom_jitter(alpha=0.6,size=4,width = 0.3,aes(color=order))+
+  geom_violin(alpha=0.5,
+              #draw_quantiles=c(0.25, 0.5, 0.75),
+              lwd=1,
+              fill=NA)+
+  scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  
+  facet_wrap(.~Life_style , scales = "free_x")+
+  my_theme2
+```
+
+
 
 # Material and methods: Statistical analysis
 
+
+Trying out to correct for phylogeny using order as a random factor
+```{r}
+
+summary.lm(
+  aov(log10(SporeVolume) ~ simpleFunct+Error(order|simpleFunct),data = Ascospores)
+)
+#Check package performance and there the function r2_nakagawa
+
+library(performance)
+
+rbook_ex<-read.table("c:\\Users\\Carlos\\Documents\\CrawleyStatistics\\StatsCourse\\therbook_data_files\\hre.txt",header = T)
+
+#attach(rbook_ex)
+
+model_ex<-lmer(subject~1+(1|town/district/street/family),data = rbook_ex)
+summary(model_ex)
+
+r2_nakagawa(model_ex)
+
+
+# To_Analysis$a<-To_Analysis$phylum:To_Analysis$class
+# To_Analysis$b<-To_Analysis$phylum:To_Analysis$class:To_Analysis$order
+# To_Analysis$c<-To_Analysis$phylum:To_Analysis$class:To_Analysis$order:To_Analysis$family
+# To_Analysis$d<-To_Analysis$phylum:To_Analysis$class:To_Analysis$order:To_Analysis$family:To_Analysis$genus
+
+model0<-
+lmer(log10(SporeVolume)~1+(1|phylum/class/order/family),data = 
+       To_Analysis#[which(To_Analysis$SporeType=="Meiospores"),]
+     )
+
+model1<-
+lmer(log10(SporeVolume)~SporeType+(1|phylum/class/order/family),data = 
+       To_Analysis)
+
+# model1<-
+# lmer(log10(SporeVolume)~SporeType+(1|phylum/class/order),data = 
+#        To_Analysis)
+
+summary(model0)
+
+
+
+
+```
+
+OLD one, do not touch!
+```{r}
+summary(model1)
+```
+
+
+```{r}
+summary(model1)
+```
+
+
+
+```{r}
+
+r2_nakagawa(model0)
+
+r2_nakagawa(model1)
+```
+
+
+
 ## A priori contrast of spore size among functional groups per spore type
 ```{r}
-#Ascospores:
-#Contrast1:Free living vs all symbionts
-#Contrast2: Human pathogens vs all other symbionts
-#Contrast3: Insect pathogens vs the more "plant-ish" symbionts
-#Contrast4: Lichen vs Plant symbionts
-#Contrast5: Endophytes vs Plant pathogens
+# contrasts(Ascospores$simpleFunct)<-cbind(
+# 1  c(-1,-1,-1,-1,-1,-1,-1,7),#All host associated against free living
+# 2  c(6,-1,-1,-1,-1,-1,-1,0),#Human vs other more "evolved" pathogens
+# 3  c(0,1,1,-1,-1,1,-1,0),#Obligate symbionts vs factulatitive ones
+# 4  c(0,-1,-1,0,0,2,0,0),#Mildews against Insects and lichens
+# 5  c(0,-1,1,0,0,0,0,0),#Insects vs lichens
+# 6  c(0,0,0,2,-1,0,-1,0),#Endophytes vs necrotrophic pathogens
+# 7  c(0,0,0,0,-1,0,1,0)#Necrotroph vs undefined pathogens but this is temporal
+# )
+
 summary.lm(
   aov(log10(SporeVolume) ~ simpleFunct,data = Ascospores)
 )
 ```
 
+
+```{r}
+ascospores_lifestyle<-
+  lmer(log10(SporeVolume)~simpleFunct+(1|order),data = 
+       Ascospores)
+
+summary(ascospores_lifestyle)
+```
+
+
+```{r}
+r2_nakagawa(ascospores_lifestyle)
+
+```
+
+```{r}
+tapply(log10(Ascospores$SporeVolume),Ascospores$simpleFunct,mean)
+```
+
+
+
 ```{r}
 #Conidia
-#Contrast1:Free living vs all symbionts
-#Contrast2: Human pathogens vs all other symbionts
-#Contrast3: Insect pathogens vs the more "plant-ish" symbionts
-#Contrast4: Lichen vs Plant symbionts
-#Contrast5: Endophytes vs Plant pathogens
+# contrasts(Ascospores$simpleFunct)<-cbind(
+# 1  c(1,1,1,1,1,1,1,-7),#All host associated against free living
+# 2  c(-6,1,1,1,1,1,1,0),#Human vs other more "evolved" pathogens
+# 3  c(0,1,1,-1,-1,1,-1,0),#Obligate symbionts vs factulatitive ones
+# 4  c(0,-1,-1,0,0,2,0,0),#Mildews against Insects and lichens
+# 5  c(0,-1,1,0,0,0,0,0)#Insects vs lichens
+# 6  c(0,0,0,2,-1,0,-1,0),#Endophytes vs necrotrophic pathogens
+# 7  c(0,0,0,0,-1,0,1,0)#Necrotroph vs undefined pathogens but this is temporal
+# )
 summary.lm(
   aov(log10(SporeVolume) ~ simpleFunct,data = Conidia)
 )
+
+conidia_lifestyle<-
+  lmer(log10(SporeVolume)~simpleFunct+(1|order),data = 
+       Conidia)
+
+summary(conidia_lifestyle)
+
+r2_nakagawa(conidia_lifestyle)
 ```
 
 ```{r}
 #Basidiospores
-table(Basidiospores$simpleFunct)
-#Contrast1:Free living vs all symbionts
-#Contrast2: Insect vs Plant-ish symbionts
-#Contrast3: Lichen vs Plant symbionts
-#Contrast4: Ectomycorhizal vs Plant pathogen
+#table(Basidiospores$simpleFunct)
 summary.lm(
   aov(log10(SporeVolume) ~ simpleFunct,data = Basidiospores)
 )
+
+basidiospore_lifestyle<-
+  lmer(log10(SporeVolume)~simpleFunct+(1|order),data = 
+       Basidiospores)
+
+summary(basidiospore_lifestyle)
+
+r2_nakagawa(basidiospore_lifestyle)
 ```
 
 ```{r}
@@ -385,24 +1161,318 @@ summary.lm(
 
 ```{r}
 #Ascospores
-model_ascospore_shape<-sma(spore_length ~ spore_width+ simpleFunct, #multcomp = T,
-                           data = Ascospores,log = "xy",elev.test =  0)
+model_ascospore_shape<-sma(spore_length ~ spore_width* simpleFunct, #multcomp = T,
+                           data = Ascospores,log = "xy",slope.test =  1,elev.test = 0)
 
+#Because the slope is never significantly different from 1 I change the formula to +:
+model_ascospore_shape<-sma(spore_length ~ spore_width+ simpleFunct, #multcomp = T,
+                           data = Ascospores,log = "xy",elev.test = 0,slope.test=1,robust = T)
 
 summary(model_ascospore_shape)
 ```
 
+
+```{r}
+model_ascospore_shape$groupsummary[,c("group","Int","Elev_test_p","Slope","Slope_test_p")]
+```
+
+```{r}
+plot(model_ascospore_shape)
+```
+
+
+
+# Conidia
+
 ```{r}
 model_conidia_shape<-sma(spore_length ~ spore_width*simpleFunct,
-                         data = Conidia,log = "xy",slope.test = 1)
+                         data = Conidia,log = "xy",slope.test = 1,elev.test = 0,robust = T)
+
 
 summary(model_conidia_shape)
 ```
 
 ```{r}
+#model_conidia_shape$groupsummary[,c("group","Int","Elev_test_p")]
+#model_conidia_shape$groupsummary[,c("group","Slope","Slope_test_p")]
+
+model_conidia_shape$groupsummary[,c("group","Int","Elev_test_p","Slope","Slope_test_p")]
+```
+
+
+```{r}
+plot(model_conidia_shape)
+```
+
+
+```{r}
 model_basidiospore_shape<-sma(spore_length ~ spore_width*simpleFunct,#multcomp = T,
-                           data = Basidiospores,log = "xy",slope.test = 1)
+                           data = Basidiospores,log = "xy",slope.test = 1,elev.test = 0)
+
+#Because the slope is in few cases significantly different from 1 I change the formula to +:
+model_basidiospore_shape<-sma(spore_length ~ spore_width+simpleFunct,#multcomp = T,
+                           data = Basidiospores,log = "xy",elev.test = 0, slope.test = 1 ,robust = T)
+
 
 summary(model_basidiospore_shape)
 ```
+```{r}
+model_basidiospore_shape$groupsummary[,c("group","Int","Elev_test_p","Slope","Slope_test_p")]
+```
+
+```{r}
+plot(model_basidiospore_shape)
+```
+
+```{r}
+
+shape_summary<-rbind(
+cbind(LogQ=as.vector(tapply(log10(Ascospores$Q_ratio),Ascospores$simpleFunct,mean)),model_ascospore_shape$groupsummary[,c("group","Int","Int_lowCI","Int_highCI","Elev_test_p","Slope","Slope_test_p","Slope_lowCI","Slope_highCI")],SporeName=rep("Ascospores",8)),
+cbind(LogQ=as.vector(tapply(log10(Conidia$Q_ratio),Conidia$simpleFunct,mean)),model_conidia_shape$groupsummary[,c("group","Int","Int_lowCI","Int_highCI","Elev_test_p","Slope","Slope_test_p","Slope_lowCI","Slope_highCI")],SporeName=rep("Conidia",8)),
+cbind(LogQ=as.vector(tapply(log10(Basidiospores$Q_ratio),Basidiospores$simpleFunct,mean)),model_basidiospore_shape$groupsummary[,c("group","Int","Int_lowCI","Int_highCI","Elev_test_p","Slope","Slope_test_p","Slope_lowCI","Slope_highCI")],SporeName=rep("Basidiospores",8))
+)
+
+shape_summary
+
+```
+
+
+
+```{r,fig.height = 15, fig.width = 8}
+shape_summary %>% 
+  #filter(SporeName!="Basidiospores") %>% 
+  ggplot()+
+  aes(x=LogQ,y=Int)+
+  geom_point()+
+  facet_wrap(.~SporeName)
+
+
+shape_summary %>% 
+  filter(group!="Plant Pathogen Smut") %>% 
+  mutate(group_name=factor(group,levels = c("Saprotroph","Human","Plant Endophyte","Plant necrotroph",
+                                            "Plant Pathogen undefined","Insect","Lichen","Plant Pathogen Mildew","Plant Pathogen Rust","Plant Ectomycorrhizal"))) %>% 
+  ggplot()+
+  aes(x=group_name,y=Int,ymin=Int_lowCI,ymax=Int_highCI)+
+  geom_pointrange(aes(col=group))+
+  geom_point(aes(y=LogQ,col=group),shape=17,size=2.5)+
+  facet_wrap(.~SporeName,nrow = 3,scales = "free_y")+
+  my_theme2_5+
+  labs(y="Spheroidicity")+
+  #scale_y_continuous(minor_breaks = c(-1.5,1.5,0.5))+
+  coord_flip()
+
+#check out annotation ticks for log
+```
+
+
+```{r,fig.height = 15, fig.width = 8}
+shape_summary %>% 
+  filter(group!="Plant Pathogen Smut") %>% 
+  mutate(group_name=factor(group,levels = c("Saprotroph","Human","Plant Endophyte","Plant necrotroph",
+                                            "Plant Pathogen undefined","Insect","Lichen","Plant Pathogen Mildew","Plant Pathogen Rust","Plant Ectomycorrhizal"))) %>% 
+  ggplot()+
+  aes(x=group_name,y=Slope,ymin=Slope_lowCI,ymax=Slope_highCI)+
+  geom_pointrange(aes(col=group))+
+  facet_wrap(.~SporeName,nrow = 3,scales = "free_y")+
+  my_theme2_5+
+  labs(y="Shape to Size allometric exponent")+
+  #scale_y_continuous(minor_breaks = c(-1.5,1.5,0.5))+
+  coord_flip()
+```
+
+
+
+# Comparing spore size with that of seeds and eggs
+
+```{r}
+BirdEgg<-read.csv("C:\\Users\\Carlos\\Documents\\Bridging_Rep_Micro_Ecology_ISME_paper\\BridgingReproductiveEcology-MicrobialEcology\\Aguilar_etal_SuppMatt_Stoddard_etal_EggData.csv",header = T,stringsAsFactors = F)
+            BirdEgg$T_value<-1/(BirdEgg$Ellipticity+1)
+            BirdEgg$Lambda<-BirdEgg$Asymmetry+1
+            step_1<-sapply(list(-0.75,-0.5,-0.25,0,0.25,0.5,0.75),
+                           function(x){((BirdEgg$T_value*(1+x)^(1/(1+BirdEgg$Lambda)))*
+                                          ((1-x)^(BirdEgg$Lambda/(1+BirdEgg$Lambda))))^2})
+            step_1[,1]<-step_1[,1]*4
+            step_1[,2]<-step_1[,2]*2
+            step_1[,3]<-step_1[,3]*4
+            step_1[,4]<-step_1[,4]*2
+            step_1[,5]<-step_1[,5]*4
+            step_1[,6]<-step_1[,6]*2
+            step_1[,7]<-step_1[,7]*4
+            BirdEgg$Volume<-(pi*(BirdEgg$AvgLength..cm.^3)*rowSums(step_1))/96
+            
+  #1.4. Seed size data. Seed mass was retrieved from the database of the Kew Botanical Gardens. Data is given
+  #in miligrams
+  
+  kewData<-read.csv("C:\\Users\\Carlos\\Documents\\Bridging_Rep_Micro_Ecology_ISME_paper\\BridgingReproductiveEcology-MicrobialEcology\\Aguilar_etal_SuppMat_SeedSize.csv",header = T,stringsAsFactors = F)
+  
+  #1.5. AMF life history traits. The data correpond to the series of paper of Hart and Reader on greehouse 
+  #experiments with 14 AMF species (see manuscript for full reference details).
+```
+
+
+```{r}
+rbind(
+  AllFungi%>%
+        group_by(phylum,names_to_use,SporeName,Specific_sporeName)%>%
+      summarise_at(c("spore_length","spore_width","SporeArea","SporeVolume","Q_ratio"),mean) %>% 
+                          select(names_to_use,SporeVolume)%>%
+                          rename(offsrpingSize=SporeVolume)%>%
+                          #filter(good.names!="Glomus_tenue")%>%
+                          mutate(Taxa="Fungi")%>%
+                          mutate(offsrpingSize=offsrpingSize/((10000)^3)),#%>%
+                          #mutate(Organism="Microorganism"),
+                        
+                        kewData%>%
+                          select(species,value)%>%
+                          rename(names_to_use=species, offsrpingSize=value)%>%
+                          mutate(Taxa="Plants"),#%>%
+                          #mutate(Organism="Macroorganism"),
+                        BirdEgg%>%
+                          select(Species,Volume)%>%
+                          rename(names_to_use=Species,offsrpingSize=Volume)%>%
+                          mutate(Taxa="Birds"))%>%
+                      mutate(Taxa=factor(Taxa,levels =c("Birds","Plants","Fungi"))) %>% 
+                      #mutate(Taxa=factor(Taxa,levels = c("Fungi","Plants","Birds"))) %>% #For the coord flip version is better in this reverse order
+                          #mutate(Organism="Macroorganism"))%>%
+                    
+                    ggplot()+
+                    aes(Taxa,offsrpingSize)+
+                    geom_jitter(alpha=0.6,size=4,width = 0.3,aes(color=Taxa))+
+                    geom_violin(alpha=0.5,
+                          lwd=1,
+                          fill=NA)+
+                    #facet_grid(. ~ Organism, scales = "free")+
+                    scale_y_log10(labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+                    labs(x="Offspring structure",y=expression("Offspring size as volume ("*c*"m³)"))+
+                    scale_color_brewer(palette="Accent")+
+                    scale_x_discrete(labels=c("Birds" = "Birds\n(eggs)", "Plants"="Plants\n(seeds)","Fungi"="Fungi\n(spores)"))+
+                     my_theme2_5+
+  coord_flip()
+
+```
+
+
+
+```{r}
+To_Analysis2<-
+AllFungi%>%
+        group_by(phylum,names_to_use,SporeName,Specific_sporeName)%>%
+      summarise_at(c("spore_length","spore_width","SporeArea","SporeVolume","Q_ratio"),mean) %>% filter(SporeName!="bulbil")
+
+range(log10(To_Analysis2$SporeVolume))
+
+tapply(log10(To_Analysis2$SporeVolume),To_Analysis2$SporeName,
+       function(x){range(x)[2]-range(x)[1]});rm(To_Analysis2)
+
+length(unique(BirdEgg$Species))
+length(unique(kewData$species))
+
+AllFungi%>%
+        group_by(phylum,names_to_use,SporeName,Specific_sporeName)%>%
+      summarise_at(c("spore_length","spore_width","SporeArea","SporeVolume","Q_ratio"),mean)
+```
+
+
+
+# Taking into consideration pyhlogeny
+
+Get means per order
+```{r}
+
+unique(dropped.tree2$tip.label)%in%unique(To_Analysis$order)
+
+unique(To_Analysis$order)%in%unique(dropped.tree2$tip.label)
+
+```
+
+
+
+
+
+
+
+
+```{r, height = 35, fig.width = 8}
+
+AllFungi%>%
+          filter(!is.na(phylum))%>%
+          filter(!is.na(SporeName))%>%
+          filter(phylum!="Chytridiomycota")%>%#Filtering only because there are so few
+          filter(!(phylum=="Ascomycota"&SporeName=="Basidiospores"))%>% #weird cases
+          filter(!(phylum=="Ascomycota"&SporeName=="Teliospores"))%>% #weird  cases
+          filter(!(phylum=="Basidiomycota"&SporeName=="Ascospores"))%>% #weird  cases
+          filter(SporeName!="papulospore")%>%#Filtering only because there are so few
+          filter(SporeName!="bulbil")%>%#Filtering only because there are so few
+          group_by(phylum,names_to_use,SporeType,SporeName,description__id)%>%
+          #mutate(SporeArea=spore_width*spore_length*(pi/4))%>% 
+          summarise_at(c("SporeVolume"),mean)%>%
+  
+          ggplot()+
+          aes(x=SporeType,y=SporeVolume)+
+          #scale_fill_brewer(palette="Set1")+
+         geom_jitter(alpha=0.6,size=1,width = 0.3)+
+  geom_violin(alpha=0.5,
+              #draw_quantiles=c(0.25, 0.5, 0.75),
+              lwd=1,
+              fill=NA)+
+  scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+  
+  #facet_wrap(.~phylum , scales = "free_x",ncol = 1)+
+  facet_wrap(.~phylum,nrow = 4,scales = "free_y")+
+  my_theme2_5+
+  #my_theme2+
+  coord_flip()
+
+
+# ggplot()+
+#   aes(x=group_name,y=Slope,ymin=Slope_lowCI,ymax=Slope_highCI)+
+#   geom_pointrange(aes(col=group))+
+#   facet_wrap(.~SporeName,nrow = 3,scales = "free_y")+
+#   my_theme2_5+
+#   labs(y="Shape to Size allometric exponent")+
+#   #scale_y_continuous(minor_breaks = c(-1.5,1.5,0.5))+
+#   coord_flip()  
+  
+  # 
+# 
+#   #geom_point(alpha=0.2)+
+#   geom_jitter(alpha=0.6,size=4,width = 0.3)+
+#   geom_violin(alpha=0.5,
+#               #draw_quantiles=c(0.25, 0.5, 0.75),
+#               lwd=1,
+#               fill=NA)+
+#   scale_y_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
+#                 labels = scales::trans_format("log10", scales::math_format(10^.x)))+
+#   
+#   facet_wrap(.~phylum , scales = "free_x")+
+#   my_theme2
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
