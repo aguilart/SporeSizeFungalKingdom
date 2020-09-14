@@ -96,27 +96,32 @@ r2_nakagawa(conidia_lifestyle)
 ## Determinig the relative importance of climate vs life style in explaining interpecific spore variation (From Jeff, sent on September 2020)
 
 ```{r}
+
+# load libraries
+library(lme4)
+library(car)
+
 ## read data (only includes species with a single spore type)
 #dat <- read_csv('derivedData/df_species_byPrimerSet.csv')
 dat <- read_csv('output/df_species_byPrimerSet.csv')
 
 ## spore volume, establish a common dataset for all models
 tmp <- dat %>% 
-  select(log10.sporeVolume, Primers.name, phylum:order, host.assoc, ends_with('mean')) %>% 
+  select(log10.sporeVolume, Primers.name, Species, phylum:order, host.assoc, ends_with('mean')) %>% 
   filter(complete.cases(.))
 
 # global model
 m1 <- lmer(log10.sporeVolume ~ host.assoc + 
              alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean + 
-             (1|order) + (1|Primers.name), data=tmp, REML=TRUE)
+             (1|phylum/class/order) + (1|Primers.name), data=tmp, REML=TRUE)
 summary(m1)
 
 # host-only model
-m2 <- lmer(log10.sporeVolume ~ host.assoc + (1|order) + (1|Primers.name), data=tmp, REML=TRUE)
+m2 <- lmer(log10.sporeVolume ~ host.assoc + (1|phylum/class/order) + (1|Primers.name), data=tmp, REML=TRUE)
 
 # environment-only model
 m3 <- lmer(log10.sporeVolume ~ alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean + 
-             (1|order) + (1|Primers.name), data=tmp, REML=TRUE)
+             (1|phylum/class/order) + (1|Primers.name), data=tmp, REML=TRUE)
 ```
 
 Compare
@@ -152,13 +157,16 @@ trial<-left_join(To_Analysis[,c("names_to_use","SporeType","simpleFunct","SporeV
 
 trial<-trial[complete.cases(trial),]
 
+table(trial$simpleFunct)
+filter(trial, simpleFunct == 'Human')
 
 # global model
 m_all <- lmer(log10(SporeVolume) ~ SporeType + simpleFunct + 
              alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean + 
              (1|order) + (1|Primers.name), data=trial, REML=TRUE)
 
-m_all
+summary(m_all)
+Anova(m_all)
 ```
 ```{r}
 r2_nakagawa(m_all)
