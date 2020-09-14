@@ -167,6 +167,7 @@ m_all <- lmer(log10(SporeVolume) ~ SporeType + simpleFunct +
 
 summary(m_all)
 Anova(m_all)
+# Anova(m_all, test='F')
 ```
 ```{r}
 r2_nakagawa(m_all)
