@@ -293,15 +293,15 @@ Ascospores<-Ascospores[-which(Ascospores$simpleFunct=="Plant Ectomycorrhizal"),]
 Ascospores<-Ascospores[-which(Ascospores$simpleFunct=="Plant Pathogen Smut"),]#This is because there is only one species that actually produces a"False Smut"
 Ascospores$simpleFunct<-as.factor(Ascospores$simpleFunct)
 levels(Ascospores$simpleFunct)
-contrasts(Ascospores$simpleFunct)<-cbind(
-  c(-1,-1,-1,-1,-1,-1,-1,7),#All host associated against free living
-  c(6,-1,-1,-1,-1,-1,-1,0),#Human vs other more "evolved" pathogens
-  c(0,1,1,-1,-1,1,-1,0),#Obligate symbionts vs factulatitive ones
-  c(0,-1,-1,0,0,2,0,0),#Mildews against Insects and lichens
-  c(0,-1,1,0,0,0,0,0),#Insects vs lichens
-  c(0,0,0,2,-1,0,-1,0),#Endophytes vs necrotrophic pathogens
-  c(0,0,0,0,-1,0,1,0)#Necrotroph vs undefined pathogens but this is temporal
-)
+# contrasts(Ascospores$simpleFunct)<-cbind(
+#   c(-1,-1,-1,-1,-1,-1,-1,7),#All host associated against free living
+#   c(6,-1,-1,-1,-1,-1,-1,0),#Human vs other more "evolved" pathogens
+#   c(0,1,1,-1,-1,1,-1,0),#Obligate symbionts vs factulatitive ones
+#   c(0,-1,-1,0,0,2,0,0),#Mildews against Insects and lichens
+#   c(0,-1,1,0,0,0,0,0),#Insects vs lichens
+#   c(0,0,0,2,-1,0,-1,0),#Endophytes vs necrotrophic pathogens
+#   c(0,0,0,0,-1,0,1,0)#Necrotroph vs undefined pathogens but this is temporal
+# )
 
 #Conidia
 Conidia<-To_Analysis[which(To_Analysis$SporeName=="Conidia"),]

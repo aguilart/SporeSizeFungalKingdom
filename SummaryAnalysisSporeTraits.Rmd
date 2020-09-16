@@ -108,20 +108,21 @@ dat <- read_csv('output/df_species_byPrimerSet.csv')
 ## spore volume, establish a common dataset for all models
 tmp <- dat %>% 
   select(log10.sporeVolume, Primers.name, Species, phylum:order, host.assoc, ends_with('mean')) %>% 
-  filter(complete.cases(.))
+  filter(complete.cases(.)) %>% 
+  mutate_at(vars(ends_with('mean')), scale)
 
 # global model
 m1 <- lmer(log10.sporeVolume ~ host.assoc + 
-             alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean + 
-             (1|phylum/class/order) + (1|Primers.name), data=tmp, REML=TRUE)
+             mat_mean + map_mean + maxsrad_mean + minvapr_mean + 
+             (1|order), data=tmp, REML=TRUE)
 summary(m1)
 
 # host-only model
-m2 <- lmer(log10.sporeVolume ~ host.assoc + (1|phylum/class/order) + (1|Primers.name), data=tmp, REML=TRUE)
+m2 <- lmer(log10.sporeVolume ~ host.assoc + (1|order) + (1|Primers.name), data=tmp, REML=TRUE)
 
 # environment-only model
-m3 <- lmer(log10.sporeVolume ~ alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean + 
-             (1|phylum/class/order) + (1|Primers.name), data=tmp, REML=TRUE)
+m3 <- lmer(log10.sporeVolume ~ mat_mean + map_mean + maxsrad_mean + minvapr_mean + 
+             (1|order) + (1|Primers.name), data=tmp, REML=TRUE)
 ```
 
 Compare
@@ -140,20 +141,46 @@ anova(m1, m3)
 r2_nakagawa(m1)
 ```
 
+```{r}
+
+# global model
+m1 <- lm(log10.sporeVolume ~ order + host.assoc + 
+             mat_mean + map_mean + maxsrad_mean + minvapr_mean, data=tmp)
+drop1(m1)
+summary(m1)
+
+# 
+
+# host-only model
+m2 <- lm(log10.sporeVolume ~ order + host.assoc + 
+             mat_mean + map_mean + maxsrad_mean + minvapr_mean, data=tmp)
+
+# environment-only model
+m3 <- lm(log10.sporeVolume ~ order + host.assoc + 
+             mat_mean + map_mean + maxsrad_mean + minvapr_mean, data=tmp)
+
+```
+
+
 
 #Combining Jeff and Carlos approach
 ```{r}
 conidia_lifestyle<-
   lmer(log10(SporeVolume)~simpleFunct+(1|order),data = 
        Conidia)
-dat <- read_csv('output/df_species_byPrimerSet.csv')
+# dat <- read_csv('output/df_species_byPrimerSet.csv')
+dat <- read_csv('output/df_species_noPrimers.csv')
 
 dat$names_to_use<-gsub("_"," ",dat$Species)
 
-trial<-left_join(To_Analysis[,c("names_to_use","SporeType","simpleFunct","SporeVolume",
-                                "phylum","class","order")],
-                 dat %>% 
-                  select(names_to_use,Primers.name,ends_with('mean')))
+# trial<-left_join(dat %>% 
+#                   select(names_to_use,Primers.name,host.assoc, ends_with('mean')), 
+#                  To_Analysis[,c("names_to_use","SporeType","simpleFunct","SporeVolume", "Q_ratio",
+#                                 "phylum","class","order")])
+trial<-left_join(dat %>% 
+                  select(names_to_use,host.assoc, ends_with('mean')), 
+                 To_Analysis[,c("names_to_use","SporeType","simpleFunct","SporeVolume", "Q_ratio",
+                                "phylum","class","order")])
 
 trial<-trial[complete.cases(trial),]
 
@@ -161,6 +188,26 @@ table(trial$simpleFunct)
 filter(trial, simpleFunct == 'Human')
 
 # global model
+m0 <- lm(log10(SporeVolume) ~ 1, data=trial)
+m1 <- lm(log10(SporeVolume) ~ order + simpleFunct + SporeType + 
+             mat_mean + map_mean + maxsrad_mean + minvapr_mean, data=trial)
+m1.drp <- drop1(m1) %>% 
+  rownames_to_column('term') %>% 
+  mutate(dAIC = AIC - AIC[1])
+m1.add <- add1(m0, formula(m1))
+
+m2 <- lm(log10(SporeVolume) ~ order + host.assoc + SporeType + 
+             mat_mean + map_mean + maxsrad_mean + minvapr_mean, data=trial)
+drop1(m2)
+summary(m1)
+
+# global model
+m3 <- lm(log10(Q_ratio) ~ order + simpleFunct + SporeType + 
+             mat_mean + map_mean + maxsrad_mean + minvapr_mean, data=trial)
+drop1(m3)
+
+
+
 m_all <- lmer(log10(SporeVolume) ~ SporeType + simpleFunct + 
              alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean + 
              (1|order) + (1|Primers.name), data=trial, REML=TRUE)
