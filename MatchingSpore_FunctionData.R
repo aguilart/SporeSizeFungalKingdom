@@ -80,14 +80,6 @@ FunGuildData<-
 l<-sapply(strsplit(FunGuildData$taxon, " "), length)
 FunGuildData$taxonomicLevel<-"Species"
 
-unique(FunGuildData$Guild_1)
-
-FunGuildData<-
-  read.csv("output/GuildData.csv",header = T,stringsAsFactors = F)
-
-l<-sapply(strsplit(FunGuildData$taxon, " "), length)
-FunGuildData$taxonomicLevel<-"Species"
-
 
 #As for many species I do not know whether they are licheninzed or lichenicolous, I will use anything that has
 #"lichen" as a generic term
@@ -237,25 +229,6 @@ Spore_functions$simpleFunct[which(Spore_functions$names_to_use%in%c("Lyophyllum 
 
 
 
-# #fixing some entries
-# Spore_functions[which(Spore_functions$phylum=="Glomeromycota"),
-#                 #c("names_to_use",
-#                 c("trophicMode","host","substrate","Function","Number_of_guilds",
-#                   "guild","Guild_1")]<-
-#   FunGuildData[which(FunGuildData$taxon=="Glomus intraradices"),
-#                c("trophicMode","host","substrate","Function","Number_of_guilds",
-#                  "guild","Guild_1")]
-# 
-# 
-# Spore_functions[grep("Geosiphon",Spore_functions$names_to_use),
-#                 #c("names_to_use","trophicMode","host","substrate","Function","Number_of_guilds",
-#                 c("guild","Guild_1")]<-
-#   c("Arbuscular Mycorrhizal","Arbuscular Mycorrhizal")
-# 
-# Spore_functions$simpleFunct[which(Spore_functions$names_to_use%in%c("Lyophyllum decastes","Rhodocollybia butyracea"))]<-"Plant Ectomycorrhizal"
-
-
-
 
 ############################################################################################################
 # SUBSET DATA FOR WHICH LIFE_STYLE INFORMATION IS AVAILABLE (FOR ANALYSIS) 
@@ -286,14 +259,30 @@ To_Analysis<-
 ############################################################################################################
 # SUBSET DATA FOR EACH TYPE OF SPORE
 ######################################################################################################
-
+# 
 #Ascospores
 Ascospores<-To_Analysis[which(To_Analysis$SporeName=="Ascospores"),]
 Ascospores<-Ascospores[-which(Ascospores$simpleFunct=="Plant Ectomycorrhizal"),]
-Ascospores<-Ascospores[-which(Ascospores$simpleFunct=="Plant Pathogen Smut"),]#This is because there is only one species that actually produces a"False Smut"
-Ascospores$simpleFunct<-as.factor(Ascospores$simpleFunct)
-levels(Ascospores$simpleFunct)
-# contrasts(Ascospores$simpleFunct)<-cbind(
+#Ascospores<-Ascospores[-which(Ascospores$simpleFunct=="Plant Pathogen Smut"),]#This is because there is only one species that actually produces a"False Smut"
+# Ascospores$simpleFunct<-as.factor(Ascospores$simpleFunct)
+# levels(Ascospores$simpleFunct)
+# # contrasts(Ascospores$simpleFunct)<-cbind(
+# #   c(-1,-1,-1,-1,-1,-1,-1,7),#All host associated against free living
+# #   c(6,-1,-1,-1,-1,-1,-1,0),#Human vs other more "evolved" pathogens
+# #   c(0,1,1,-1,-1,1,-1,0),#Obligate symbionts vs factulatitive ones
+# #   c(0,-1,-1,0,0,2,0,0),#Mildews against Insects and lichens
+# #   c(0,-1,1,0,0,0,0,0),#Insects vs lichens
+# #   c(0,0,0,2,-1,0,-1,0),#Endophytes vs necrotrophic pathogens
+# #   c(0,0,0,0,-1,0,1,0)#Necrotroph vs undefined pathogens but this is temporal
+# # )
+# 
+#Conidia
+Conidia<-To_Analysis[which(To_Analysis$SporeName=="Conidia"),]
+Conidia<-Conidia[-which(Conidia$simpleFunct=="Plant Ectomycorrhizal"),]
+# Conidia<-Conidia[-which(Conidia $simpleFunct=="Plant Pathogen Smut"),]#This is because there is only one species that actually produces a"False Smut"
+# Conidia$simpleFunct<-as.factor(Conidia$simpleFunct)
+# levels(Conidia$simpleFunct)
+# contrasts(Conidia$simpleFunct)<-cbind(
 #   c(-1,-1,-1,-1,-1,-1,-1,7),#All host associated against free living
 #   c(6,-1,-1,-1,-1,-1,-1,0),#Human vs other more "evolved" pathogens
 #   c(0,1,1,-1,-1,1,-1,0),#Obligate symbionts vs factulatitive ones
@@ -302,152 +291,85 @@ levels(Ascospores$simpleFunct)
 #   c(0,0,0,2,-1,0,-1,0),#Endophytes vs necrotrophic pathogens
 #   c(0,0,0,0,-1,0,1,0)#Necrotroph vs undefined pathogens but this is temporal
 # )
-
-#Conidia
-Conidia<-To_Analysis[which(To_Analysis$SporeName=="Conidia"),]
-Conidia<-Conidia[-which(Conidia$simpleFunct=="Plant Ectomycorrhizal"),]
-Conidia<-Conidia[-which(Conidia $simpleFunct=="Plant Pathogen Smut"),]#This is because there is only one species that actually produces a"False Smut"
-Conidia$simpleFunct<-as.factor(Conidia$simpleFunct)
-levels(Conidia$simpleFunct)
-contrasts(Conidia$simpleFunct)<-cbind(
-  c(-1,-1,-1,-1,-1,-1,-1,7),#All host associated against free living
-  c(6,-1,-1,-1,-1,-1,-1,0),#Human vs other more "evolved" pathogens
-  c(0,1,1,-1,-1,1,-1,0),#Obligate symbionts vs factulatitive ones
-  c(0,-1,-1,0,0,2,0,0),#Mildews against Insects and lichens
-  c(0,-1,1,0,0,0,0,0),#Insects vs lichens
-  c(0,0,0,2,-1,0,-1,0),#Endophytes vs necrotrophic pathogens
-  c(0,0,0,0,-1,0,1,0)#Necrotroph vs undefined pathogens but this is temporal
-)
-
+# 
 #Basidiospores. I need to get more data on the rust fungi, smuts and if possible insect pathogens
 Basidiospores<-To_Analysis[which(To_Analysis$SporeName=="Basidiospores"),]
 Basidiospores<-Basidiospores[-which(Basidiospores$simpleFunct=="Human"),]#I remove human because we have only 2 sps
 #Basidiospores<-Basidiospores[-which(Basidiospores$Life_style=="Insect"),]
-Basidiospores$simpleFunct<-as.factor(Basidiospores$simpleFunct)
-levels(Basidiospores$simpleFunct)
-contrasts(Basidiospores$simpleFunct)<-cbind(
-  c(-1,-1,-1,-1,-1,-1,-1,7),#Saprotroph vs host associated
-  c(1,1,1,-1,1,1,-1,0),#Faculative association vs obligate association
-  c(-1,-1,-1,0,4,-1,0,0)#Rust vs all other symbionts
-  
-)
-
-#Chlamydospores
-Chlamydospores<-To_Analysis[which(To_Analysis$SporeName=="Chlamydospores"),]
-Chlamydospores<-Chlamydospores[-which(Chlamydospores$simpleFunct=="Lichen"),]
-Chlamydospores<-Chlamydospores[-which(Chlamydospores$simpleFunct=="Plant Ectomycorrhizal"),]
-
-# Chlamydospores$simpleFunct<-as.factor(Chlamydospores$simpleFunct)
-# levels(Chlamydospores$simpleFunct)
-# table(Chlamydospores$simpleFunct)
-# contrasts(Chlamydospores$simpleFunct)<-cbind(
-#   c(3,-1,-1,-1),
-#   c(0,2,-1,-1),
-#   c(0,0,1,-1)
+# Basidiospores$simpleFunct<-as.factor(Basidiospores$simpleFunct)
+# levels(Basidiospores$simpleFunct)
+# contrasts(Basidiospores$simpleFunct)<-cbind(
+#   c(-1,-1,-1,-1,-1,-1,-1,7),#Saprotroph vs host associated
+#   c(1,1,1,-1,1,1,-1,0),#Faculative association vs obligate association
+#   c(-1,-1,-1,0,4,-1,0,0)#Rust vs all other symbionts
+#   
 # )
-
-#sporangiospores
-Sporangiospores<-To_Analysis[which(To_Analysis$SporeName=="Sporangiospores"),]
-Sporangiospores<-Sporangiospores[-which(Sporangiospores$simpleFunct=="AFree living"),]
-Sporangiospores<-Sporangiospores[-which(Sporangiospores$simpleFunct=="Insect"),]
-
-# Sporangiospores$simpleFunct<-as.factor(Sporangiospores$simpleFunct)
-# levels(Sporangiospores$simpleFunct)
-# table(Sporangiospores$simpleFunct)
-# contrasts(Sporangiospores$simpleFunct)<-cbind(
-#   c(-1,1)
-# )
-
-#Zygospores
-Zygospores<-To_Analysis[which(To_Analysis$SporeName=="Zygospores"),]
-Zygospores<-Zygospores[-which(Zygospores$simpleFunct=="AFree living"),]
-
-# Zygospores$simpleFunct<-as.factor(Zygospores$simpleFunct)
-# levels(Zygospores$simpleFunct)
-# table(Zygospores$simpleFunct)
-# contrasts(Zygospores$simpleFunct)<-cbind(
-#   c(-1,-1,2),
-#   c(-1,1,0)
-# )
+# 
+# #Chlamydospores
+# Chlamydospores<-To_Analysis[which(To_Analysis$SporeName=="Chlamydospores"),]
+# Chlamydospores<-Chlamydospores[-which(Chlamydospores$simpleFunct=="Lichen"),]
+# Chlamydospores<-Chlamydospores[-which(Chlamydospores$simpleFunct=="Plant Ectomycorrhizal"),]
+# 
+# # Chlamydospores$simpleFunct<-as.factor(Chlamydospores$simpleFunct)
+# # levels(Chlamydospores$simpleFunct)
+# # table(Chlamydospores$simpleFunct)
+# # contrasts(Chlamydospores$simpleFunct)<-cbind(
+# #   c(3,-1,-1,-1),
+# #   c(0,2,-1,-1),
+# #   c(0,0,1,-1)
+# # )
+# 
+# #sporangiospores
+# Sporangiospores<-To_Analysis[which(To_Analysis$SporeName=="Sporangiospores"),]
+# Sporangiospores<-Sporangiospores[-which(Sporangiospores$simpleFunct=="AFree living"),]
+# Sporangiospores<-Sporangiospores[-which(Sporangiospores$simpleFunct=="Insect"),]
+# 
+# # Sporangiospores$simpleFunct<-as.factor(Sporangiospores$simpleFunct)
+# # levels(Sporangiospores$simpleFunct)
+# # table(Sporangiospores$simpleFunct)
+# # contrasts(Sporangiospores$simpleFunct)<-cbind(
+# #   c(-1,1)
+# # )
+# 
+# #Zygospores
+# Zygospores<-To_Analysis[which(To_Analysis$SporeName=="Zygospores"),]
+# Zygospores<-Zygospores[-which(Zygospores$simpleFunct=="AFree living"),]
+# 
+# # Zygospores$simpleFunct<-as.factor(Zygospores$simpleFunct)
+# # levels(Zygospores$simpleFunct)
+# # table(Zygospores$simpleFunct)
+# # contrasts(Zygospores$simpleFunct)<-cbind(
+# #   c(-1,-1,2),
+# #   c(-1,1,0)
+# # )
 
 #####################################################################################################
-#LOADING PHYLOGENETIC INFORMATION FROM LUTZONI ET AL 2019
+#LOADING SEED AND EGG SIZE DATA
 #####################################################################################################
 
 
-#Code for figure 1 (phylogenetic tree)
-library(ape)
-library(ggtree)
+BirdEgg<-read.csv("C:\\Users\\Carlos\\Documents\\Bridging_Rep_Micro_Ecology_ISME_paper\\BridgingReproductiveEcology-MicrobialEcology\\Aguilar_etal_SuppMatt_Stoddard_etal_EggData.csv",header = T,stringsAsFactors = F)
+BirdEgg$T_value<-1/(BirdEgg$Ellipticity+1)
+BirdEgg$Lambda<-BirdEgg$Asymmetry+1
+step_1<-sapply(list(-0.75,-0.5,-0.25,0,0.25,0.5,0.75),
+               function(x){((BirdEgg$T_value*(1+x)^(1/(1+BirdEgg$Lambda)))*
+                              ((1-x)^(BirdEgg$Lambda/(1+BirdEgg$Lambda))))^2})
+step_1[,1]<-step_1[,1]*4
+step_1[,2]<-step_1[,2]*2
+step_1[,3]<-step_1[,3]*4
+step_1[,4]<-step_1[,4]*2
+step_1[,5]<-step_1[,5]*4
+step_1[,6]<-step_1[,6]*2
+step_1[,7]<-step_1[,7]*4
+BirdEgg$Volume<-(pi*(BirdEgg$AvgLength..cm.^3)*rowSums(step_1))/96
 
-#devtools::install_github("ropenscilabs/datastorr")
-#devtools::install_github("wcornwell/taxonlookup")
+#1.4. Seed size data. Seed mass was retrieved from the database of the Kew Botanical Gardens. Data is given
+#in miligrams
 
-library(taxonlookup)
+kewData<-read.csv("C:\\Users\\Carlos\\Documents\\Bridging_Rep_Micro_Ecology_ISME_paper\\BridgingReproductiveEcology-MicrobialEcology\\Aguilar_etal_SuppMat_SeedSize.csv",header = T,stringsAsFactors = F)
 
-# phylogeny from https://www.nature.com/articles/s41467-018-07849-9
-tt<-read.nexus("phylo/Lutzoni_fungi_timetree.nex")
-vcapply<-taxonlookup:::vcapply
-
-split<-function(str){
-  str_split <- strsplit(str, "[_ ]+")
-  vcapply(str_split, "[[", 2L)
-}
-
-#generate genus in order lookup table
-#fungal_genera<-split(nnn)[1:197]
-#write_csv(tibble(genus=fungal_genera),"phylo/genus_names.csv")
-
-#read in genus in order lookup
-orders<-read_csv("phylo/orders_phylo.csv")
-orders %>% group_by(order) %>%
-  summarize(genus=genus[1]) -> only_one_genera_per_order
-
-#getting a tree with one tip per order
-nnn<-tt$tip.label
-tt$tip.label<-split(nnn)
-dropped.tree<-drop.tip(tt,tt$tip.label[which(!tt$tip.label %in% only_one_genera_per_order$genus)])
-dup.tips<-names(which(table(dropped.tree$tip.label)>1))
-tips<-dropped.tree$tip.label 
-dropped.tree2<-drop.tip(dropped.tree,which(duplicated(tips)))
-dropped.tree2$tip.label<-orders$order[match(dropped.tree2$tip.label,orders$genus)]
-
-
-#read in spore data and calculate size and shape variables
-sdf<-read_csv("output/Spore_Database_Fungi.csv")
-matched_data<-filter(sdf,order%in%dropped.tree2$tip.label)
-matched_data$log.length<-log10(matched_data$spore_length)
-#matched_data$log_spore_area<-log10(matched_data$spore_length*matched_data$spore_width * pi /4)
-matched_data$log_spore_volume<-log10((matched_data$spore_width^2)*matched_data$spore_length*(pi/6))
-matched_data$length_divided_by_width<-matched_data$spore_length/matched_data$spore_width
-
-#check tree
-dropped.tree2$tip.label %in% matched_data$order
-
-#relabel to ggtree convention
-matched_data$id <- matched_data$order
-
-#drop not assigned taxa; there are multiple spots on tree with non assigned taxa
-matched_data<-filter(matched_data,order!="Not assigned")
-dropped.tree2<-drop.tip(dropped.tree2,"Not assigned")
-
-#drop small spore size categories for plotting
-match2<-filter(matched_data,!SporeName %in% c("bulbil","papulospore"))
-
-#select only necessary data
-#temp<-select(match2,id,log_spore_area,SporeName,length_divided_by_width)
-#temp<-select(match2,id,log_spore_volume,SporeName,length_divided_by_width)
-
-temp<-select(match2,
-             id, phylum,log_spore_volume, SporeName, length_divided_by_width)
-
-temp$SporeType<-NA
-temp$SporeType[which(temp$SporeName=="Ascospores"|temp$SporeName=="Basidiospores")]<-"Meiospores"
-temp$SporeType[which(temp$SporeName=="Conidia"|temp$SporeName=="Sporangiospores"|temp$SporeName=="Chlamydospores")]<-"Mitospores"
-temp$SporeType[which(temp$SporeName=="Azygospores")]<-"Multinucleate asexual spores"
-temp$SporeType[which(temp$SporeName=="Zygospores")]<-"Multinucleate sexual spores"
-temp$SporeType[which(temp$SporeName=="Teliospores")]<-"Teliospores"
-
-
+#1.5. AMF life history traits. The data correpond to the series of paper of Hart and Reader on greehouse 
+#experiments with 14 AMF species (see manuscript for full reference details).
 
 
 #####################################################################################################
