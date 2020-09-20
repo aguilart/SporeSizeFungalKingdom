@@ -1,20 +1,20 @@
 # SporeSizeFungalKingdom
 
-You only need one file to reproduce the figures 1, 2, S1, S2 and S3; the apriori contrasts of spore size and sma for spore shape reported in the google docs (as it is by the end of April 2020):
+Figures and data analysis used in the manuscript are summarized in :
 
 1. SummarySporeTraitAnalysis.RMD 
 
 
 That RMD file already loads the three datasets used for those figures: 
 
-a) output/Spore_Database_Fungi.csv: Spore size and shape data
+a) output/Spore_Database_Fungi.csv: Spore size and shape data assembled after extracting data from Mycobank Descriptions + other sources (More details on "AssemblingDataSources.R)
 
 b) output/FungalTaxanomy_col.csv: Fungal taxonomy as in the Catalogue of Life
 
-c) output/GuildData.csv: Fungal functional groups.
+c) output/GuildData.csv: Fungal functional groups, which inlcudes FungGuild + Lichens + Ectomycorrhiza + Insect pathogens + AMF + Plant pathogens.
 
 The three datasets are already uploaded to this repo. Further details on those datasets and the r packages used can be found in "MatchingSpore_FunctionData.R"
-7
+
 
 # Information about the algorithm for spore extraction
 
