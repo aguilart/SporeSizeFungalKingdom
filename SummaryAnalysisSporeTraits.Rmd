@@ -197,21 +197,22 @@ m1 <- lm(log10.sporeVolume ~ order + simpleFunct + SporeType +
 # for(i in 2:ncol(tmp)) plot(tmp$log10.sporeVolume ~ tmp[, i], main=names(tmp)[i]) 
 
 ## results for individual variables
-m1.drp <- as.data.frame(drop1(m1)) %>% 
-  rownames_to_column('term') %>% 
+m1.var <- vector('list', length=ncol(m1$model))
+names(m1.var) <- c('<none>', names(m1$model)[2:ncol(m1$model)])
+m1.var[[1]] <- m1$model
+for(i in 2:length(m1.var)) m1.var[[i]] <- m1$model[, -i]
+m1.aic <- lapply(m1.var, function(x)AIC(m1, lm(log10.sporeVolume ~ ., data=x)))
+m1.drp <- data.frame(term = names(m1.var), 
+                     Df = sapply(m1.aic, function(x)x[2, 'df']), 
+                     AIC = sapply(m1.aic, function(x)x[2, 'AIC']), 
+                     AdjR2 = sapply(m1.var, function(x)summary(lm(log10.sporeVolume ~ ., data=x))[['adj.r.squared']])) %>% 
   mutate(type = c('global', rep('subset', n() - 1)), 
-         dAIC = AIC - AIC[1]) %>% 
+         dAIC = AIC - AIC[1], 
+         dAdjR2 = AdjR2 - AdjR2[1]) %>% 
   group_by(type) %>% 
   arrange(desc(dAIC), .by_group=TRUE) %>% 
   ungroup() %>% 
-  select(term, Df, AIC, dAIC)
-m1.add <- vector('list', length=nrow(m1.drp))
-names(m1.add) <- m1.drp$term
-m1.add[[1]] <- m1$model
-for(i in names(m1.add)[2:length(m1.add)]) m1.add[[i]] <- dplyr::select(m1$model, -matches(i))
-m1.drp <- m1.drp %>% 
-  mutate(AdjR2 = sapply(m1.add, function(x)summary(lm(log10.sporeVolume ~ ., data=x))[['adj.r.squared']]), 
-         dAdjR2 = AdjR2 - AdjR2[1])
+  select(term, Df, AIC, dAIC, AdjR2, dAdjR2)
 
 ## results for variable groups
 # drop taxonomy
@@ -231,7 +232,7 @@ m2.drp <- data.frame(term=c('<none>', 'taxonomy', 'simpleFunct', 'SporeType', 'c
                      AIC=AIC(m1, m2.tax, m2.fun, m2.typ, m2.env)[['AIC']], 
                      AdjR2=sapply(list(m1, m2.tax, m2.fun, m2.typ, m2.env), function(x)summary(x)[['adj.r.squared']]), 
                      row.names=NULL) %>% 
-  mutate(type = c('global', rep('subset', n() - 1)), 
+  mutate(type = c('<none>', rep('subset', n() - 1)), 
          dAIC = AIC - AIC[1], 
          dAdjR2 = AdjR2 - AdjR2[1]) %>% 
   group_by(type) %>% 
@@ -269,21 +270,22 @@ m1 <- lm(log10.sporeAspectRatio ~ order + simpleFunct + SporeType +
 # for(i in 2:ncol(tmp)) plot(tmp$log10.sporeAspectRatio ~ tmp[, i], main=names(tmp)[i])
 
 ## results for individual variables
-m1.drp <- as.data.frame(drop1(m1)) %>% 
-  rownames_to_column('term') %>% 
+m1.var <- vector('list', length=ncol(m1$model))
+names(m1.var) <- c('<none>', names(m1$model)[2:ncol(m1$model)])
+m1.var[[1]] <- m1$model
+for(i in 2:length(m1.var)) m1.var[[i]] <- m1$model[, -i]
+m1.aic <- lapply(m1.var, function(x)AIC(m1, lm(log10.sporeAspectRatio ~ ., data=x)))
+m1.drp <- data.frame(term = names(m1.var), 
+                     Df = sapply(m1.aic, function(x)x[2, 'df']), 
+                     AIC = sapply(m1.aic, function(x)x[2, 'AIC']), 
+                     AdjR2 = sapply(m1.var, function(x)summary(lm(log10.sporeAspectRatio ~ ., data=x))[['adj.r.squared']])) %>% 
   mutate(type = c('global', rep('subset', n() - 1)), 
-         dAIC = AIC - AIC[1]) %>% 
+         dAIC = AIC - AIC[1], 
+         dAdjR2 = AdjR2 - AdjR2[1]) %>% 
   group_by(type) %>% 
   arrange(desc(dAIC), .by_group=TRUE) %>% 
   ungroup() %>% 
-  select(term, Df, AIC, dAIC)
-m1.add <- vector('list', length=nrow(m1.drp))
-names(m1.add) <- m1.drp$term
-m1.add[[1]] <- m1$model
-for(i in names(m1.add)[2:length(m1.add)]) m1.add[[i]] <- dplyr::select(m1$model, -matches(i))
-m1.drp <- m1.drp %>% 
-  mutate(AdjR2 = sapply(m1.add, function(x)summary(lm(log10.sporeAspectRatio ~ ., data=x))[['adj.r.squared']]), 
-         dAdjR2 = AdjR2 - AdjR2[1])
+  select(term, Df, AIC, dAIC, AdjR2, dAdjR2)
 
 ## results for variable groups
 # drop taxonomy
