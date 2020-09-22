@@ -48,12 +48,15 @@ dat$names_to_use<-gsub("_"," ",dat$Species)
 #                                 "phylum","class","order")])
 trial<-left_join(dat %>% 
                   select(names_to_use, host.assoc, log10.sporeVolume, log10.sporeAspectRatio, ends_with('mean'), n_samples_env), 
-                 To_Analysis[,c("names_to_use","SporeType","simpleFunct",
+                 To_Analysis[,c("names_to_use","SporeType","simpleFunct","Life_style",
                                 "phylum","class","order")])
 
 # this is weird that there are species without assignments
 trial<-trial[complete.cases(trial),] %>% 
-  filter(!order == 'Not assigned')
+  filter(!order == 'Not assigned') %>% 
+  mutate(Life_style = recode(Life_style, Plant = "Facultative association"), 
+         Life_style = ordered(Life_style))#, 
+         # Life_style = poly(as.numeric(Life_style, 1)))
 
 # table(trial$simpleFunct)
 # filter(trial, simpleFunct == 'Human')
@@ -74,8 +77,8 @@ For this we subset the data to: a) include only the species for which we have li
 ### spore volume
 
 ## global model
-m1 <- lm(log10.sporeVolume ~ order + simpleFunct + SporeType + 
-             alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
+m1 <- lm(log10.sporeVolume ~ order + Life_style + SporeType + 
+             mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
 # # plot to check for nonlinearities
 # tmp <- m1$model %>% 
 #   mutate_if(is.character, as.factor)
@@ -90,50 +93,50 @@ m1.aic <- lapply(m1.var, function(x)AIC(m1, lm(log10.sporeVolume ~ ., data=x)))
 m1.drp <- data.frame(term = names(m1.var), 
                      Df = sapply(m1.aic, function(x)x[2, 'df']), 
                      AIC = sapply(m1.aic, function(x)x[2, 'AIC']), 
-                     AdjR2 = sapply(m1.var, function(x)summary(lm(log10.sporeVolume ~ ., data=x))[['adj.r.squared']])) %>% 
+                     R2 = sapply(m1.var, function(x)summary(lm(log10.sporeVolume ~ ., data=x))[['r.squared']])) %>% 
   mutate(type = c('global', rep('subset', n() - 1)), 
          dAIC = AIC - AIC[1], 
-         dAdjR2 = AdjR2 - AdjR2[1]) %>% 
+         dR2 = R2 - R2[1]) %>% 
   group_by(type) %>% 
   arrange(desc(dAIC), .by_group=TRUE) %>% 
   ungroup() %>% 
-  select(term, Df, AIC, dAIC, AdjR2, dAdjR2)
+  select(term, Df, AIC, dAIC, R2, dR2)
 
 ## results for variable groups
 # drop taxonomy
-m2.tax <- lm(log10.sporeVolume ~ simpleFunct + SporeType + 
-               alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
+m2.tax <- lm(log10.sporeVolume ~ Life_style + SporeType + 
+               mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
 # drop function
 m2.fun <- lm(log10.sporeVolume ~ order + SporeType + 
-               alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
+               mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
 # drop spore type
-m2.typ <- lm(log10.sporeVolume ~ order + simpleFunct + 
-               alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
+m2.typ <- lm(log10.sporeVolume ~ order + Life_style + 
+               mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
 # drop environment
-m2.env <- lm(log10.sporeVolume ~ order + simpleFunct + SporeType, data=trial)
+m2.env <- lm(log10.sporeVolume ~ order + Life_style + SporeType, data=trial)
 # make table
-m2.drp <- data.frame(term=c('<none>', 'taxonomy', 'simpleFunct', 'SporeType', 'climate'), 
+m2.drp <- data.frame(term=c('<none>', 'taxonomy', 'Life_style', 'SporeType', 'climate'), 
                      df=AIC(m1, m2.tax, m2.fun, m2.typ, m2.env)[['df']], 
                      AIC=AIC(m1, m2.tax, m2.fun, m2.typ, m2.env)[['AIC']], 
-                     AdjR2=sapply(list(m1, m2.tax, m2.fun, m2.typ, m2.env), function(x)summary(x)[['adj.r.squared']]), 
+                     R2=sapply(list(m1, m2.tax, m2.fun, m2.typ, m2.env), function(x)summary(x)[['r.squared']]), 
                      row.names=NULL) %>% 
   mutate(type = c('<none>', rep('subset', n() - 1)), 
          dAIC = AIC - AIC[1], 
-         dAdjR2 = AdjR2 - AdjR2[1]) %>% 
+         dR2 = R2 - R2[1]) %>% 
   group_by(type) %>% 
   arrange(desc(dAIC), .by_group=TRUE) %>% 
   ungroup() %>% 
-  select(term, df, AIC, dAIC, AdjR2, dAdjR2)
+  select(term, df, AIC, dAIC, R2, dR2)
 
 # Table 1
-dust(m1.drp, caption='Table X. Importance of individual variables in linear models for explaining variation among species in spore volume. Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), adjusted R^2 (Adj. R2) and delta adjusted R^2 (dAdj. R2) were calculated by dropping terms from a global model containing all terms (indicated in italics).') %>%
+dust(m1.drp, caption='Table X. Importance of individual variables in linear models for explaining variation among species in spore volume. Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), R^2 (R2) and delta R^2 (dR2) were calculated by dropping terms from a global model containing all terms (indicated in italics).') %>%
   sprinkle_print_method('markdown')  %>%
   sprinkle(rows=1, italic=TRUE) %>%
   sprinkle(cols=c(3, 4), round=1) %>%
   sprinkle(cols=c(5, 6), round=3)
 
 # Table 2
-dust(m2.drp, caption='Table X. Importance of variable groupss in linear models for explaining variation among species in spore volume. Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), adjusted R^2 (Adj. R2) and delta adjusted R^2 (dAdj. R2) were calculated by dropping groups of terms from a global model containing all terms (indicated in italics). ') %>%
+dust(m2.drp, caption='Table X. Importance of variable groupss in linear models for explaining variation among species in spore volume. Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), R^2 (R2) and delta R^2 (dR2) were calculated by dropping groups of terms from a global model containing all terms (indicated in italics). ') %>%
   sprinkle_print_method('markdown')  %>%
   sprinkle(rows=1, italic=TRUE) %>%
   sprinkle(cols=c(3, 4), round=1) %>%
@@ -153,12 +156,12 @@ The pattern also holds even when we simplify lifestyles to be either host associ
 ### spore aspect ratio
 
 ## global model
-m1 <- lm(log10.sporeAspectRatio ~ order + simpleFunct + SporeType + 
-             alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
+m1 <- lm(log10.sporeAspectRatio ~ order + Life_style + SporeType + 
+             mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
 # # plot to check for nonlinearities
-# tmp <- m1$model %>%
+# tmp <- m1$model %>% 
 #   mutate_if(is.character, as.factor)
-# for(i in 2:ncol(tmp)) plot(tmp$log10.sporeAspectRatio ~ tmp[, i], main=names(tmp)[i])
+# for(i in 2:ncol(tmp)) plot(tmp$log10.sporeAspectRatio ~ tmp[, i], main=names(tmp)[i]) 
 
 ## results for individual variables
 m1.var <- vector('list', length=ncol(m1$model))
@@ -169,59 +172,176 @@ m1.aic <- lapply(m1.var, function(x)AIC(m1, lm(log10.sporeAspectRatio ~ ., data=
 m1.drp <- data.frame(term = names(m1.var), 
                      Df = sapply(m1.aic, function(x)x[2, 'df']), 
                      AIC = sapply(m1.aic, function(x)x[2, 'AIC']), 
-                     AdjR2 = sapply(m1.var, function(x)summary(lm(log10.sporeAspectRatio ~ ., data=x))[['adj.r.squared']])) %>% 
+                     R2 = sapply(m1.var, function(x)summary(lm(log10.sporeAspectRatio ~ ., data=x))[['r.squared']])) %>% 
   mutate(type = c('global', rep('subset', n() - 1)), 
          dAIC = AIC - AIC[1], 
-         dAdjR2 = AdjR2 - AdjR2[1]) %>% 
+         dR2 = R2 - R2[1]) %>% 
   group_by(type) %>% 
   arrange(desc(dAIC), .by_group=TRUE) %>% 
   ungroup() %>% 
-  select(term, Df, AIC, dAIC, AdjR2, dAdjR2)
+  select(term, Df, AIC, dAIC, R2, dR2)
 
 ## results for variable groups
 # drop taxonomy
-m2.tax <- lm(log10.sporeAspectRatio ~ simpleFunct + SporeType + 
-               alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
+m2.tax <- lm(log10.sporeAspectRatio ~ Life_style + SporeType + 
+               mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
 # drop function
 m2.fun <- lm(log10.sporeAspectRatio ~ order + SporeType + 
-               alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
+               mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
 # drop spore type
-m2.typ <- lm(log10.sporeAspectRatio ~ order + simpleFunct + 
-               alt_mean + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
+m2.typ <- lm(log10.sporeAspectRatio ~ order + Life_style + 
+               mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
 # drop environment
-m2.env <- lm(log10.sporeAspectRatio ~ order + simpleFunct + SporeType, data=trial)
+m2.env <- lm(log10.sporeAspectRatio ~ order + Life_style + SporeType, data=trial)
 # make table
-m2.drp <- data.frame(term=c('<none>', 'taxonomy', 'simpleFunct', 'SporeType', 'climate'), 
+m2.drp <- data.frame(term=c('<none>', 'taxonomy', 'Life_style', 'SporeType', 'climate'), 
                      df=AIC(m1, m2.tax, m2.fun, m2.typ, m2.env)[['df']], 
                      AIC=AIC(m1, m2.tax, m2.fun, m2.typ, m2.env)[['AIC']], 
-                     AdjR2=sapply(list(m1, m2.tax, m2.fun, m2.typ, m2.env), function(x)summary(x)[['adj.r.squared']]), 
+                     R2=sapply(list(m1, m2.tax, m2.fun, m2.typ, m2.env), function(x)summary(x)[['r.squared']]), 
                      row.names=NULL) %>% 
-  mutate(type = c('global', rep('subset', n() - 1)), 
+  mutate(type = c('<none>', rep('subset', n() - 1)), 
          dAIC = AIC - AIC[1], 
-         dAdjR2 = AdjR2 - AdjR2[1]) %>% 
+         dR2 = R2 - R2[1]) %>% 
   group_by(type) %>% 
   arrange(desc(dAIC), .by_group=TRUE) %>% 
   ungroup() %>% 
-  select(term, df, AIC, dAIC, AdjR2, dAdjR2)
+  select(term, df, AIC, dAIC, R2, dR2)
 
 # Table 1
-dust(m1.drp, caption='Table X. Importance of individual variables in linear models for explaining variation among species in spore shape. Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), adjusted R^2 (Adj. R2) and delta adjusted R^2 (dAdj. R2) were calculated by dropping terms from a global model containing all terms (indicated in italics).') %>%
+dust(m1.drp, caption='Table X. Importance of individual variables in linear models for explaining variation among species in spore shape Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), R^2 (R2) and delta R^2 (dR2) were calculated by dropping terms from a global model containing all terms (indicated in italics).') %>%
   sprinkle_print_method('markdown')  %>%
   sprinkle(rows=1, italic=TRUE) %>%
   sprinkle(cols=c(3, 4), round=1) %>%
   sprinkle(cols=c(5, 6), round=3)
 
 # Table 2
-dust(m2.drp, caption='Table X. Importance of variable groupss in linear models for explaining variation among species in spore shape. Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), adjusted R^2 (Adj. R2) and delta adjusted R^2 (dAdj. R2) were calculated by dropping groups of terms from a global model containing all terms (indicated in italics). ') %>%
+dust(m2.drp, caption='Table X. Importance of variable groupss in linear models for explaining variation among species in spore shape Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), R^2 (R2) and delta R^2 (dR2) were calculated by dropping groups of terms from a global model containing all terms (indicated in italics). ') %>%
   sprinkle_print_method('markdown')  %>%
   sprinkle(rows=1, italic=TRUE) %>%
   sprinkle(cols=c(3, 4), round=1) %>%
   sprinkle(cols=c(5, 6), round=3)
-
+  
 ```
 
-Spore shape shows a similar pattern with regard to taxonomy being the most important, although spore type ends up being more important and climate and spore type end up being of similar importance. The most important climate variable is solar radiation, with species with more ovoid spores being found in environments with higher solar radiation.
+Spore shape shows a similar pattern with regard to taxonomy being the most important, with spore type being second most importance. Climate and lifestyle ends up being of similar importance. The most important climate variable is solar radiation, with species with more ovoid spores being found in environments with higher solar radiation.
 
 
 3. How much life-style influence the expected spore size ~ geographic extent?
 This is another story :)
+
+
+```{r, echo=FALSE, eval=FALSE}
+
+##### analysis of extent
+
+temp<-left_join(read_csv('output/df_species_byPrimerSet.csv') %>%
+                   mutate(names_to_use = gsub("_", " ", Species)) %>%
+                   select(names_to_use, host.assoc, Primers.name, log10.sporeVolume, log10.sporeAspectRatio, starts_with('geo_'), ends_with('_sd'), n_samples_env),
+                 To_Analysis[,c("names_to_use","SporeType","simpleFunct",
+                                "phylum","class","order")])
+
+ggplot(temp %>% filter(!is.na(host.assoc)), aes(x=log10.sporeVolume, y=car::logit(geo_extent_prop), colour=host.assoc)) + 
+  geom_point(alpha=0.5, shape=16) + 
+  # stat_smooth(method='lm', formula=y ~ poly(x, 2), alpha=0.5) +
+  stat_smooth(method='lm', alpha=0.5) #+ 
+  # facet_grid(cols=vars(phylum))
+
+# fit linear model
+m1 <- lme4::lmer(car::logit(geo_extent_prop) ~ log10.sporeVolume * host.assoc +
+                   (1+log10.sporeVolume|order) + (1|Primers.name) + (1|SporeType), data=temp)
+summary(m1)
+car::Anova(m1)
+# car::qqPlot(resid(m1))
+# plot(m1)
+# anova(m1, 
+#       lme4::lmer(car::logit(geo_extent_prop) ~ log10.sporeVolume * host.assoc * SporeType +
+#                    (1|order) + (1|Primers.name), data=temp))
+# anova(m1, 
+#       lme4::lmer(car::logit(geo_extent_prop) ~ log10.sporeVolume * host.assoc * SporeType +
+#                    (1+log10.sporeVolume|order), data=temp))
+
+```
+
+```{r}
+
+temp<-left_join(read_csv('output/df_species_byPrimerSet.csv') %>%
+                   mutate(names_to_use = gsub("_", " ", Species)) %>%
+                   select(names_to_use, host.assoc, Primers.name, log10.sporeVolume, log10.sporeAspectRatio, starts_with('geo_'), ends_with('_sd'), n_samples_env),
+                 To_Analysis[,c("names_to_use","SporeType","simpleFunct","Life_style",
+                                "phylum","class","order")]) %>% 
+  filter(!order == 'Not assigned') %>% 
+  mutate(Life_style = recode(Life_style, Plant = "Facultative association"), 
+         Life_style = ordered(Life_style))#, 
+         # Life_style = poly(as.numeric(Life_style, 1)))
+
+```
+
+
+## Spore volume
+
+```{r}
+
+m1.list <- list(
+  # geographic extent -- maximum distance between samples
+  dist=lmer(car::logit(geo_extent_prop) ~ log10.sporeVolume * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # geographic extent -- habitat area, 
+  area=lmer(car::logit(geo_area_prop) ~ log10.sporeVolume * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # environmental extent -- MAT
+  mat=lmer(sqrt(mat_sd) ~ log10.sporeVolume * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # environmental extent -- MAP
+  map=lmer(sqrt(map_sd) ~ log10.sporeVolume * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # environmental extent -- solar radiation
+  maxsrad=lmer(sqrt(maxsrad_sd) ~ log10.sporeVolume * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # environmental extent -- minimum vapour pressure
+  minvapr=lmer(sqrt(minvapr_sd) ~ log10.sporeVolume * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # general extent -- number of samples
+  nsamp=lmer(sqrt(n_samples_env) ~ log10.sporeVolume * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp)
+)
+  
+lapply(m1.list, function(x)car::Anova(x))
+# m1.coef <- sapply(m1.list, function(x)coef(x)[['order']][1, c('log10.sporeVolume', 'host.assocyes', 'log10.sporeVolume:host.assocyes')])
+# m1.pval <- sapply(m1.list, function(x)car::Anova(x)[c('log10.sporeVolume', 'host.assoc', 'log10.sporeVolume:host.assoc'), 'Pr(>Chisq)'])
+
+```
+
+## Spore aspect ratio
+
+```{r}
+
+m2.list <- list(
+  # geographic extent -- maximum distance between samples
+  dist=lmer(car::logit(geo_extent_prop) ~ log10.sporeAspectRatio * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # geographic extent -- habitat area, 
+  area=lmer(car::logit(geo_area_prop) ~ log10.sporeAspectRatio * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # environmental extent -- MAT
+  mat=lmer(sqrt(mat_sd) ~ log10.sporeAspectRatio * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # environmental extent -- MAP
+  map=lmer(sqrt(map_sd) ~ log10.sporeAspectRatio * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # environmental extent -- solar radiation
+  maxsrad=lmer(sqrt(maxsrad_sd) ~ log10.sporeAspectRatio * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # environmental extent -- minimum vapour pressure
+  minvapr=lmer(sqrt(minvapr_sd) ~ log10.sporeAspectRatio * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp), 
+  # general extent -- number of samples
+  nsamp=lmer(sqrt(n_samples_env) ~ log10.sporeAspectRatio * Life_style * SporeType + 
+                 (1|order) + (1|Primers.name), data=temp)
+)
+  
+lapply(m2.list, function(x)car::Anova(x))
+# m2.coef <- sapply(m2.list, function(x)coef(x)[['order']][1, c('log10.sporeAspectRatio', 'host.assocyes', 'log10.sporeAspectRatio:host.assocyes')])
+# m2.pval <- sapply(m2.list, function(x)car::Anova(x)[c('log10.sporeAspectRatio', 'host.assoc', 'log10.sporeAspectRatio:host.assoc'), 'Pr(>Chisq)'])
+
+```
+
