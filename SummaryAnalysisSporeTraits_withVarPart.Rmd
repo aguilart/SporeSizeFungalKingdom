@@ -74,11 +74,14 @@ For this we subset the data to: a) include only the species for which we have li
 ## Spore volume
 ```{r, echo=FALSE}
 
+# library for Akaike weights
+library(MuMIn)
+
 ### spore volume
 
 ## global model
 m1 <- lm(log10.sporeVolume ~ order + Life_style + SporeType + 
-             mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
+             mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial, na.action=na.fail)
 # # plot to check for nonlinearities
 # tmp <- m1$model %>% 
 #   mutate_if(is.character, as.factor)
@@ -102,6 +105,13 @@ m1.drp <- data.frame(term = names(m1.var),
   ungroup() %>% 
   select(term, Df, AIC, dAIC, R2, dR2)
 
+## results using dredging
+m1.drdg <- dredge(m1)
+m1.drp <- left_join(m1.drp, data.frame(term = names(importance(m1.drdg)), 
+                             sumWeights = importance(m1.drdg), row.names=NULL)) %>% 
+  mutate(sumWeights = replace_na(sumWeights, '')) %>% 
+  select(-R2, -dR2)
+
 ## results for variable groups
 # drop taxonomy
 m2.tax <- lm(log10.sporeVolume ~ Life_style + SporeType + 
@@ -113,7 +123,7 @@ m2.fun <- lm(log10.sporeVolume ~ order + SporeType +
 m2.typ <- lm(log10.sporeVolume ~ order + Life_style + 
                mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
 # drop environment
-m2.env <- lm(log10.sporeVolume ~ order + Life_style + SporeType, data=trial)
+m2.env <- lm(log10.sporeVolume ~ order + Life_style + SporeType, data=trial, na.action=na.fail)
 # make table
 m2.drp <- data.frame(term=c('<none>', 'taxonomy', 'Life_style', 'SporeType', 'climate'), 
                      df=AIC(m1, m2.tax, m2.fun, m2.typ, m2.env)[['df']], 
@@ -128,19 +138,35 @@ m2.drp <- data.frame(term=c('<none>', 'taxonomy', 'Life_style', 'SporeType', 'cl
   ungroup() %>% 
   select(term, df, AIC, dAIC, R2, dR2)
 
+## results using dredging
+m2.drdg <- list(m1, m2.tax, m2.fun, m2.typ, m2.env, 
+                lm(log10.sporeVolume ~ SporeType + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial),  
+                lm(log10.sporeVolume ~ Life_style + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial),  
+                lm(log10.sporeVolume ~ Life_style + SporeType, data=trial), 
+                lm(log10.sporeVolume ~ order + SporeType, data=trial),  
+                lm(log10.sporeVolume ~ order + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial),  
+                lm(log10.sporeVolume ~ order + Life_style, data=trial),  
+                lm(log10.sporeVolume ~ SporeType, data=trial), 
+                lm(log10.sporeVolume ~ order, data=trial),  
+                lm(log10.sporeVolume ~ mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial),  
+                lm(log10.sporeVolume ~ Life_style, data=trial))
+m2.drp <- left_join(m2.drp, data.frame(term = c('<none>', 'taxonomy', 'Life_style', 'SporeType', 'climate'), 
+                             sumWeights = c(NA, importance(m2.drdg)[1:4]), row.names=NULL)) %>% 
+  select(-R2, -dR2)
+
 # Table 1
-dust(m1.drp, caption='Table X. Importance of individual variables in linear models for explaining variation among species in spore volume. Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), R^2 (R2) and delta R^2 (dR2) were calculated by dropping terms from a global model containing all terms (indicated in italics).') %>%
+dust(m1.drp, caption='Table X. Importance of individual variables in linear models for explaining variation among species in spore volume. Degrees of freedom (df), Akaike\'s Information Criterion (AIC) and delta AIC (dAIC) were calculated by dropping terms from a global model containing all terms (indicated in italics). Akaike weights (sumWeights) were calculated from AIC scores following automated model selection using all terms.') %>%
   sprinkle_print_method('markdown')  %>%
   sprinkle(rows=1, italic=TRUE) %>%
   sprinkle(cols=c(3, 4), round=1) %>%
-  sprinkle(cols=c(5, 6), round=3)
+  sprinkle(cols=5, round=2)
 
 # Table 2
-dust(m2.drp, caption='Table X. Importance of variable groupss in linear models for explaining variation among species in spore volume. Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), R^2 (R2) and delta R^2 (dR2) were calculated by dropping groups of terms from a global model containing all terms (indicated in italics). ') %>%
+dust(m2.drp, caption='Table X. Importance of variable groupss in linear models for explaining variation among species in spore volume. Degrees of freedom (df), Akaike\'s Information Criterion (AIC) and delta AIC (dAIC) were calculated by dropping groups of terms from a global model containing all terms (indicated in italics). Akaike weights (sumWeights) were calculated from AIC scores following automated model selection using all groups of terms.') %>%
   sprinkle_print_method('markdown')  %>%
   sprinkle(rows=1, italic=TRUE) %>%
   sprinkle(cols=c(3, 4), round=1) %>%
-  sprinkle(cols=c(5, 6), round=3)
+  sprinkle(cols=5, round=2)
   
 ```
 
@@ -157,7 +183,7 @@ The pattern also holds even when we simplify lifestyles to be either host associ
 
 ## global model
 m1 <- lm(log10.sporeAspectRatio ~ order + Life_style + SporeType + 
-             mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
+             mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial, na.action=na.fail)
 # # plot to check for nonlinearities
 # tmp <- m1$model %>% 
 #   mutate_if(is.character, as.factor)
@@ -181,6 +207,13 @@ m1.drp <- data.frame(term = names(m1.var),
   ungroup() %>% 
   select(term, Df, AIC, dAIC, R2, dR2)
 
+## results using dredging
+m1.drdg <- dredge(m1)
+m1.drp <- left_join(m1.drp, data.frame(term = names(importance(m1.drdg)), 
+                             sumWeights = importance(m1.drdg), row.names=NULL)) %>% 
+  mutate(sumWeights = replace_na(sumWeights, '')) %>% 
+  select(-R2, -dR2)
+
 ## results for variable groups
 # drop taxonomy
 m2.tax <- lm(log10.sporeAspectRatio ~ Life_style + SporeType + 
@@ -192,7 +225,7 @@ m2.fun <- lm(log10.sporeAspectRatio ~ order + SporeType +
 m2.typ <- lm(log10.sporeAspectRatio ~ order + Life_style + 
                mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial)
 # drop environment
-m2.env <- lm(log10.sporeAspectRatio ~ order + Life_style + SporeType, data=trial)
+m2.env <- lm(log10.sporeAspectRatio ~ order + Life_style + SporeType, data=trial, na.action=na.fail)
 # make table
 m2.drp <- data.frame(term=c('<none>', 'taxonomy', 'Life_style', 'SporeType', 'climate'), 
                      df=AIC(m1, m2.tax, m2.fun, m2.typ, m2.env)[['df']], 
@@ -207,19 +240,35 @@ m2.drp <- data.frame(term=c('<none>', 'taxonomy', 'Life_style', 'SporeType', 'cl
   ungroup() %>% 
   select(term, df, AIC, dAIC, R2, dR2)
 
+## results using dredging
+m2.drdg <- list(m1, m2.tax, m2.fun, m2.typ, m2.env, 
+                lm(log10.sporeAspectRatio ~ SporeType + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial),  
+                lm(log10.sporeAspectRatio ~ Life_style + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial),  
+                lm(log10.sporeAspectRatio ~ Life_style + SporeType, data=trial), 
+                lm(log10.sporeAspectRatio ~ order + SporeType, data=trial),  
+                lm(log10.sporeAspectRatio ~ order + mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial),  
+                lm(log10.sporeAspectRatio ~ order + Life_style, data=trial),  
+                lm(log10.sporeAspectRatio ~ SporeType, data=trial), 
+                lm(log10.sporeAspectRatio ~ order, data=trial),  
+                lm(log10.sporeAspectRatio ~ mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean, data=trial),  
+                lm(log10.sporeAspectRatio ~ Life_style, data=trial))
+m2.drp <- left_join(m2.drp, data.frame(term = c('<none>', 'taxonomy', 'Life_style', 'SporeType', 'climate'), 
+                             sumWeights = c(NA, importance(m2.drdg)[1:4]), row.names=NULL)) %>% 
+  select(-R2, -dR2)
+
 # Table 1
-dust(m1.drp, caption='Table X. Importance of individual variables in linear models for explaining variation among species in spore shape Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), R^2 (R2) and delta R^2 (dR2) were calculated by dropping terms from a global model containing all terms (indicated in italics).') %>%
+dust(m1.drp, caption='Table X. Importance of individual variables in linear models for explaining variation among species in spore shape Degrees of freedom (df), Akaike\'s Information Criterion (AIC) and delta AIC (dAIC) were calculated by dropping terms from a global model containing all terms (indicated in italics). Akaike weights (sumWeights) were calculated from AIC scores following automated model selection using all terms.') %>%
   sprinkle_print_method('markdown')  %>%
   sprinkle(rows=1, italic=TRUE) %>%
   sprinkle(cols=c(3, 4), round=1) %>%
-  sprinkle(cols=c(5, 6), round=3)
+  sprinkle(cols=5, round=2)
 
 # Table 2
-dust(m2.drp, caption='Table X. Importance of variable groupss in linear models for explaining variation among species in spore shape Degrees of freedom (df), Akaike\'s Information Criterion (AIC), delta AIC (dAIC), R^2 (R2) and delta R^2 (dR2) were calculated by dropping groups of terms from a global model containing all terms (indicated in italics). ') %>%
+dust(m2.drp, caption='Table X. Importance of variable groupss in linear models for explaining variation among species in spore shape Degrees of freedom (df), Akaike\'s Information Criterion (AIC) and delta AIC (dAIC) were calculated by dropping groups of terms from a global model containing all terms (indicated in italics). Akaike weights (sumWeights) were calculated from AIC scores following automated model selection using all groups of terms.') %>%
   sprinkle_print_method('markdown')  %>%
   sprinkle(rows=1, italic=TRUE) %>%
   sprinkle(cols=c(3, 4), round=1) %>%
-  sprinkle(cols=c(5, 6), round=3)
+  sprinkle(cols=5, round=2)
   
 ```
 
