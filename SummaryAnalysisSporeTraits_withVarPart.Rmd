@@ -9,6 +9,7 @@ library(smatr)
 library(performance)
 library(tidyverse)
 library(lme4)
+library(lmerTest)
 source("MatchingSpore_FunctionData.R")
 ```
 
