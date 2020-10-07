@@ -9,13 +9,16 @@ library(smatr)
 library(performance)
 library(tidyverse)
 library(lme4)
+library(lmerTest)
 source("MatchingSpore_FunctionData.R")
 ```
 
 1. How much phylogeny explain variation in spore size?
 
 
-In my opinion we should be using all the data (~60K entries) and taxonomy as a random factor (only using spore type as fixed effect). **Note this gives different results when I run it compared with the output file Carlos sent.**
+In my opinion we should be using all the data (~60K entries) and taxonomy as a random factor (only using spore type as fixed effect). 
+
+**Note this gives different results when I run it compared with the output file Carlos sent.**
 
 ```{r, echo=FALSE}
 
@@ -23,15 +26,29 @@ model1<-
 lmer(log10(SporeVolume)~SporeType+(1|phylum/class/order/family),data = 
        To_Analysis)
 
-```
-
-
-```{r}
 r2_nakagawa(model1)
 ```
+This result indicates that spore type and taxonomy explain up to 74% of the variation in the subset of the species for which we also have functiona data. Spore type alone explain roughly 8%, indictating that these two variables are highly correlated (particularly at kingdom-wide level).
 
-This result indicates that spore type and taxonmy explain up to 54% of the variation in the total dataset. Spore type explain alone explain very little (7%), indictating that these two variables are highly correlated (particularly at kingdom-wide level).
-Thus, the conclusion is is that indeed, taxonomy is a very important “driver” and we should take it into account.
+**Note on the previous comment **
+
+The difference between the results of the model above and what I send previously is because I was using all species in the dataset (that is the dataframe called "AllFungi" of ~67 K entries). The model above uses "To_Analysis" which only contains the subset for which we also have functional data
+
+```{r}
+model_allFungi<-
+lmer(log10(SporeVolume)~SporeType+(1|phylum/class/order),data = 
+       AllFungi[-which(is.na(AllFungi$SporeType)),])
+
+r2_nakagawa(model_allFungi)
+```
+This result indicates that spore type and taxonmy explain up to 54% (so less than above) of the variation in the total dataset (regardless of whether we have functional data). In this case spore type stay more or less the same (7%).
+
+In either case, the conclusion is is that indeed, taxonomy and then spore type are very important “driver” and we should take it into account.
+
+
+2. So, once taxonomy is taken into account, how important is life-style? Relative to climatic conditions?
+
+
 
 ```{r, message=FALSE, echo=FALSE}
 # conidia_lifestyle<-
@@ -68,9 +85,11 @@ library(pixiedust)
 
 ```
 
-2. So, once taxonomy is taken into account, how important is life-style? Relative to climatic conditions?
 
 For this we subset the data to: a) include only the species for which we have life-style data, and b) we got climatic varialbes. This reduces the original dataset from 60K entries to `r nrow(trial)` entries. **Note that I had to remove some rows in which taxonomy was 'Not assigned', which shouldn't be the case.**
+
+**I check and indeed we do not have taxonomy information for those species neither in from the Catalogue of Life nor from Mycobank** 
+
 
 ## Spore volume
 ```{r, echo=FALSE}
@@ -175,6 +194,115 @@ All these outputs confirm the same trend: Taxonomy is important. In fact, using 
 
 Next in “importance” is lifestyle (removing makes the model bad, adding lifestyle makes it better). More so than any other climatic variable or spore type, although the explanatory power of the model is pretty small (< 1\%). **Maybe we should use R2 instead (or in addition to) adjusted R2**
 The pattern also holds even when we simplify lifestyles to be either host associated or freeliving fungi. **Not included here**
+
+
+**Carlos approach using mixed effects models where taxonomy is a random factor**
+
+Having taxonomy and spore type as random factors (not including multinucleate spores because they only include AMF which only inlcude one type of lifestyle plus 3 zygomycetous fungi) 
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE}
+m_all <- lmer(log10.sporeVolume ~ Life_style + 
+             mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean+
+             (1|phylum/order)+(1|SporeType),  REML=TRUE,data=trial %>% filter(!grepl("Multi",SporeType)) %>% mutate_at(c("mat_mean", "map_mean", "seasonality_t_mean", "seasonality_p_mean", "maxsrad_mean","minvapr_mean"),scale))
+
+m_no_life_style <- lmer(log10.sporeVolume ~ #Life_style + 
+             mat_mean + map_mean + seasonality_t_mean + seasonality_p_mean + maxsrad_mean + minvapr_mean+
+             (1|phylum/order)+(1|SporeType),  REML=TRUE,data=trial %>% filter(!grepl("Multi",SporeType)) %>% mutate_at(c("mat_mean", "map_mean", "seasonality_t_mean", "seasonality_p_mean", "maxsrad_mean","minvapr_mean"),scale))
+
+m_no_mat_mean <- lmer(log10.sporeVolume ~ Life_style + 
+             #mat_mean + 
+               map_mean + 
+               seasonality_t_mean + 
+               seasonality_p_mean + 
+               maxsrad_mean + 
+               minvapr_mean+
+             (1|phylum/order)+(1|SporeType),  REML=TRUE,data=trial %>% filter(!grepl("Multi",SporeType)) %>% mutate_at(c("mat_mean", "map_mean", "seasonality_t_mean", "seasonality_p_mean", "maxsrad_mean","minvapr_mean"),scale))
+
+
+m_no_map_mean <- lmer(log10.sporeVolume ~ Life_style + 
+               mat_mean + 
+               #map_mean + 
+               seasonality_t_mean + 
+               seasonality_p_mean + 
+               maxsrad_mean + 
+               minvapr_mean+
+             (1|phylum/order)+(1|SporeType),  REML=TRUE,data=trial %>% filter(!grepl("Multi",SporeType)) %>% mutate_at(c("mat_mean", "map_mean", "seasonality_t_mean", "seasonality_p_mean", "maxsrad_mean","minvapr_mean"),scale))
+
+m_no_seasonality_t_mean <- lmer(log10.sporeVolume ~ Life_style + 
+               mat_mean + 
+               map_mean + 
+               #seasonality_t_mean + 
+               seasonality_p_mean + 
+               maxsrad_mean + 
+               minvapr_mean+
+             (1|phylum/order)+(1|SporeType),  REML=TRUE,data=trial %>% filter(!grepl("Multi",SporeType)) %>% mutate_at(c("mat_mean", "map_mean", "seasonality_t_mean", "seasonality_p_mean", "maxsrad_mean","minvapr_mean"),scale))
+
+m_no_seasonality_p_mean <- lmer(log10.sporeVolume ~ Life_style + 
+               mat_mean + 
+               map_mean + 
+               seasonality_t_mean + 
+               #seasonality_p_mean + 
+               maxsrad_mean + 
+               minvapr_mean+
+             (1|phylum/order)+(1|SporeType),  REML=TRUE,data=trial %>% filter(!grepl("Multi",SporeType)) %>% mutate_at(c("mat_mean", "map_mean", "seasonality_t_mean", "seasonality_p_mean", "maxsrad_mean","minvapr_mean"),scale))
+
+m_no_maxsrad_mean <- lmer(log10.sporeVolume ~ Life_style + 
+               mat_mean + 
+               map_mean + 
+               seasonality_t_mean + 
+               seasonality_p_mean + 
+               #maxsrad_mean + 
+               minvapr_mean+
+             (1|phylum/order)+(1|SporeType),  REML=TRUE,data=trial %>% filter(!grepl("Multi",SporeType)) %>% mutate_at(c("mat_mean", "map_mean", "seasonality_t_mean", "seasonality_p_mean", "maxsrad_mean","minvapr_mean"),scale))
+
+m_no_minvapr_mean <- lmer(log10.sporeVolume ~ Life_style + 
+               mat_mean + 
+               map_mean + 
+               seasonality_t_mean + 
+               seasonality_p_mean + 
+               maxsrad_mean + 
+               #minvapr_mean+
+             (1|phylum/order)+(1|SporeType),  REML=TRUE,data=trial %>% filter(!grepl("Multi",SporeType)) %>% mutate_at(c("mat_mean", "map_mean", "seasonality_t_mean", "seasonality_p_mean", "maxsrad_mean","minvapr_mean"),scale))
+
+
+
+modelos<-list(m_all,m_no_life_style,
+              m_no_mat_mean,m_no_map_mean,
+              m_no_seasonality_t_mean,m_no_seasonality_p_mean,
+              m_no_maxsrad_mean,m_no_minvapr_mean)
+names(modelos)<-c("m_all","m_no_life_style",
+              "m_no_mat_mean","m_no_map_mean",
+              "m_no_seasonality_t_mean","m_no_seasonality_p_mean",
+              "m_no_maxsrad_mean","m_no_minvapr_mean")
+
+resultados<-
+do.call("rbind",
+lapply(modelos, function(x){y<-r2_nakagawa(x)
+data.frame(R2_random_fixed=y$R2_conditional,
+           R2_fixed=y$R2_marginal,
+           Log_likelihood=logLik(x),
+           AIC=AIC(x))} )
+);resultados$df<-AIC(m_all,m_no_life_style,
+              m_no_mat_mean,m_no_map_mean,
+              m_no_seasonality_t_mean,m_no_seasonality_p_mean,
+              m_no_maxsrad_mean,m_no_minvapr_mean)$df
+
+resultados$dAIC<-resultados$AIC-resultados$AIC[1]
+resultados$Model<-rownames(resultados);rownames(resultados)<-NULL
+resultados<-resultados[,c(7,5,1:4,6)]
+#resultados
+```
+
+
+```{r}
+dust(resultados, caption='Relative importance of lifestyle vs climatic variables in explaining interspecific spore size variation. The fit of a mixed effect model including lifestyle and six climatic variables as fixed factors (in italics) was compared relative to the fit of models in which one of these predictors was removed (indicated in the respective row). In all cases taxonomy and spore type were kept as random factors. df = Degrees of freedom , AIC = Akaike_s Information Criterion, dAIC= delta AIC (difference between the AIC of each and the one containing all terms). A large delta AIC indicates that dropping that term from the model results in a large decline in model fit. A small (< 2) or negative delta AIC indicates that dropping that term from the model improves model fit.') %>%
+  sprinkle_print_method('markdown')  %>%
+  sprinkle(rows=1, italic=TRUE) %>%
+  sprinkle(cols=c(3,4), round=3) %>%
+  sprinkle(cols=c(5,6,7), round=2)
+```
+
+
 
 
 ## Spore aspect ratio
