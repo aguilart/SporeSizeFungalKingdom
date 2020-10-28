@@ -570,7 +570,8 @@ temp %>%
   stat_smooth(method='lm', alpha=0.25) + 
   labs(x='Spore volume (um^3, log_10)', y='Geographic extent (relative to maximum distance/area, logit)') + 
   facet_grid(rows=vars(response), scales='free_y') + 
-  scale_colour_manual(name='', values=colorRampPalette(c('black', 'orange'))(3)) +
+  # scale_colour_manual(name='', values=colorRampPalette(c('black', 'orange'))(3)) +
+  scale_colour_manual(name='', values=colorRampPalette(c('black', 'green'))(3)) +
   theme(legend.position='none', 
         strip.background = element_blank(),
         strip.text.y = element_blank()) -> p1
@@ -580,8 +581,10 @@ ggplot(slp, aes(x=slope, colour=Life_style, fill=Life_style)) +
   geom_vline(xintercept=0) + 
   labs(x='Slope estimate', y='Density') + 
   facet_grid(rows=vars(response), labeller=labeller(response=labs)) + 
-  scale_colour_manual(name='', values=colorRampPalette(c('black', 'orange'))(3)) + 
-  scale_fill_manual(name='', values=colorRampPalette(c('black', 'orange'))(3)) -> p2
+  # scale_colour_manual(name='', values=colorRampPalette(c('black', 'orange'))(3)) + 
+  # scale_fill_manual(name='', values=colorRampPalette(c('black', 'orange'))(3)) -> p2
+  scale_colour_manual(name='', values=colorRampPalette(c('black', 'green'))(3)) + 
+  scale_fill_manual(name='', values=colorRampPalette(c('black', 'green'))(3)) -> p2
 
 p1 + p2
 
