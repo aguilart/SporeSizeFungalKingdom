@@ -59,14 +59,23 @@ dat <- read_csv('output/df_species_noPrimers.csv')
 
 dat$names_to_use<-gsub("_"," ",dat$Species)
 
-# trial<-left_join(dat %>% 
-#                   select(names_to_use,Primers.name,host.assoc, ends_with('mean')), 
+# trial<-left_join(dat %>%
+#                   select(names_to_use,Primers.name,host.assoc, ends_with('mean')),
 #                  To_Analysis[,c("names_to_use","SporeType","simpleFunct","SporeVolume", "Q_ratio",
 #                                 "phylum","class","order")])
-trial<-left_join(dat %>% 
-                  select(names_to_use, host.assoc, log10.sporeVolume, log10.sporeAspectRatio, ends_with('mean'), n_samples_env), 
+trial<-left_join(dat %>%
+                  select(names_to_use, host.assoc, log10.sporeVolume, log10.sporeAspectRatio, ends_with('mean'), n_samples_env),
                  To_Analysis[,c("names_to_use","SporeType","simpleFunct","Life_style",
                                 "phylum","class","order")])
+
+# temp <- trial %>% 
+#   group_by(phylum, SporeType, Primers.name) %>% 
+#   summarise(n = n())
+# ggplot(trial %>% filter(!is.na(SporeType)), aes(x=SporeType, y=log10(SporeVolume))) + 
+#   geom_boxplot() +
+#   labs(x='', y='Spore volume (um^3, log_10)') +
+#   facet_grid(cols=vars(phylum), rows=vars(Primers.name), scales='free_x', space='free_x') + 
+#   theme(axis.text.x = element_text(angle = 90, hjust=1))
 
 # this is weird that there are species without assignments
 trial<-trial[complete.cases(trial),] %>% 
@@ -469,7 +478,7 @@ fit1.area.loo <- loo(fit1.area)
 ```
 
 
-```{r}
+```{r, echo=FALSE}
 
 library(ggridges)
 library(patchwork)
@@ -580,6 +589,98 @@ p1 + p2
 
 ```
 
+### Within-order relationships
+
+```{r, echo=FALSE, message=FALSE}
+
+# function to extract from model results
+from_mer <- function(x){
+  # n_spp <- length(unique(attr(x, 'frame')$names_to_use))
+  coef <- summary(x)[['coefficients']]
+  res <- c(slope=as.numeric(coef[grep('^log10', rownames(coef)), 'Estimate']), 
+           slope.se=as.numeric(coef[grep('^log10', rownames(coef)), 'Std. Error']), 
+           slope.p=as.numeric(coef[grep('^log10', rownames(coef)), 'Pr(>|t|)']))
+  return(res)
+}
+
+
+# maximum distance
+temp1 <- drop_na(select(temp, names_to_use, geo_extent_prop, log10.sporeVolume, Life_style, order, Primers.name, SporeType)) %>% 
+  mutate(response = car::logit(geo_extent_prop), 
+         Life_style = recode(Life_style, `AFree living`='free-living', `B_Opportunistic association`='opportunistic', 
+                             `Facultative association`='facultative', `Obligate association`='obligate'), 
+         group = paste(order, Life_style, sep='__'))
+temp1.l <- lapply(split(temp1, temp1$group), function(x){
+  if(length(unique(x$names_to_use)) > 4){
+    if(length(unique(x$Primers.name)) > 1 & length(unique(x$SporeType)) > 1){
+      lmer(response ~ log10.sporeVolume + (1|Primers.name) + (1|SporeType), data=x)} else 
+        if(length(unique(x$Primers.name)) > 1 & length(unique(x$SporeType)) == 1){
+          lmer(response ~ log10.sporeVolume + (1|Primers.name), data=x)} else 
+            if(length(unique(x$Primers.name)) == 1 & length(unique(x$SporeType)) > 1){
+              lmer(response ~ log10.sporeVolume + (1|SporeType), data=x)} else 
+                if(length(unique(x$Primers.name)) == 1 & length(unique(x$SporeType)) == 1){
+                  lm(response ~ log10.sporeVolume, data=x)}
+  }})
+temp1.l[sapply(temp1.l, is.null)] <- NULL
+
+slp.ests.ext <- as.data.frame(t(sapply(temp1.l, from_mer))) %>% 
+  rownames_to_column('group') %>% 
+  separate(group, c('order', 'Life_style'), sep='__') %>% 
+  left_join(temp1 %>% group_by(order, Life_style) %>% summarise(n_spp = length(unique(names_to_use)))) %>% 
+  mutate(Life_style = factor(Life_style, levels=c('free-living', 'facultative', 'obligate'))) %>% 
+  arrange(Life_style, order) %>% 
+  mutate(Life_style = as.character(Life_style)) %>% 
+  select(Life_style, order, n_spp, slope, slope.se, slope.p)
+
+
+# range area
+temp1 <- drop_na(select(temp, names_to_use, geo_area_prop, log10.sporeVolume, Life_style, order, Primers.name, SporeType)) %>% 
+  mutate(response = car::logit(geo_area_prop), 
+         Life_style = recode(Life_style, `AFree living`='free-living', `B_Opportunistic association`='opportunistic', 
+                             `Facultative association`='facultative', `Obligate association`='obligate'), 
+         group = paste(order, Life_style, sep='__'))
+temp1.l <- lapply(split(temp1, temp1$group), function(x){
+  if(length(unique(x$names_to_use)) > 4){
+    if(length(unique(x$Primers.name)) > 1 & length(unique(x$SporeType)) > 1){
+      lmer(response ~ log10.sporeVolume + (1|Primers.name) + (1|SporeType), data=x)} else 
+        if(length(unique(x$Primers.name)) > 1 & length(unique(x$SporeType)) == 1){
+          lmer(response ~ log10.sporeVolume + (1|Primers.name), data=x)} else 
+            if(length(unique(x$Primers.name)) == 1 & length(unique(x$SporeType)) > 1){
+              lmer(response ~ log10.sporeVolume + (1|SporeType), data=x)} else 
+                if(length(unique(x$Primers.name)) == 1 & length(unique(x$SporeType)) == 1){
+                  lm(response ~ log10.sporeVolume, data=x)}
+  }})
+temp1.l[sapply(temp1.l, is.null)] <- NULL
+
+slp.ests.area <- as.data.frame(t(sapply(temp1.l, from_mer))) %>% 
+  rownames_to_column('group') %>% 
+  separate(group, c('order', 'Life_style'), sep='__') %>% 
+  left_join(temp1 %>% group_by(order, Life_style) %>% summarise(n_spp = length(unique(names_to_use)))) %>% 
+  mutate(Life_style = factor(Life_style, levels=c('free-living', 'facultative', 'obligate'))) %>% 
+  arrange(as.numeric(Life_style), order) %>% 
+  mutate(Life_style = as.character(Life_style)) %>% 
+  select(Life_style, order, n_spp, slope, slope.se, slope.p)
+
+
+## produce tables
+## I DON'T KNOW WHY THIS IS RESULTING IN NA VALUES IN ALL COLUMNS
+
+# range area
+dust(slp.ests.area, caption='Table X. Estimates from linear models using spore volume to explain variation in fungal species\' range area. Separate models were fit for each combination of taxonomic order and fungal lifestyle. Where appropriate, spore type and DNA sequencing primers were modelled as random effects') %>%
+  sprinkle_print_method('markdown') %>%
+  sprinkle(cols=4:5, round=2) %>%
+  sprinkle(cols=6, round=3)
+
+# maximum distance
+dust(slp.ests.ext, caption='Table X. Estimates from linear models using spore volume to explain variation in the maximum distance among samples containing a fungal species. Separate models were fit for each combination of taxonomic order and fungal lifestyle. Where appropriate, spore type and DNA sequencing primers were modelled as random effects') %>%
+  sprinkle_print_method('markdown')  %>%
+  sprinkle(cols=c(4, 5), round=2) %>%
+  sprinkle(cols=6, round=3)
+
+  
+```
+
+
 
 ## Spore aspect ratio
 
@@ -611,7 +712,7 @@ fit1.area.loo <- loo(fit1.area)
 ```
 
 
-```{r}
+```{r, echo=FALSE}
 
 library(ggridges)
 library(patchwork)
