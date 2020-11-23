@@ -49,6 +49,29 @@ In either case, the conclusion is is that indeed, taxonomy and then spore type a
 2. So, once taxonomy is taken into account, how important is life-style? Relative to climatic conditions?
 
 
+Spore size distributions in environmental samples, by taxon, spore type and primer set.
+
+```{r, message=FALSE, echo=FALSE}
+
+datp <- read_csv('output/df_species_byPrimerSet.csv')
+
+datp$names_to_use<-gsub("_"," ",datp$Species)
+
+trialp<-left_join(datp %>%
+                  select(names_to_use,Primers.name,host.assoc, ends_with('mean')),
+                 To_Analysis[,c("names_to_use","SporeType","simpleFunct","SporeVolume", "Q_ratio",
+                                "phylum","class","order")]) %>% 
+  mutate(phylum1 = case_when(phylum == 'Glomeromycota' ~ '"glomeromycetous fungi"', 
+                             TRUE ~ as.character(phylum)), 
+         phylum1 = gsub('Z', 'z', phylum1))
+
+ggplot(trialp %>% filter(!is.na(SporeType)), aes(x=SporeType, y=log10(SporeVolume))) +
+  geom_boxplot() +
+  labs(x='', y=expression(Log[10]~ ~spore~ ~volume~ ~(um^3))) +
+  facet_grid(cols=vars(phylum1), rows=vars(Primers.name), scales='free_x', space='free_x') +
+  theme(axis.text.x = element_text(angle = 90, hjust=1))
+
+```
 
 ```{r, message=FALSE, echo=FALSE}
 # conidia_lifestyle<-
@@ -87,6 +110,10 @@ trial<-trial[complete.cases(trial),] %>%
 
 # table(trial$simpleFunct)
 # filter(trial, simpleFunct == 'Human')
+
+trial %>% ggplot(aes(x=SporeType, y=log10.sporeVolume)) + 
+  geom_boxplot() + 
+  facet_grid(rows=vars())
 
 # libraries for tables
 library(broom)
