@@ -451,7 +451,7 @@ mod_tax_meios<-
   phylolm(log10(SporeVolume) ~ simpleFunct,
           data = meiospores2,
          
-          phy = tax_tree,#tree_To_Analysis,#pruned.tree_me,#tax_tree,# #
+          phy = tax_tree2,#tree_To_Analysis,#pruned.tree_me,#tax_tree,# #
           model = "lambda")
 
 
@@ -464,7 +464,7 @@ mod_Li_mitos<-phylolm(log10(SporeVolume) ~ simpleFunct,
 
 mod_tax_mitos<-phylolm(log10(SporeVolume) ~ simpleFunct,
               data = mitospores2,
-              phy = tax_tree, model = "lambda")
+              phy = tax_tree2, model = "lambda")
 
 ```
 
@@ -556,7 +556,7 @@ mod_tax_meios_symb<-
   phylolm(log10(SporeVolume) ~ Life_style,
           data = meiospores2,
           
-          phy = tax_tree,
+          phy = tax_tree2,
           #phy = Li_tree2,
           model = "lambda")
 
@@ -1602,7 +1602,7 @@ geom_density_ridges(aes(fill = Life_style,point_alpha=0.05),jittered_points = TR
 
 
 
-Trying sth
+Trying new figure 2
 
 ```{r}
 tapply(log10(To_Analysis_c$SporeVolume[which(To_Analysis_c$SporeType=="Meiospores")]),
