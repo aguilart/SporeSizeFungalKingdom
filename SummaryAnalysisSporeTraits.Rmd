@@ -1688,7 +1688,8 @@ To_Analysis_c %>%
 geom_density_ridges(aes(colour = Life_style, point_alpha=0.5),jittered_points = TRUE, #position = "raincloud",
      scale = 2,rel_min_height = 0.01, fill='white', size=3, point_size=3)+
   #scale_fill_brewer(palette="YlOrRd")+
-  scale_colour_manual(values= c("#FFFFB2","#FECC5C","#FD8D3C", "brown"))+
+  scale_colour_manual(values=colorRampPalette(c('red', 'blue'))(6))+
+  # scale_colour_manual(values= c("#FFFFB2","#FECC5C","#FD8D3C", "brown"))+
   scale_x_log10(breaks=c(10^0,10^1,10^2,10^3,10^4,10^5,10^6,10^7),
                 labels = scales::trans_format("log10", scales::math_format(10^.x)))+
   facet_wrap(.~phylum, strip.position =  "top",nrow = 1,drop=FALSE,scales = "free_x")+
