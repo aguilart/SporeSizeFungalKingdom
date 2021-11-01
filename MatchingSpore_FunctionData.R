@@ -16,7 +16,7 @@ library(tidyverse)
 #spore data were added provided by other researches (see "AssemblingDataSources.R" for details)
 
 
-AllFungi<-read.csv('C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/Spore_Database_Fungi.csv', header = T,stringsAsFactors = F)
+AllFungi<-read.csv('output/Spore_Database_Fungi.csv', header = T,stringsAsFactors = F)
 
 
 #Fixing some typos on June 2020 (eventually this will have to be changed in AssemblingDataSources.R
@@ -107,7 +107,7 @@ Spore_data<-Spore_data[complete.cases(Spore_data),]
 
 #This database was obtained through R package taxize.
 
-FungalTaxanomy_col<-read.csv('C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/FungalTaxanomy_col.csv', header = T, stringsAsFactors = F)
+FungalTaxanomy_col<-read.csv('output/FungalTaxanomy_col.csv', header = T, stringsAsFactors = F)
 
 
 #######################################################################################################
@@ -118,7 +118,7 @@ FungalTaxanomy_col<-read.csv('C:/Users/Carlos/Documents/Professional/SporeSizeAc
 #More details can be found in "Checking_FunGuild.R".
 
 FunGuildData<-
-  read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/GuildData.csv",header = T,stringsAsFactors = F)
+  read.csv("output/GuildData.csv",header = T,stringsAsFactors = F)
 
 l<-sapply(strsplit(FunGuildData$taxon, " "), length)
 FunGuildData$taxonomicLevel<-"Species"
@@ -146,19 +146,19 @@ FunGuildData$simpleFunct[which(FunGuildData$simpleFunct=="Plant")]<-"Plant Endop
 
 
 #Biotrophic diseases
-rust_fungi<-read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/rust_fungi.csv",stringsAsFactors = F)
-smut_fungi<- read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/smut_fungi.csv",stringsAsFactors = F)
-mildew_fungi<-read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/mildew_fungi.csv",stringsAsFactors = F)
+rust_fungi<-read.csv("output/rust_fungi.csv",stringsAsFactors = F)
+smut_fungi<- read.csv("output/smut_fungi.csv",stringsAsFactors = F)
+mildew_fungi<-read.csv("output/mildew_fungi.csv",stringsAsFactors = F)
 
 #Necrotrophic diseases
-canker_fungi<- read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/canker_fungi.csv",stringsAsFactors = F)
-spot_fungi<- read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/spot_fungi.csv",stringsAsFactors = F)
-scorch_fungi<-read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/scorch_fungi.csv",stringsAsFactors = F)
-anthracnose_fungi<-read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/anthracnose_fungi.csv",stringsAsFactors = F)
-blotch_fungi<-read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/blotch_fungi.csv",stringsAsFactors = F)
-blight_fungi<-read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/blight_fungi.csv",stringsAsFactors = F)
-damping_off_fungi<-read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/damping_off_fungi.csv",stringsAsFactors = F)
-rot_fungi<-read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/rot_fungi.csv",stringsAsFactors = F)
+canker_fungi<- read.csv("output/canker_fungi.csv",stringsAsFactors = F)
+spot_fungi<- read.csv("output/spot_fungi.csv",stringsAsFactors = F)
+scorch_fungi<-read.csv("output/scorch_fungi.csv",stringsAsFactors = F)
+anthracnose_fungi<-read.csv("output/anthracnose_fungi.csv",stringsAsFactors = F)
+blotch_fungi<-read.csv("output/blotch_fungi.csv",stringsAsFactors = F)
+blight_fungi<-read.csv("output/blight_fungi.csv",stringsAsFactors = F)
+damping_off_fungi<-read.csv("output/damping_off_fungi.csv",stringsAsFactors = F)
+rot_fungi<-read.csv("output/rot_fungi.csv",stringsAsFactors = F)
 
 plant_necrotrophs<-c(
   canker_fungi$taxon,
@@ -172,7 +172,7 @@ plant_necrotrophs<-c(
 
 #Adding disease information to roughly 100 species that Noa Terracina assinged based on different sources on
 #August 2020
-Diseases_updateNoa<-read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/Pathogens_no_disease_fromgoogle_afterNoaWork.csv",header = T, 
+Diseases_updateNoa<-read.csv("output/Pathogens_no_disease_fromgoogle_afterNoaWork.csv",header = T, 
                              stringsAsFactors = F)#;USDA_Data_updateNoa$X<-NULL
 
 #adding diseases data as column
@@ -280,6 +280,8 @@ aggregate(cbind(SporeVolume,spore_length,spore_width,
                                   "SporeArea","Q_ratio","Number_of_guilds","SporeType",
                                   "phylum","class","order","family","genus","names_to_use",
                                   "Life_style","trophicMode","guild","simpleFunct")])
+# grep('\xeb', To_Analysis$names_to_use, value=T)
+To_Analysis$names_to_use <- gsub('\xeb', 'e', To_Analysis$names_to_use)
 
 
 #Spore_functions[,c(15:22,28,34:39,41:43)]
@@ -359,7 +361,7 @@ kewData<-read.csv("C:\\Users\\Carlos\\Documents\\Bridging_Rep_Micro_Ecology_ISME
 #LOADING SUBSET DATA WITH ITS INFORMATION (as sent by Jeff Powell on September 2020)
 #####################################################################################################
 
-df_species_byPrimerSet<-read.csv("C:/Users/Carlos/Documents/Professional/SporeSizeAcrossFungKingdom/SporeSizeFungalKingdom/output/df_species_byPrimerSet.csv")
+df_species_byPrimerSet<-read.csv("output/df_species_byPrimerSet.csv")
 
 
 #####################################################################################################
