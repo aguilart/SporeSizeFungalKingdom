@@ -2,6 +2,7 @@
 rm(list=ls())
 
 library(tidyverse)
+library(phylolm)
 
 #Joining spore size data with fungal functional group
 
@@ -74,6 +75,56 @@ AllFungi$SporeType[which(AllFungi$SporeName=="Azygospores")]<-"Multinucleate ase
 AllFungi$SporeType[which(AllFungi$SporeName=="Zygospores")]<-"Multinucleate sexual spores"
 AllFungi$SporeType[which(AllFungi$SporeName=="Teliospores")]<-"Multinucleate sexual spores"
 
+
+# ca. 20 families have multiple orders because of conflicts with Catalogue of Life (2019 version)
+# and Mycobank classification. Because Catalogue of Life was used as the template I decided
+# to standardize by that one.
+
+a<- unique(paste(AllFungi$order,AllFungi$family, sep = "_"))
+b<- unique(AllFungi$family)
+
+a<-str_split(a,"_")
+a<-sapply(a,function(x){x[2]})
+
+a <- a[-which(a == "Not assigned"|a == "NA")]
+
+a[duplicated(a)]
+
+AllFungi$order[AllFungi$family=="Pseudeurotiaceae"] <- "Not assigned"
+AllFungi$order[AllFungi$family=="Venturiaceae"] <- "Venturiales"#
+AllFungi$order[AllFungi$family=="Amphisphaeriaceae"] <- "Amphisphaeriales"#
+
+AllFungi$order[AllFungi$family=="Apiosporaceae"] <- "Not assigned"#
+AllFungi$order[AllFungi$family=="Thelenellaceae"] <- "Not assigned"#
+AllFungi$order[AllFungi$family=="Pseudoperisporiaceae"] <- "Not assigned"#
+
+AllFungi$order[AllFungi$family=="Nitschkiaceae"] <- "Coronophorales"
+AllFungi$order[AllFungi$family=="Hymeneliaceae"] <- "Not assigned"#
+AllFungi$order[AllFungi$family=="Massariaceae"] <- "Pleosporales"#
+
+AllFungi$order[AllFungi$family=="Physciaceae"] <- "Teloschistales"#
+AllFungi$order[AllFungi$family=="Gomphillaceae"] <- "Ostropales"#
+AllFungi$order[AllFungi$family=="Trapeliaceae"] <- "Baeomycetales"#
+
+AllFungi$order[AllFungi$family=="Parmulariaceae"] <- "Asterinales"#
+AllFungi$order[AllFungi$family=="Elaphomycetaceae"] <- "Eurotiales"
+AllFungi$order[AllFungi$family=="Lecideaceae"] <- "Not assigned"#
+
+AllFungi$order[AllFungi$family=="Fuscideaceae"] <- "Not assigned"#
+AllFungi$order[AllFungi$family=="Melaspileaceae"] <- "Arthoniales"#
+AllFungi$order[AllFungi$family=="Clypeosphaeriaceae"] <- "Amphisphaeriale"#
+
+AllFungi$order[AllFungi$family=="Mycosphaerellaceae"] <- "Mycosphaerellales"#
+AllFungi$order[AllFungi$family=="Glomerellaceae"] <- "Glomerellales"#
+AllFungi$order[AllFungi$family=="Ceratostomataceae"] <- "Melanosporales"#
+
+AllFungi$order[AllFungi$family=="Piedraiaceae"] <- "Capnodiales"#
+AllFungi$order[AllFungi$family=="Beltraniaceae"] <- "Sordariales"#
+AllFungi$order[AllFungi$family=="Schizothyriaceae"] <- "Not assigned"#
+
+AllFungi$order[AllFungi$genus=="Kirschsteiniothelia"] <- "Pleosporales"#
+AllFungi$family[AllFungi$genus=="Kirschsteiniothelia"] <- "Kirschsteiniotheliaceae"#
+
 ###################
 #Simplifying All fungi
 
@@ -84,22 +135,36 @@ AllFungi$SporeType[which(AllFungi$SporeName=="Teliospores")]<-"Multinucleate sex
 #                                        "class","order","family","genus","names_to_use")]
 #                       )
 
-Spore_data<-AllFungi %>% 
+Spore_data<-AllFungi[which(AllFungi$width_extreme==F&AllFungi$length_extreme==F),] %>% 
   group_by(phylum,
            class,order,family,genus,names_to_use,SporeType) %>% 
   summarize_at(c("SporeVolume","spore_length","spore_width",
                  "SporeArea","Q_ratio"),mean)
-#Including only species with complete taxonomic information
+# #Including only species with complete taxonomic information
+# 
+# Spore_data<-Spore_data[complete.cases(Spore_data),]
+# 
+# nta<-
+#   which(rowSums(sapply(Spore_data[,c("phylum","class", "order","family")],function(x){x=="Not assigned"}))==1)
+# 
+# Spore_data<-Spore_data[-nta,]
+# Spore_data<-Spore_data[complete.cases(Spore_data),]
 
-Spore_data<-Spore_data[complete.cases(Spore_data),]
+#Finally, here are the species that are present in the Li tree that we use in the analysis
 
-nta<-
-  which(rowSums(sapply(Spore_data[,c("phylum","class", "order","family")],function(x){x=="Not assigned"}))==1)
+# Li_tree_sps <- readRDS("Li_tree_names.RDS") # The newest version
+# 
+# # Some of those species are not present in the original dataset (I added those species manually)
+# # more on that can be found in li_tree_update_funct&spore.R
+# Li_tree_sps$orginal_tree_names <- gsub("_", " ", Li_tree_sps$orginal_tree_names)
+# names(Li_tree_sps)[9] <- "names_to_use"
+# 
+# Li_tree_sps <- Li_tree_sps[which(!Li_tree_sps$names_to_use%in%Spore_data$names_to_use), ]
+# 
+# Spore_data <- bind_rows(Spore_data, Li_tree_sps[, -c(2,3)])#28508+410 # Life_style and simpleFunct
+# #rm(Li_tree_sps)
 
-Spore_data<-Spore_data[-nta,]
-Spore_data<-Spore_data[complete.cases(Spore_data),]
-
-
+saveRDS(Spore_data,"output/Spore_data_12Nov21.RDS")
 
 ######################################################################################################
 #LOADING THE TAXONOMY FROM CATALOGUE OF LIFE
@@ -127,6 +192,9 @@ FunGuildData$taxonomicLevel<-"Species"
 #As for many species I do not know whether they are licheninzed or lichenicolous, I will use anything that has
 #"lichen" as a generic term
 FunGuildData$host[which(FunGuildData$host=="Lichen-Algae")]<-"Lichen"
+
+
+# Standardizing guilds to common terminology
 
 
 #Creating "simpleFunct" column
@@ -211,7 +279,8 @@ FunGuildData$simpleFunct[which(FunGuildData$taxon%in%plant_necrotrophs)]<-"Plant
 FunGuildData$simpleFunct[which(FunGuildData$simpleFunct=="Plant Pathogen Necrotroph")]<-"Plant necrotroph"
 
 
-#Adding life style column
+# Classifying guilds as a gradient of specialization from saprotrophs (asymbiotic)
+# to obligate symbiotic. This was done by adding life style column
 FunGuildData$Life_style<-FunGuildData$host
 FunGuildData$Life_style[which(FunGuildData$trophicMode=="Saprotroph"&is.na(FunGuildData$host))]<-"AFree living"
 FunGuildData$simpleFunct[which(FunGuildData$Life_style=="AFree living")]<-"Saprotroph"
@@ -234,21 +303,35 @@ FunGuildData$Life_style[grep("Plant necrotroph",FunGuildData$simpleFunct)]<-"Fac
 
 
 #####################################################################################################
-#MERGING SPORE DATABASE AND FUNCTIONAL GROUP INFORMATION
+#    Loading phylogenetic tree of Li et al 2020 and functional data associted to the species in the tree
+#####################################################################################################
+
+#Genome wide phylogenetic tree
+Li_tree<-read.tree("Li_etal_tree.treefile")
+
+Li_tree_names<-readRDS("Li_tree_names.RDS") 
+
+Li_tree_sps <- readRDS("Li_tree_names.RDS")
+
+# Some of those species are not present in the original dataset (I added those species manually)  more on that can be found in li_tree_update_funct&spore.R
+Li_tree_sps$orginal_tree_names <- gsub("_", " ", Li_tree_sps$orginal_tree_names)
+names(Li_tree_sps)[9] <- "names_to_use"
+
+#####################################################################################################
+#    MERGING SPORE DATABASE AND FUNCTIONAL GROUP INFORMATION
 #####################################################################################################
 
 
 Spore_functions<-
   left_join(
-    
     Spore_data,
     FunGuildData%>%
       rename(names_to_use=taxon)%>%
       select(names_to_use,trophicMode,guild,host,simpleFunct,Life_style,Number_of_guilds,Guild_1),
-      by="names_to_use")
-      
+    by="names_to_use")
 
-#fixing some entries
+
+# All Glomeromycota share the same functional groups
 Spore_functions[which(Spore_functions$phylum=="Glomeromycota"),
                 #c("names_to_use",
                 c("trophicMode","guild","host","simpleFunct","Life_style",
@@ -258,74 +341,107 @@ Spore_functions[which(Spore_functions$phylum=="Glomeromycota"),
                  "Number_of_guilds","Guild_1")]
 
 
+Spore_functions$SporeVolume[which(Spore_functions$names_to_use%in%Li_tree_sps$names_to_use)]
 
-# Spore_functions[grep("Geosiphon",Spore_functions$names_to_use),
-#                 #c("names_to_use","trophicMode","host","substrate","Function","Number_of_guilds",
-#                 c("guild","Guild_1")]<-
-#   c("Arbuscular Mycorrhizal","Arbuscular Mycorrhizal")
 
 Spore_functions$simpleFunct[which(Spore_functions$names_to_use%in%c("Lyophyllum decastes","Rhodocollybia butyracea"))]<-"Plant Ectomycorrhizal"
 
+Spore_functions[which(Spore_functions$names_to_use%in%Li_tree_sps$names_to_use),
+                c("Life_style", "simpleFunct")] <- 
+  Li_tree_sps[match(Spore_functions$names_to_use[which(Spore_functions$names_to_use%in%Li_tree_sps$names_to_use)], Li_tree_sps$names_to_use),
+              c("Life_style", "simpleFunct")]
 
-############################################################################################################
-# SUBSET DATA TO INCLUDE ONLY SPECIES WITH BOTH SPORE DATA AND FUNCTIONAL DATA
-# ADDITIONALLY SIMPLIFY TO SPORE TYPE: THAT IS, CALCULATING MEANS TO INCLUDE ONLY
-# MEIOSPORES, MITOSPORES, MULTINUCLEATE SEXUAL AND ASEXUAL SPORES
-######################################################################################################
+# Checking the overlap between sps between original functional dataset and the ones from the
+# the tree of Li et al 2020
+m <-
+  which(Spore_functions$names_to_use%in%Li_tree_sps$names_to_use&Spore_functions$SporeType=="Mitospores")
 
-To_Analysis<-
-aggregate(cbind(SporeVolume,spore_length,spore_width,
-                SporeArea,Q_ratio,Number_of_guilds)~.,mean,
-          data=Spore_functions[,c("SporeVolume","spore_length","spore_width",
-                                  "SporeArea","Q_ratio","Number_of_guilds","SporeType",
-                                  "phylum","class","order","family","genus","names_to_use",
-                                  "Life_style","trophicMode","guild","simpleFunct")])
+
+all(Spore_functions$names_to_use[m]== Li_tree_sps$names_to_use[match(Spore_functions$names_to_use[m],
+                                                                     Li_tree_sps$names_to_use)])# This is true
+
+all(Spore_functions$SporeType[m]== Li_tree_sps$SporeType[match(Spore_functions$names_to_use[m],
+                                                               Li_tree_sps$names_to_use)])# This is also true
+
+
+# While most of the time I concentrated in adding species from the tree that were not in the database, in some 
+# cases I updated existing entries this was done randomly (when one entry caught my eyes). In the end in most cases
+# the updated entries differ little from the original, less than 2 times the original value (shown below). 
+
+# uno <- Spore_functions[m, c("names_to_use", "SporeType", "SporeVolume")]
+# dos<- Li_tree_sps[match(Spore_functions$names_to_use[m],
+#                         Li_tree_sps$names_to_use), c("names_to_use", "SporeType", "SporeVolume")]
+# 
+# # But the ones that differ are few
+# p<- which(!uno$SporeVolume==dos$SporeVolume)
+# 
+# # An out of those ones only 5 have differences larger than 2x
+# check<-uno$SporeVolume[p]/dos$SporeVolume[p]
+# which(check>2)
+# 
+# plot(uno$SporeVolume[p],dos$SporeVolume[p])
+# text(uno$SporeVolume[p],dos$SporeVolume[p], labels = uno$names_to_use[p])
+# 
+# cbind(uno[p,],dos[p,])
+
+# For consistency I will replace the entrie in Spore_functions with the ones from the Li tree (so the exact same data) is used in all analysis (at least for the shared species).
+mi <-
+  which(Spore_functions$names_to_use%in%Li_tree_sps$names_to_use&Spore_functions$SporeType=="Mitospores")
+
+Spore_functions[mi, c("spore_length", "spore_width", "SporeVolume")] <- 
+  Li_tree_sps[match(Spore_functions$names_to_use[mi], Li_tree_sps$names_to_use),
+              c("spore_length", "spore_width", "SporeVolume")]
+
+me <-
+  which(Spore_functions$names_to_use%in%Li_tree_sps$names_to_use&Spore_functions$SporeType=="Meiospores")
+
+Spore_functions[me, c("spore_length", "spore_width", "SporeVolume")] <- 
+  Li_tree_sps[match(Spore_functions$names_to_use[me], Li_tree_sps$names_to_use),
+              c("spore_length", "spore_width", "SporeVolume")]
+
+# Now adding the species that were added from the genome tree
+Spore_functions <- bind_rows(Spore_functions,
+                             Li_tree_sps[which(!Li_tree_sps$names_to_use%in%Spore_data$names_to_use), ])
+
+#According to the Mycota all Zoopagales are obligate parasites
+
+Spore_functions$Life_style[which(Spore_functions$order == "Zoopagales")] <- "Obligate association"
+Spore_functions$phylum[Spore_functions$phylum == "\"Zygomycetous fungi\""] <- "Zygomycetous fungi"
+
+#####################################################################################################
+#    Subsetting all the specis from which we have spore and functional data
+#####################################################################################################
+
+To_Analysis <-
+  aggregate(cbind(SporeVolume,spore_length,spore_width,
+                  SporeArea,Q_ratio)~.,mean,
+            data=Spore_functions[,c("SporeVolume","spore_length","spore_width",
+                                    "SporeArea","Q_ratio","SporeType",
+                                    "phylum","class","order","family","genus","names_to_use",
+                                    "Life_style", "simpleFunct")])
+
 # grep('\xeb', To_Analysis$names_to_use, value=T)
 To_Analysis$names_to_use <- gsub('\xeb', 'e', To_Analysis$names_to_use)
 
+rm(Li_tree_sps, mi, me, uno, dos, check)
 
-#Spore_functions[,c(15:22,28,34:39,41:43)]
+To_Analysis$simpleFunct<-gsub("Plant-Human","Human",To_Analysis$simpleFunct)
+To_Analysis$Life_style<-gsub("Plant-Human","B_Opportunistic association",To_Analysis$Life_style)
 
+To_Analysis<-To_Analysis[-grep("-",To_Analysis$Life_style),]
 
-# To_Analysis<-
-#   left_join(
-#     Spore_functions %>% 
-#       filter(!is.na(Life_style)) %>%
-#       filter(!grepl("-",host))%>%#The issue is that we only have data for 2503 species
-#       filter(!grepl("Fungi",host))%>%
-#       filter(!grepl("Animal",host))%>%
-#       #filter(!SporeName%in%c("Azygospores","Teliospores"))%>%
-#       
-#       group_by(phylum,names_to_use,SporeType,simpleFunct)%>%#Not including SporeName and Specific_sporeName, that is not including whether the spores are conidia, sporarionspores
-#       summarise_at(c("spore_length","spore_width","SporeArea","SporeVolume","Q_ratio"),mean),
-#     
-#     Spore_functions%>%
-#       filter(!duplicated(names_to_use)) %>% 
-#       filter(!is.na(Life_style)) %>%
-#       filter(!grepl("-",host))%>%#The issue is that we only have data for 2503 species
-#       filter(!grepl("Fungi",host))%>%
-#       filter(!grepl("Animal",host))%>%
-#       #filter(!SporeName%in%c("Azygospores","Teliospores"))%>%
-#       #group_by(phylum,guild) %>% 
-#       select(names_to_use,guild,Life_style,trophicMode,class,order,family,genus,Number_of_guilds))#;
+To_Analysis$simpleFunct[which(To_Analysis$simpleFunct == "Saprotroph")] <- "A_Saprotroph"
+To_Analysis$Life_style<-gsub("Plant","Facultative association",To_Analysis$Life_style)
+To_Analysis$simpleFunct[which(To_Analysis$simpleFunct == "Plant necrotroph")] <- "Plant Pathogen Necrotroph"
 
-############################################################################################################
-# SUBSET DATA FOR EACH TYPE OF SPORE
-######################################################################################################
-# 
-# #Ascospores
-# Ascospores<-To_Analysis[which(To_Analysis$SporeName=="Ascospores"),]
-# Ascospores<-Ascospores[-which(Ascospores$simpleFunct=="Plant Ectomycorrhizal"),]
-# 
-# # 
-# #Conidia
-# Conidia<-To_Analysis[which(To_Analysis$SporeName=="Conidia"),]
-# Conidia<-Conidia[-which(Conidia$simpleFunct=="Plant Ectomycorrhizal"),]
-# 
-# # 
-# #Basidiospores. I need to get more data on the rust fungi, smuts and if possible insect pathogens
-# Basidiospores<-To_Analysis[which(To_Analysis$SporeName=="Basidiospores"),]
-# Basidiospores<-Basidiospores[-which(Basidiospores$simpleFunct=="Human"),]#I remove human because we have only 2 sps
+#unique(To_Analysis$simpleFunct)
+#unique(To_Analysis$Life_style)
+
+#####################################################################################################
+#    #All species from which we have spore, functional, geographic extent and climate data
+#####################################################################################################
+
+dat <- read_csv('output/df_species_noPrimers.csv')
 
 
 #####################################################################################################
@@ -364,37 +480,6 @@ kewData<-read.csv("C:\\Users\\Carlos\\Documents\\Bridging_Rep_Micro_Ecology_ISME
 df_species_byPrimerSet<-read.csv("output/df_species_byPrimerSet.csv")
 
 
-#####################################################################################################
-#Aesthetic themes used for figures
-#####################################################################################################
-
-#Getting data on type of pathogen for "undefined pathogens". I did this with the help of 
-#the student Noa Terracina
-
-# To_check<-To_Analysis[which(To_Analysis$simpleFunct=="Plant Pathogen undefined"),
-#                       c("names_to_use","simpleFunct")]
-# 
-# To_check<-To_check[-which(duplicated(To_check$names_to_use)),]
-# To_check<-left_join(To_check,AllFungi[,c("names_to_use","base_name")])
-# To_check$disease<-NA
-# To_check$disease[which(To_check$base_name%in%rust_fungi$taxon)]<-"Rust"
-# To_check$disease[which(To_check$base_name%in%smut_fungi$taxon)]<-"Smut"
-# To_check$disease[which(To_check$base_name%in%mildew_fungi$taxon)]<-"Mildew"
-# 
-# To_check$disease[which(To_check$base_name%in%undefined_necrotroph$taxon)]<-"undefined_necrotroph"#Here is a mix of wilts, blights, damping off diseases
-# 
-# To_check$disease[which(To_check$base_name%in%spot_fungi$taxon)]<-"Spot"
-# To_check$disease[which(To_check$base_name%in%canker_fungi$taxon)]<-"Canker"#It can be overlap between fungi producing cankers and spots
-# 
-# #For Noa to check
-# To_check_Noa<-To_check[which(is.na(To_check$disease)),]
-# names(To_check_Noa)[3]<-"taxon"
-# 
-# To_check_Noa<-left_join(To_check_Noa,FunGuildData[,c("taxon","citationSource")])
-# To_check_Noa<-To_check_Noa[-which(duplicated(To_check_Noa$taxon)),]
-# 
-# write.csv(To_check_Noa,"Pathogens_with_no_disease_info.csv",row.names = F)
-# 
 
 
 #####
