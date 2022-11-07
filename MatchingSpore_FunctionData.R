@@ -41,6 +41,12 @@ AllFungi[which(AllFungi$Col_acc_names=="Aspergillus alliaceus"&
                  AllFungi$Dim1>8),c("Dim1","Dim2","spore_length","spore_width")]<-
   c(7.25,7.25,6,6)#5.5-9 x 5-7 µm
 
+AllFungi[which(AllFungi$names_to_use=="Ascosphaera apis"),
+         c("Dim1","spore_width")] <- 1.5
+  
+AllFungi[which(AllFungi$names_to_use=="Ascosphaera apis"),
+         c("Dim2","spore_length")] <- 2.75
+
 
 AllFungi<-
 AllFungi[-which(AllFungi$Col_acc_names=="Heterogastridium pycnidioideum"),]#The description of this species does not contain conidia sizes
@@ -69,8 +75,15 @@ AllFungi$family<-trimws(AllFungi$family)
 AllFungi$phylum[which(AllFungi$phylum=="Zygomycota")]<-'"Zygomycetous fungi"'
 
 AllFungi$SporeType<-NA
+
+
 AllFungi$SporeType[which(AllFungi$SporeName=="Ascospores"|AllFungi$SporeName=="Basidiospores")]<-"Meiospores"
 AllFungi$SporeType[which(AllFungi$SporeName=="Conidia"|AllFungi$SporeName=="Sporangiospores"|AllFungi$SporeName=="Chlamydospores")]<-"Mitospores"
+
+#Just checking what happens when we DO NOT include chlamydospores in the same category as conidia and sporangiospores
+# AllFungi$SporeType[which(AllFungi$SporeName=="Conidia"|AllFungi$SporeName=="Sporangiospores")]<-"Mitospores"
+# AllFungi$SporeType[which(AllFungi$SporeName=="Chlamydospores")]<-"Chlamydospores"
+
 AllFungi$SporeType[which(AllFungi$SporeName=="Azygospores")]<-"Multinucleate asexual spores"
 AllFungi$SporeType[which(AllFungi$SporeName=="Zygospores")]<-"Multinucleate sexual spores"
 AllFungi$SporeType[which(AllFungi$SporeName=="Teliospores")]<-"Multinucleate sexual spores"
@@ -125,6 +138,12 @@ AllFungi$order[AllFungi$family=="Schizothyriaceae"] <- "Not assigned"#
 AllFungi$order[AllFungi$genus=="Kirschsteiniothelia"] <- "Pleosporales"#
 AllFungi$family[AllFungi$genus=="Kirschsteiniothelia"] <- "Kirschsteiniotheliaceae"#
 
+AllFungi$names_to_use <- gsub("<eb>", "e", AllFungi$names_to_use)# Problem with umlaut on e
+AllFungi$genus <- gsub("<eb>", "e", AllFungi$genus)# Problem with umlaut on e
+
+AllFungi$names_to_use <- gsub("<e7>", "c", AllFungi$names_to_use)# Problem with portuguese c
+
+
 ###################
 #Simplifying All fungi
 
@@ -135,7 +154,7 @@ AllFungi$family[AllFungi$genus=="Kirschsteiniothelia"] <- "Kirschsteiniotheliace
 #                                        "class","order","family","genus","names_to_use")]
 #                       )
 
-Spore_data<-AllFungi[which(AllFungi$width_extreme==F&AllFungi$length_extreme==F),] %>% 
+Spore_data <- AllFungi[which(AllFungi$width_extreme==F&AllFungi$length_extreme==F),] %>% 
   group_by(phylum,
            class,order,family,genus,names_to_use,SporeType) %>% 
   summarize_at(c("SporeVolume","spore_length","spore_width",
@@ -307,11 +326,30 @@ FunGuildData$Life_style[grep("Plant necrotroph",FunGuildData$simpleFunct)]<-"Fac
 #####################################################################################################
 
 #Genome wide phylogenetic tree
-Li_tree<-read.tree("Li_etal_tree.treefile")
+Li_tree <- read.tree("Li_etal_tree.treefile")
+
+#Rooting the tree using the outgroups used in the Li paper. To get those there is a second
+#tree in the supplementary material of the Li etal 2019. This second tree does not include
+#the outgroups (not fungal clades)
+
+Li_tree2 <- read.tree("1644taxa_290genes_bb_1_root.tre")
+outgroups <- which(!Li_tree$tip.label%in%Li_tree2$tip.label)
+
+# Root in the tree
+Li_tree <- root(Li_tree, outgroup = outgroups, resolve.root = T); rm(Li_tree2)
 
 Li_tree_names<-readRDS("Li_tree_names.RDS") 
 
+Li_tree_names$spore_width[which(Li_tree_names$orginal_tree_names=="Ascosphaera_apis")] <- 1.5
+Li_tree_names$spore_length[which(Li_tree_names$orginal_tree_names=="Ascosphaera_apis")] <- 2.75
+
+Li_tree_names$SporeVolume <- (Li_tree_names$spore_width^2)*Li_tree_names$spore_length*(pi/6)
+
 Li_tree_sps <- readRDS("Li_tree_names.RDS")
+Li_tree_sps$spore_width[which(Li_tree_sps$orginal_tree_names=="Ascosphaera_apis")] <- 1.5
+Li_tree_sps$spore_length[which(Li_tree_sps$orginal_tree_names=="Ascosphaera_apis")] <- 2.75
+
+Li_tree_sps$SporeVolume <- (Li_tree_sps$spore_width^2)*Li_tree_sps$spore_length*(pi/6)
 
 # Some of those species are not present in the original dataset (I added those species manually)  more on that can be found in li_tree_update_funct&spore.R
 Li_tree_sps$orginal_tree_names <- gsub("_", " ", Li_tree_sps$orginal_tree_names)
@@ -408,6 +446,15 @@ Spore_functions <- bind_rows(Spore_functions,
 Spore_functions$Life_style[which(Spore_functions$order == "Zoopagales")] <- "Obligate association"
 Spore_functions$phylum[Spore_functions$phylum == "\"Zygomycetous fungi\""] <- "Zygomycetous fungi"
 
+
+# Fixing some enries of Tilletia
+
+Spore_functions$simpleFunct[which(Spore_functions$genus == "Tilletia")] <- "Plant Pathogen Smut"
+Spore_functions$Life_style[which(Spore_functions$genus == "Tilletia")] <- "Obligate association"
+
+Li_tree_names$simpleFunct[which(Li_tree_names$genus == "Tilletia")] <- "Plant Pathogen Smut"
+Li_tree_names$Life_style[which(Li_tree_names$genus == "Tilletia")] <- "Obligate association"
+
 #####################################################################################################
 #    Subsetting all the specis from which we have spore and functional data
 #####################################################################################################
@@ -449,7 +496,10 @@ dat <- read_csv('output/df_species_noPrimers.csv')
 #####################################################################################################
 
 
-BirdEgg<-read.csv("C:\\Users\\Carlos\\Documents\\Bridging_Rep_Micro_Ecology_ISME_paper\\BridgingReproductiveEcology-MicrobialEcology\\Aguilar_etal_SuppMatt_Stoddard_etal_EggData.csv",header = T,stringsAsFactors = F)
+#BirdEgg<-read.csv("C:\\Users\\Carlos\\Documents\\Bridging_Rep_Micro_Ecology_ISME_paper\\BridgingReproductiveEcology-MicrobialEcology\\Aguilar_etal_SuppMatt_Stoddard_etal_EggData.csv",header = T,stringsAsFactors = F)
+BirdEgg<-read.csv("output/Aguilar_etal_SuppMatt_Stoddard_etal_EggData.csv",header = T,stringsAsFactors = F)
+
+
 BirdEgg$T_value<-1/(BirdEgg$Ellipticity+1)
 BirdEgg$Lambda<-BirdEgg$Asymmetry+1
 step_1<-sapply(list(-0.75,-0.5,-0.25,0,0.25,0.5,0.75),
@@ -467,7 +517,9 @@ BirdEgg$Volume<-(pi*(BirdEgg$AvgLength..cm.^3)*rowSums(step_1))/96
 #1.4. Seed size data. Seed mass was retrieved from the database of the Kew Botanical Gardens. Data is given
 #in miligrams
 
-kewData<-read.csv("C:\\Users\\Carlos\\Documents\\Bridging_Rep_Micro_Ecology_ISME_paper\\BridgingReproductiveEcology-MicrobialEcology\\Aguilar_etal_SuppMat_SeedSize.csv",header = T,stringsAsFactors = F)
+#kewData<-read.csv("C:\\Users\\Carlos\\Documents\\Bridging_Rep_Micro_Ecology_ISME_paper\\BridgingReproductiveEcology-MicrobialEcology\\Aguilar_etal_SuppMat_SeedSize.csv",header = T,stringsAsFactors = F)
+kewData<-read.csv("output/Aguilar_etal_SuppMat_SeedSize.csv",header = T,stringsAsFactors = F)
+
 
 #1.5. AMF life history traits. The data correpond to the series of paper of Hart and Reader on greehouse 
 #experiments with 14 AMF species (see manuscript for full reference details).
