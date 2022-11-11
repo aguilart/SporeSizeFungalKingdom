@@ -282,8 +282,4 @@ hypothesis(fit4.area, "log10.sporeVolume.cent:host.assocyes + log10.sporeVolume.
 
 
 ### save image
-
 # save(list=c('temp', 'geo.extent', ls()[grep('^fit', ls())]), file='miseq/output/workspace/geoextent_brm_host.RData')
-# save.image('miseq/output/workspace/geoextent_brm_host.RData')
-
-
