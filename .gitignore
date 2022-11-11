@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+miseq/rawdata
+miseq/output/workspace
+miseq/.DS_store
+.DS_Store
