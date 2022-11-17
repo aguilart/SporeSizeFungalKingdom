@@ -9,11 +9,6 @@ library(brms)
 library(ggridges)
 
 
-### read functions, prep spore data
-source('miseq/scripts/helperFunctions.R')
-source('MatchingSpore_FunctionData.R')
-
-
 ### download data
 # miseq data -- this download is required
 if(!file.exists('miseq/rawdata')) dir.create('miseq/rawdata')
@@ -21,6 +16,11 @@ options(timeout = max(300, getOption("timeout")))
 if(!file.exists('miseq/rawdata/df_allSamples.txt')) {
   download.file('https://cloudstor.aarnet.edu.au/plus/s/MKb7lgaK3cY8SPK/download',
                 'miseq/rawdata/df_allSamples.txt')
+}
+# taxonomic data -- this download is required
+if(!file.exists('output/taxonomy_used.RDS')) {
+  download.file('https://cloudstor.aarnet.edu.au/plus/s/1qFDLib8XHuFRd1/download',
+                'output/taxonomy_used.RDS')
 }
 # environmental data -- this download is required
 if(!file.exists('miseq/rawdata/df_env_fine.csv')) {
@@ -35,10 +35,17 @@ if(!file.exists('miseq/output/workspace/alphahull_terrestrial_primers.RData')) {
 }
 
 
+### read functions, prep spore data
+source('MatchingSpore_FunctionData.R')
+source('miseq/scripts/helperFunctions.R')
+
+
 ### load/prep data
 geo <- read_tsv('miseq/rawdata/df_allSamples.txt')
 env <- read_csv('miseq/rawdata/df_env_fine.csv')
 trait <- To_Analysis
+tax <- readRDS('output/taxonomy_used.RDS')
+
 
 
 ### manipulate and join dataframes
@@ -50,6 +57,9 @@ trait.sum <- summarise_trait() %>%
   group_by(Species) %>% 
   slice(1) %>% 
   as.data.frame
+# check species names in geo
+# spp <- unique(geo$Species); spp <- spp[!spp %in% grep('sp.$', spp, value=TRUE)]
+geo <- update_tax()
 # join observations and traits
 dat <- left_join(geo, trait.sum)
 

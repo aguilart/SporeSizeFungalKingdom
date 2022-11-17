@@ -49,3 +49,47 @@ summarise_trait <- function(){
   return(trait.sum)
   
 }
+
+# update taxonomic information in miseq data with those from CoL (to match trait data)
+update_tax <- function(){
+  
+  # those annotated with accepted names
+  temp <- tax %>% 
+    filter(status_base_name == 'accepted name') %>% 
+    group_by(names_to_use) %>% 
+    slice(1) %>% 
+    ungroup()
+  geo1 <- geo %>% 
+    filter(Species %in% temp$names_to_use) %>% 
+    left_join(temp %>% 
+                select(names_to_use, genus, order) %>% 
+                rename(Species = names_to_use)) %>% 
+    select(-Class:-Genus) %>% 
+    rename(Genus = genus, 
+           Order = order) %>% 
+    filter(Order != 'Not assigned')  # due to missing taxonomic info on mycobank
+  
+  # those annotated with synonyms
+  temp <- tax %>% 
+    filter(status_base_name == 'synonym') %>% 
+    filter(base_name != names_to_use)
+  # some base_names have multiple accepted names, remove these rows
+  x <- sapply(split(temp, temp$base_name), nrow); x <- names(x[x==1])
+  temp <- temp %>% filter(base_name %in% x)
+  geo2 <- geo %>% filter(Species %in% temp$base_name) %>% 
+    left_join(temp %>% 
+                select(base_name, names_to_use, genus, order) %>% 
+                rename(Species = base_name)) %>% 
+    select(-Class:-Species) %>% 
+    rename(Species = names_to_use, 
+           Genus = genus, 
+           Order = order) %>% 
+    filter(Order != 'Not assigned')  # due to missing taxonomic info on mycobank
+  
+  # bind dataframes
+  geo <- bind_rows(geo1, geo2)
+  
+  # return data
+  return(geo)
+
+  }
