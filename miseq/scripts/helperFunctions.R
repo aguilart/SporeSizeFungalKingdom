@@ -4,8 +4,7 @@ summarise_trait <- function(){
   
   # load libraries
   library(tidyverse)
-  library(Hmisc)
-  
+
   # calculate median spore length values per species 
   trait.sum <- trait %>% 
     rename(Species = names_to_use) %>% 
