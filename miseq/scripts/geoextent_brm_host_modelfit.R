@@ -28,6 +28,7 @@ if(!file.exists('miseq/rawdata/df_env_fine.csv')) {
                 'miseq/rawdata/df_env_fine.csv')
 }
 # range areas -- can either download or create using 'miseq/scripts/dataPrep_rangeSize_primers.R' (see below)
+if(!file.exists('miseq/output')) dir.create('miseq/output')
 if(!file.exists('miseq/output/workspace')) dir.create('miseq/output/workspace')
 if(!file.exists('miseq/output/workspace/alphahull_terrestrial_primers.RData')) {
   download.file('https://cloudstor.aarnet.edu.au/plus/s/rfYvzEALwQmcZD2/download',
@@ -205,22 +206,22 @@ fit4.ext.loo <- loo(fit4.ext)
 loo_compare(fit1.ext.loo, fit2.ext.loo, fit3.ext.loo, fit4.ext.loo)
 
 # model summary
-summary(fit4.ext, prob=0.95)
+summary(fit1.ext, prob=0.95)
 
 # population-level effects
-plot(fit4.ext, pars = "^b_")
+plot(fit1.ext, pars = "^b_")
 
 # extent greater for host.assoc == 'yes'
-hypothesis(fit4.ext, "host.assocyes > 0", class = "b")
+hypothesis(fit1.ext, "host.assocyes > 0", class = "b")
 
 # slope greater for host.assoc == 'yes'
-hypothesis(fit4.ext, "log10.sporeVolume.cent:host.assocyes + log10.sporeVolume.cent > log10.sporeVolume.cent", class = "b")
+hypothesis(fit1.ext, "log10.sporeVolume.cent:host.assocyes + log10.sporeVolume.cent > log10.sporeVolume.cent", class = "b")
 
 # negative slope for host.assoc == 'no'
-hypothesis(fit4.ext, "log10.sporeVolume.cent < 0", class = "b")
+hypothesis(fit1.ext, "log10.sporeVolume.cent < 0", class = "b")
 
 # negative slope for host.assoc == 'yes'
-hypothesis(fit4.ext, "log10.sporeVolume.cent:host.assocyes + log10.sporeVolume.cent < 0", class = "b")
+hypothesis(fit1.ext, "log10.sporeVolume.cent:host.assocyes + log10.sporeVolume.cent < 0", class = "b")
 
 
 
@@ -271,22 +272,22 @@ fit4.area.loo <- loo(fit4.area)
 loo_compare(fit1.area.loo, fit2.area.loo, fit3.area.loo, fit4.area.loo)
 
 # model summary
-summary(fit4.area, prob=0.95)
+summary(fit1.area, prob=0.95)
 
 # population-level effects
-plot(fit4.area, pars = "^b_")
+plot(fit1.area, pars = "^b_")
 
 # area greater for host.assoc == 'yes'
-hypothesis(fit4.area, "host.assocyes > 0", class = "b")
+hypothesis(fit1.area, "host.assocyes > 0", class = "b")
 
 # slope greater for host.assoc == 'yes'
-hypothesis(fit4.area, "log10.sporeVolume.cent:host.assocyes + log10.sporeVolume.cent > log10.sporeVolume.cent", class = "b")
+hypothesis(fit1.area, "log10.sporeVolume.cent:host.assocyes + log10.sporeVolume.cent > log10.sporeVolume.cent", class = "b")
 
 # negative slope for host.assoc == 'no'
-hypothesis(fit4.area, "log10.sporeVolume.cent < 0", class = "b")
+hypothesis(fit1.area, "log10.sporeVolume.cent < 0", class = "b")
 
 # negative slope for host.assoc == 'yes'
-hypothesis(fit4.area, "log10.sporeVolume.cent:host.assocyes + log10.sporeVolume.cent < 0", class = "b")
+hypothesis(fit1.area, "log10.sporeVolume.cent:host.assocyes + log10.sporeVolume.cent < 0", class = "b")
 
 
 

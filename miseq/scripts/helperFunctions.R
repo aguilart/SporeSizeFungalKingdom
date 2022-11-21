@@ -54,7 +54,7 @@ update_tax <- function(){
   
   # those annotated with accepted names
   temp <- tax %>% 
-    filter(status_base_name == 'accepted name') %>% 
+    filter(status_base_name %in% c('accepted', 'accepted name')) %>% 
     group_by(names_to_use) %>% 
     slice(1) %>% 
     ungroup()
@@ -70,9 +70,13 @@ update_tax <- function(){
   
   # those annotated with synonyms
   temp <- tax %>% 
-    filter(status_base_name == 'synonym') %>% 
+    filter(!status_base_name %in% c('accepted', 'accepted name')) %>% 
     filter(base_name != names_to_use)
-  # some base_names have multiple accepted names, remove these rows
+  # some base_names have multiple accepted names, next lines gets those that match in geo
+  # x <- sapply(split(temp, temp$base_name), nrow); x <- names(x[x>1])
+  # temp <- temp %>% filter(base_name %in% x)
+  # cat(sort(unique(filter(geo, Species %in% temp$base_name)$Species)), file='output/ambiguous_synonyms.tsv', sep='\n')
+  # remove these rows
   x <- sapply(split(temp, temp$base_name), nrow); x <- names(x[x==1])
   temp <- temp %>% filter(base_name %in% x)
   geo2 <- geo %>% filter(Species %in% temp$base_name) %>% 
