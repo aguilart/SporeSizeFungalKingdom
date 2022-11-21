@@ -1084,6 +1084,7 @@ summary(mod_Li_meios_symb_no_contrast)
 First with the Li tree
 
 ```{r}
+dat <- read_csv('output/df_species_noPrimers.csv')
 dat$orginal_tree_names<-dat$Species
 
 trial1<-left_join(
