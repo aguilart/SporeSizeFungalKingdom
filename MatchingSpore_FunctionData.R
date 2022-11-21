@@ -488,7 +488,7 @@ To_Analysis$simpleFunct[which(To_Analysis$simpleFunct == "Plant necrotroph")] <-
 #    #All species from which we have spore, functional, geographic extent and climate data
 #####################################################################################################
 
-dat <- read_csv('output/df_species_noPrimers.csv')
+# dat <- read_csv('output/df_species_noPrimers.csv')
 
 
 #####################################################################################################
@@ -525,11 +525,11 @@ kewData<-read.csv("output/Aguilar_etal_SuppMat_SeedSize.csv",header = T,stringsA
 #experiments with 14 AMF species (see manuscript for full reference details).
 
 
-#####################################################################################################
-#LOADING SUBSET DATA WITH ITS INFORMATION (as sent by Jeff Powell on September 2020)
-#####################################################################################################
-
-df_species_byPrimerSet<-read.csv("output/df_species_byPrimerSet.csv")
+# #####################################################################################################
+# #LOADING SUBSET DATA WITH ITS INFORMATION (as sent by Jeff Powell on September 2020)
+# #####################################################################################################
+# 
+# df_species_byPrimerSet<-read.csv("output/df_species_byPrimerSet.csv")
 
 
 

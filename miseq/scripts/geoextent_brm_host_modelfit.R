@@ -69,6 +69,10 @@ dat <- left_join(geo, trait.sum)
 keep.primers <- c('fITS7/ITS4', 'ITS1F/ITS2', 'ITS1F/ITS4', 'ITS3/ITS4')
 # keep.primers <- unique(dat$Primers.name)
 
+# estimating environmental envelopes of species (for use)
+nch <- get_niche()
+# write_csv(nch, 'miseq/output/df_species_noPrimers.csv')
+
 # calculating geographic extent by maximum geometric distance (in metres)
 temp <- dat %>% 
   filter(phylum %in% c('Glomeromycota', 'Zygomycetous fungi', 'Basidiomycota', 'Ascomycota') & 

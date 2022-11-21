@@ -1084,13 +1084,17 @@ summary(mod_Li_meios_symb_no_contrast)
 First with the Li tree
 
 ```{r}
+# original file
 dat <- read_csv('output/df_species_noPrimers.csv')
-dat$orginal_tree_names<-dat$Species
+# file using updated trait data, but these are missing several species for which there used to be trait data
+# dat <- read_csv('miseq/output/df_species_noPrimers.csv')
+# dat$orginal_tree_names<-gsub(' ', '_', dat$Species)
 
 trial1<-left_join(
   Li_tree_names[,c("orginal_tree_names","SporeType","SporeVolume","simpleFunct","Life_style","phylum","class","order","family","genus")],
   dat %>%
-    select(orginal_tree_names, host.assoc, log10.sporeVolume, log10.sporeAspectRatio, ends_with('mean'), n_samples_env))
+    # select(orginal_tree_names, host.assoc, log10.sporeVolume, log10.sporeAspectRatio, ends_with('mean'), n_samples_env))
+    select(orginal_tree_names, ends_with('mean'), n_samples_env))
 
 trial1<-trial1[complete.cases(trial1),]
 
@@ -2152,88 +2156,58 @@ I need to ask Jeff for the code he used to create "brmsoutput_sporeVolume.RData"
 library(brms)
 library(ggridges)
 library(patchwork)
-temp<-left_join(read_csv('output/df_species_byPrimerSet.csv') %>%
-                   mutate(names_to_use = gsub("_", " ", Species)) %>%
-                   select(names_to_use, host.assoc, Primers.name, log10.sporeVolume, log10.sporeAspectRatio, starts_with('geo_'), ends_with('_sd'), n_samples_env),
-                 To_Analysis[,c("names_to_use","SporeType","simpleFunct","Life_style",
-                                "phylum","class","order")]) %>% 
-  filter(!order == 'Not assigned') %>% 
-  mutate(Life_style = recode(Life_style, Plant = "Facultative association", 
-                             `B_Opportunistic association` = "AFree living")) %>% 
-  mutate(simpleFunct = recode(simpleFunct, Human = "A_Saprotroph")) %>% 
-  filter(grepl("Sapro|Plant", simpleFunct))
 
+# objects needed to produce this figure created using 'miseq/scripts/geoextent_brm_host_modelfit.R'
+# download workspace before loading
+if(!file.exists('miseq')) dir.create('miseq')
+if(!file.exists('miseq/output')) dir.create('miseq/output')
+if(!file.exists('miseq/output/workspace')) dir.create('miseq/output/workspace')
+if(!file.exists('miseq/output/workspace/geoextent_brm_host.RData')) {
+  download.file('https://cloudstor.aarnet.edu.au/plus/s/c7kamHx0RNM6pCd/download',
+                'miseq/output/workspace/geoextent_brm_host.RData')
+}
+load('miseq/output/workspace/geoextent_brm_host.RData')
 
-load('output/brmsoutput_sporeVolume.RData')
-
-### confidence bands for slope
+### confidence bands for slope; for both response variables, simplest model fit the data best (fit2)
 
 # ext
-slp.a <- c(attr(fit1.ext$fit, 'sim')$samples[[1]][['b_log10.sporeVolume']][1001:2000], 
-           attr(fit1.ext$fit, 'sim')$samples[[2]][['b_log10.sporeVolume']][1001:2000], 
-           attr(fit1.ext$fit, 'sim')$samples[[3]][['b_log10.sporeVolume']][1001:2000], 
-           attr(fit1.ext$fit, 'sim')$samples[[4]][['b_log10.sporeVolume']][1001:2000])
-conf.95.a <- slp.a > quantile(slp.a, prob=0.025) & slp.a < quantile(slp.a, prob=0.975)
-conf.50.a <- slp.a > quantile(slp.a, prob=0.25) & slp.a < quantile(slp.a, prob=0.75)
-# slp.b <- c(attr(fit1.ext$fit, 'sim')$samples[[1]][['b_log10.sporeVolume:Life_styleB_Opportunisticassociation']][1001:2000], 
-#            attr(fit1.ext$fit, 'sim')$samples[[2]][['b_log10.sporeVolume:Life_styleB_Opportunisticassociation']][1001:2000], 
-#            attr(fit1.ext$fit, 'sim')$samples[[3]][['b_log10.sporeVolume:Life_styleB_Opportunisticassociation']][1001:2000], 
-#            attr(fit1.ext$fit, 'sim')$samples[[4]][['b_log10.sporeVolume:Life_styleB_Opportunisticassociation']][1001:2000])
-# conf.95.b <- slp.b > quantile(slp.b, prob=0.025) & slp.b < quantile(slp.b, prob=0.975)
-# conf.50.b <- slp.b > quantile(slp.b, prob=0.25) & slp.b < quantile(slp.b, prob=0.75)
-slp.c <- c(attr(fit1.ext$fit, 'sim')$samples[[1]][['b_log10.sporeVolume:Life_styleFacultativeassociation']][1001:2000], 
-           attr(fit1.ext$fit, 'sim')$samples[[2]][['b_log10.sporeVolume:Life_styleFacultativeassociation']][1001:2000], 
-           attr(fit1.ext$fit, 'sim')$samples[[3]][['b_log10.sporeVolume:Life_styleFacultativeassociation']][1001:2000], 
-           attr(fit1.ext$fit, 'sim')$samples[[4]][['b_log10.sporeVolume:Life_styleFacultativeassociation']][1001:2000])
-conf.95.c <- slp.c > quantile(slp.c, prob=0.025) & slp.c < quantile(slp.c, prob=0.975)
-conf.50.c <- slp.c > quantile(slp.c, prob=0.25) & slp.c < quantile(slp.c, prob=0.75)
-slp.d <- c(attr(fit1.ext$fit, 'sim')$samples[[1]][['b_log10.sporeVolume:Life_styleObligateassociation']][1001:2000], 
-           attr(fit1.ext$fit, 'sim')$samples[[2]][['b_log10.sporeVolume:Life_styleObligateassociation']][1001:2000], 
-           attr(fit1.ext$fit, 'sim')$samples[[3]][['b_log10.sporeVolume:Life_styleObligateassociation']][1001:2000], 
-           attr(fit1.ext$fit, 'sim')$samples[[4]][['b_log10.sporeVolume:Life_styleObligateassociation']][1001:2000])
-conf.95.d <- slp.d > quantile(slp.d, prob=0.025) & slp.d < quantile(slp.d, prob=0.975)
-conf.50.d <- slp.d > quantile(slp.d, prob=0.25) & slp.d < quantile(slp.d, prob=0.75)
-slp.ext <- bind_rows(data.frame(Life_style='free-living', response='extent', slope=slp.a, conf.50=conf.50.a, conf.95=conf.95.a), 
-                   # data.frame(Life_style='opportunistic', response='extent', slope=slp.a+slp.b, conf.50=conf.50.b, conf.95=conf.95.b), 
-                   data.frame(Life_style='facultative', response='extent', slope=slp.a+slp.c, conf.50=conf.50.c, conf.95=conf.95.c), 
-                   data.frame(Life_style='obligate', response='extent', slope=slp.a+slp.d, conf.50=conf.50.d, conf.95=conf.95.d))
-rm(slp.a, slp.b, slp.c, slp.d, conf.95.a, conf.50.a, conf.95.b, conf.50.b, conf.95.c, conf.50.c, conf.95.d, conf.50.d)
+slp.n <- c(attr(fit2.ext$fit, 'sim')$samples[[1]][['b_log10.sporeVolume.cent']][1001:2000], 
+           attr(fit2.ext$fit, 'sim')$samples[[2]][['b_log10.sporeVolume.cent']][1001:2000], 
+           attr(fit2.ext$fit, 'sim')$samples[[3]][['b_log10.sporeVolume.cent']][1001:2000], 
+           attr(fit2.ext$fit, 'sim')$samples[[4]][['b_log10.sporeVolume.cent']][1001:2000])
+conf.95.n <- slp.n > quantile(slp.n, prob=0.025) & slp.n < quantile(slp.n, prob=0.975)
+conf.50.n <- slp.n > quantile(slp.n, prob=0.25) & slp.n < quantile(slp.n, prob=0.75)
+slp.y <- c(attr(fit2.ext$fit, 'sim')$samples[[1]][['b_log10.sporeVolume.cent:host.assocyes']][1001:2000], 
+           attr(fit2.ext$fit, 'sim')$samples[[2]][['b_log10.sporeVolume.cent:host.assocyes']][1001:2000], 
+           attr(fit2.ext$fit, 'sim')$samples[[3]][['b_log10.sporeVolume.cent:host.assocyes']][1001:2000], 
+           attr(fit2.ext$fit, 'sim')$samples[[4]][['b_log10.sporeVolume.cent:host.assocyes']][1001:2000])
+conf.95.y <- slp.y > quantile(slp.y, prob=0.025) & slp.y < quantile(slp.y, prob=0.975)
+conf.50.y <- slp.y > quantile(slp.y, prob=0.25) & slp.y < quantile(slp.y, prob=0.75)
+slp.e <- bind_rows(data.frame(host.assoc='no', response='extent', slope=slp.n, conf.50=conf.50.n, conf.95=conf.95.n), 
+                 data.frame(host.assoc='yes', response='extent', slope=slp.n+slp.y, conf.50=conf.50.y, conf.95=conf.95.y))
+rm(slp.n, slp.y, conf.95.n, conf.50.n, conf.95.y, conf.50.y)
+
 
 # area
-slp.a <- c(attr(fit1.area$fit, 'sim')$samples[[1]][['b_log10.sporeVolume']][1001:2000], 
-           attr(fit1.area$fit, 'sim')$samples[[2]][['b_log10.sporeVolume']][1001:2000], 
-           attr(fit1.area$fit, 'sim')$samples[[3]][['b_log10.sporeVolume']][1001:2000], 
-           attr(fit1.area$fit, 'sim')$samples[[4]][['b_log10.sporeVolume']][1001:2000])
-conf.95.a <- slp.a > quantile(slp.a, prob=0.025) & slp.a < quantile(slp.a, prob=0.975)
-conf.50.a <- slp.a > quantile(slp.a, prob=0.25) & slp.a < quantile(slp.a, prob=0.75)
-# slp.b <- c(attr(fit1.area$fit, 'sim')$samples[[1]][['b_log10.sporeVolume:Life_styleB_Opportunisticassociation']][1001:2000], 
-#            attr(fit1.area$fit, 'sim')$samples[[2]][['b_log10.sporeVolume:Life_styleB_Opportunisticassociation']][1001:2000], 
-#            attr(fit1.area$fit, 'sim')$samples[[3]][['b_log10.sporeVolume:Life_styleB_Opportunisticassociation']][1001:2000], 
-#            attr(fit1.area$fit, 'sim')$samples[[4]][['b_log10.sporeVolume:Life_styleB_Opportunisticassociation']][1001:2000])
-# conf.95.b <- slp.b > quantile(slp.b, prob=0.025) & slp.b < quantile(slp.b, prob=0.975)
-# conf.50.b <- slp.b > quantile(slp.b, prob=0.25) & slp.b < quantile(slp.b, prob=0.75)
-slp.c <- c(attr(fit1.area$fit, 'sim')$samples[[1]][['b_log10.sporeVolume:Life_styleFacultativeassociation']][1001:2000], 
-           attr(fit1.area$fit, 'sim')$samples[[2]][['b_log10.sporeVolume:Life_styleFacultativeassociation']][1001:2000], 
-           attr(fit1.area$fit, 'sim')$samples[[3]][['b_log10.sporeVolume:Life_styleFacultativeassociation']][1001:2000], 
-           attr(fit1.area$fit, 'sim')$samples[[4]][['b_log10.sporeVolume:Life_styleFacultativeassociation']][1001:2000])
-conf.95.c <- slp.c > quantile(slp.c, prob=0.025) & slp.c < quantile(slp.c, prob=0.975)
-conf.50.c <- slp.c > quantile(slp.c, prob=0.25) & slp.c < quantile(slp.c, prob=0.75)
-slp.d <- c(attr(fit1.area$fit, 'sim')$samples[[1]][['b_log10.sporeVolume:Life_styleObligateassociation']][1001:2000], 
-           attr(fit1.area$fit, 'sim')$samples[[2]][['b_log10.sporeVolume:Life_styleObligateassociation']][1001:2000], 
-           attr(fit1.area$fit, 'sim')$samples[[3]][['b_log10.sporeVolume:Life_styleObligateassociation']][1001:2000], 
-           attr(fit1.area$fit, 'sim')$samples[[4]][['b_log10.sporeVolume:Life_styleObligateassociation']][1001:2000])
-conf.95.d <- slp.d > quantile(slp.d, prob=0.025) & slp.d < quantile(slp.d, prob=0.975)
-conf.50.d <- slp.d > quantile(slp.d, prob=0.25) & slp.d < quantile(slp.d, prob=0.75)
-slp.area <- bind_rows(data.frame(Life_style='free-living', response='area', slope=slp.a, conf.50=conf.50.a, conf.95=conf.95.a), 
-                   # data.frame(Life_style='opportunistic', response='area', slope=slp.a+slp.b, conf.50=conf.50.b, conf.95=conf.95.b), 
-                   data.frame(Life_style='facultative', response='area', slope=slp.a+slp.c, conf.50=conf.50.c, conf.95=conf.95.c), 
-                   data.frame(Life_style='obligate', response='area', slope=slp.a+slp.d, conf.50=conf.50.d, conf.95=conf.95.d))
-rm(slp.a, slp.b, slp.c, slp.d, conf.95.a, conf.50.a, conf.95.b, conf.50.b, conf.95.c, conf.50.c, conf.95.d, conf.50.d)
+slp.n <- c(attr(fit2.area$fit, 'sim')$samples[[1]][['b_log10.sporeVolume.cent']][1001:2000], 
+                 attr(fit2.area$fit, 'sim')$samples[[2]][['b_log10.sporeVolume.cent']][1001:2000], 
+                 attr(fit2.area$fit, 'sim')$samples[[3]][['b_log10.sporeVolume.cent']][1001:2000], 
+                 attr(fit2.area$fit, 'sim')$samples[[4]][['b_log10.sporeVolume.cent']][1001:2000])
+conf.95.n <- slp.n > quantile(slp.n, prob=0.025) & slp.n < quantile(slp.n, prob=0.975)
+conf.50.n <- slp.n > quantile(slp.n, prob=0.25) & slp.n < quantile(slp.n, prob=0.75)
+slp.y <- c(attr(fit2.area$fit, 'sim')$samples[[1]][['b_log10.sporeVolume.cent:host.assocyes']][1001:2000], 
+                 attr(fit2.area$fit, 'sim')$samples[[2]][['b_log10.sporeVolume.cent:host.assocyes']][1001:2000], 
+                 attr(fit2.area$fit, 'sim')$samples[[3]][['b_log10.sporeVolume.cent:host.assocyes']][1001:2000], 
+                 attr(fit2.area$fit, 'sim')$samples[[4]][['b_log10.sporeVolume.cent:host.assocyes']][1001:2000])
+conf.95.y <- slp.y > quantile(slp.y, prob=0.025) & slp.y < quantile(slp.y, prob=0.975)
+conf.50.y <- slp.y > quantile(slp.y, prob=0.25) & slp.y < quantile(slp.y, prob=0.75)
+slp.a <- bind_rows(data.frame(host.assoc='no', response='area', slope=slp.n, conf.50=conf.50.n, conf.95=conf.95.n), 
+                   data.frame(host.assoc='yes', response='area', slope=slp.n+slp.y, conf.50=conf.50.y, conf.95=conf.95.y))
+rm(slp.n, slp.y, conf.95.n, conf.50.n, conf.95.y, conf.50.y)
 
 # join
-slp <- bind_rows(slp.ext, slp.area) %>% 
-  mutate(Life_style = factor(Life_style, levels=c('free-living', 'opportunistic', 'facultative', 'obligate')))
-slp %>% group_by(response, Life_style) %>% summarise(mean=mean(slope))
+slp <- bind_rows(slp.e, slp.a)
+slp %>% group_by(host.assoc, response) %>% summarise(mean=mean(slope))
 
 
 ### plot
@@ -2241,11 +2215,9 @@ labs <- c(area = 'Range area', extent = 'Maximum distance')
 
 # extent and area by volume
 temp %>% 
-  mutate(Life_style = recode(Life_style, `AFree living`='free-living', `B_Opportunistic association`='opportunistic', 
-                             `Facultative association`='facultative', `Obligate association`='obligate'), 
-         Life_style = factor(Life_style, levels=c('free-living', 'opportunistic', 'facultative', 'obligate'))) %>% 
-  select(order, log10.sporeVolume, Life_style, geo_extent_prop, geo_area_prop) %>% 
+  select(Species, order, log10.sporeVolume, host.assoc, geo_extent_prop, geo_area_prop) %>% 
   pivot_longer(cols=ends_with('prop'), names_to='response', values_to='value') %>% 
+  mutate(Life_style = recode(host.assoc, no='free-living', yes='host-associated')) %>% 
   ggplot(aes(x=log10.sporeVolume, y=car::logit(value), colour=Life_style)) + 
   geom_point(alpha=0.5, shape=16,size=4) + 
   stat_smooth(method='lm', alpha=0.25) + 
@@ -2264,7 +2236,9 @@ temp %>%
         strip.background = element_blank(),
         strip.text.y = element_blank()) -> p1
 
-ggplot(slp, aes(x=slope,  fill=Life_style)) + 
+slp %>% 
+    mutate(Life_style = recode(host.assoc, no='free-living', yes='host-associated')) %>% 
+  ggplot(aes(x=slope,  fill=Life_style)) + 
   geom_density(alpha=0.9) + 
   geom_vline(xintercept=0) + 
   labs(x='Slope estimate', y='Density') + 

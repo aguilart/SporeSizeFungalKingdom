@@ -95,4 +95,41 @@ update_tax <- function(){
   # return data
   return(geo)
 
-  }
+}
+
+# calculate species associations with environmental variables
+get_niche <- function(){
+  
+  # prepare environmental data
+  env %>% 
+    rename(mat = bio01, 
+           map = bio12, 
+           seasonality_t = bio04, 
+           seasonality_p = bio15) %>% 
+    select(database_id, alt, mat, map, seasonality_t, seasonality_p, maxsrad, minvapr) %>% 
+    # join with miseq data
+    right_join(geo %>% select(database_id, Species, Primers.name)) %>% 
+    # remove sites with no environmental data
+    filter(complete.cases(.)) %>% 
+    # calculate frequency of observations and summary statistics of environmental data for each species
+    group_by(Species) %>% 
+    mutate(n_samples = n()) %>% 
+    summarise_at(vars(n_samples, alt:minvapr), list(mean=mean, sd=sd)) %>% 
+    rename(n_samples_env = n_samples_mean) %>% 
+    select(-n_samples_sd) -> out  # %>% 
+    # # join with taxonomic, guild and trait data
+    # left_join(trait %>% 
+    #             rename(Species = names_to_use) %>% 
+    #             mutate(log10.sporeVolume = log10((spore_width^2)*spore_length*(pi/6)), 
+    #                    log10.sporeAspectRatio = log10(spore_length/spore_width)) %>% 
+    #             group_by(Species, SporeType, phylum, class, order, Life_style, simpleFunct) %>% 
+    #             summarise_if(is.numeric, median, na.rm=T) %>% 
+    #             select(Species:simpleFunct, log10.sporeVolume, log10.sporeAspectRatio) %>%
+    #             as.data.frame) %>% 
+    # # remove species with multiple spore types, missing trait data
+    # filter(!Species %in% Species[duplicated(Species)], !is.na(log10.sporeVolume)) -> out
+  
+  # return data
+  return(out)
+  
+}
