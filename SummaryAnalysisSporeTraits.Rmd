@@ -21,12 +21,6 @@ library(pixiedust)
 library(phylolm)
 source("MatchingSpore_FunctionData.R")
 
-```
-
-
-Cladograms based on taxonomy
-
-```{r}
 Spore_data2 <- Spore_functions
 Spore_data2 <- Spore_data2[-which(duplicated(Spore_data2$names_to_use)),
                            c("phylum","class", "order","family","genus","names_to_use")]
@@ -82,19 +76,32 @@ Spore_data2 <- Spore_data2[complete.cases(Spore_data2), ]
 #Using the species from which we have spore data (many more than above)
 frm <- ~phylum_/class/order/family/genus/names_to_use
 
-tax_tree2 <- as.phylo(frm, data = Spore_data2%>%
-                 mutate_at(c("phylum_","class", "order",
-                             "family","genus","names_to_use"),as.factor))
-
-
-tax_tree2<-multi2di(tax_tree2)
-is.binary.tree(tax_tree2)
-
+# tax_tree2 <- as.phylo(frm, data = Spore_data2 %>%
+#                  mutate_at(c("phylum_","class", "order",
+#                              "family","genus","names_to_use"),as.factor))
+# 
+# 
+# tax_tree2<-multi2di(tax_tree2)
+# is.binary(tax_tree2)
+# 
 # #Here what I am doing is giving the same length to all edges
 # tax_tree2$edge.length<-rep(1, nrow(tax_tree2$edge))
-# pdf("trial.pdf", width = 18, height = 70)
-# plot.phylo(tax_tree2, cex = 0.1)
-# dev.off()
+# 
+# saveRDS(tax_tree2, "tax_tree2.RDS")
+
+tax_tree2 <- readRDS("tax_tree2.RDS")
+
+```
+
+
+```{r}
+#pdf("checking_li_unrooted.pdf", width = 18, height = 70)
+#plot.phylo(tt, cex = 0.1)
+plot.phylo(Li_tree, cex = 0.2)
+dev.off()
+
+Li_tree_org <- Li_tree
+Li_tree <- tt
 ```
 
 
@@ -539,7 +546,6 @@ For asking this question I have to separate it into distinct spore types; only s
 
 Making the models
 ```{r, echo=FALSE}
-
 mi<-which(Li_tree_names$SporeType=="Meiospores")
 mo<-which(Li_tree_names$SporeType=="Mitospores")
 mn<-which(Li_tree_names$SporeType=="Multinucleate sexual spores")
@@ -554,6 +560,9 @@ few <- names(which(table(meiospores$simpleFunct)<3))
 
 meiospores <- meiospores[-which(meiospores$simpleFunct %in% few), ]
 meiospores <- meiospores[-which(meiospores$simpleFunct == "Unknown"), ]
+
+meiospores <- meiospores[-which(meiospores$phylum == "Blastocladiomycota"|
+                                  meiospores$phylum == "Microsporidia"), ]# There are only 1 representative for each of these phyla
 
 rownames(meiospores)<-meiospores$orginal_tree_names
 
@@ -589,6 +598,10 @@ meiospores2 <- meiospores2[-which(meiospores2$simpleFunct == "Unknown"), ]
 rownames(meiospores2)<-meiospores2$names_to_use
 
 meiospores2 <- meiospores2[which(meiospores2$Life_style %in% styles), ]
+
+meiospores2 <- meiospores2[-which(meiospores2$phylum == "Blastocladiomycota"|
+                                  meiospores2$phylum == "Microsporidia"), ]# There are only 1 representative for each of these phyla
+
 rownames(meiospores2) <- meiospores2$names_to_use
 
 #Mitospores
@@ -598,7 +611,7 @@ few <- names(which(table(mitospores2$simpleFunct)<3))
 
 mitospores2 <- mitospores2[-which(mitospores2$simpleFunct %in% few), ]
 mitospores2 <- mitospores2[-which(mitospores2$simpleFunct == "Unknown"), ]
-mitospores2<-mitospores2[-which(duplicated(mitospores2$names_to_use)),]#For some weird reason one species is duplicated, all values are exactly the same so I just removed it
+#mitospores2<-mitospores2[-which(duplicated(mitospores2$names_to_use)),]#For some weird reason one species is duplicated, all values are exactly the same so I just removed it
 #mitospores2<-mitospores2[-which(mitospores2$Life_style=="Fungi"),]
 #mitospores2<-mitospores2[-which(mitospores2$Life_style=="Animal"),]
 
@@ -606,6 +619,14 @@ rownames(mitospores2)<-mitospores2$names_to_use
 
 mitospores2 <- mitospores2[which(mitospores2$Life_style %in% styles), ]
 rownames(mitospores2) <- mitospores2$names_to_use
+```
+
+
+```{r, echo=FALSE}
+
+# meiospores_r <-
+# rbind(meiospores, Li_tree_names[which(Li_tree_names$orginal_tree_names == "Thamnocephalis_sphaerospora"),])
+# rownames(meiospores_r)<-meiospores$orginal_tree_names
 
 mod_Li_meios<-
   phylolm(log10(SporeVolume) ~ simpleFunct,
@@ -759,7 +780,8 @@ Li_mitos2 <- limpia(Li_mitos2)
 tax_mitos2 <- limpia(tax_mitos2)
 
 tablas <- 
-rbind(as.matrix(Li_meios1), matrix(names(Li_meios2), nrow = 1, ncol = 4), as.matrix(Li_meios2),
+rbind(as.matrix(Li_meios1),
+      matrix(names(Li_meios2), nrow = 1, ncol = 4), as.matrix(Li_meios2),
       matrix(names(tax_meios1), nrow = 1, ncol = 4), as.matrix(tax_meios1),
       matrix(names(tax_meios2), nrow = 1, ncol = 4), as.matrix(tax_meios2),
       
@@ -774,9 +796,6 @@ write.csv(tablas,
           "model_outputs/simple_funct_models.csv",
           row.names = F)
 
-write.table(tablas,
-          "model_outputs/simple_funct_models.txt", sep =";",
-          row.names = F)
 ```
 
 
@@ -817,9 +836,6 @@ mitospores<-Li_tree_names[mo,]
 #Removing the groups for which we have less than 3 species per function and "unknown" functions
 mitospores <- mitospores[which(mitospores$Life_style %in% styles), ]
 rownames(mitospores)<-mitospores$orginal_tree_names
-
-# pruned.tree_mo<-drop.tip(Li_tree,
-#                        Li_tree$tip.label[!Li_tree$tip.label%in%mitospores$orginal_tree_names])
 
 #Meiospores
 meiospores2 <- To_Analysis[grep("eiospores",To_Analysis$SporeType),]
@@ -1520,7 +1536,12 @@ outgroups <- which(!Li_tree$tip.label%in%Li_tree2$tip.label)
 #Li_tree$tip.label[outgroups] # Below the names just in case
 
 # Root in the tree
-tt <- root(tt, outgroup = outgroups); rm(Li_tree2)
+tt <- root(tt, outgroup = outgroups, resolve.root = T)#; rm(Li_tree2)
+# pdf("checking_tree")
+# plot(tt, cex = 0.5)
+# dev.off()
+#
+#tt <- root(tt, outgroup = "Ichthyophonus_hoferi")#; rm(Li_tree2)
 
 #read in genus in order lookup
 only_one_genera_per_order <- Li_tree_names[-which(duplicated(Li_tree_names$order)),
@@ -2123,6 +2144,8 @@ dev.off()
 
 ## Spore volume
 
+I need to ask Jeff for the code he used to create "brmsoutput_sporeVolume.RData"
+
 ```{r, eval=FALSE}
 
 library(brms)
@@ -2135,7 +2158,9 @@ temp<-left_join(read_csv('output/df_species_byPrimerSet.csv') %>%
                                 "phylum","class","order")]) %>% 
   filter(!order == 'Not assigned') %>% 
   mutate(Life_style = recode(Life_style, Plant = "Facultative association", 
-                             `B_Opportunistic association` = "AFree living"))
+                             `B_Opportunistic association` = "AFree living")) %>% 
+  mutate(simpleFunct = recode(simpleFunct, Human = "A_Saprotroph")) %>% 
+  filter(grepl("Sapro|Plant", simpleFunct))
 
 
 load('output/brmsoutput_sporeVolume.RData')
