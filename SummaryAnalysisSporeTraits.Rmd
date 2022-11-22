@@ -1084,11 +1084,15 @@ summary(mod_Li_meios_symb_no_contrast)
 First with the Li tree
 
 ```{r}
-# original file
-dat <- read_csv('output/df_species_noPrimers.csv')
-# file using updated trait data, but these are missing several species for which there used to be trait data
-# dat <- read_csv('miseq/output/df_species_noPrimers.csv')
-# dat$orginal_tree_names<-gsub(' ', '_', dat$Species)
+# download file with climate data per species, created in 'miseq/scripts/geoextent_brm_host_modelfit.R'
+if(!file.exists('miseq')) dir.create('miseq')
+if(!file.exists('miseq/output')) dir.create('miseq/output')
+if(!file.exists('miseq/output/df_species_noPrimers.csv')) {
+  download.file('https://cloudstor.aarnet.edu.au/plus/s/eYepf1maC2xlUml/download',
+                'miseq/output/df_species_noPrimers.csv')
+}
+dat <- read_csv('miseq/output/df_species_noPrimers.csv')
+dat$orginal_tree_names<-gsub(' ', '_', dat$Species)
 
 trial1<-left_join(
   Li_tree_names[,c("orginal_tree_names","SporeType","SporeVolume","simpleFunct","Life_style","phylum","class","order","family","genus")],
