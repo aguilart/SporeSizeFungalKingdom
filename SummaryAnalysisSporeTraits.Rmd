@@ -99,9 +99,11 @@ Saving as supplementary data for reviewing process
 
 write.csv(Spore_functions, row.names = F, "C:\\Users\\Carlos\\Documents\\Professional\\SporeSizeAcrossFungKingdom\\Manuscript_submission_versions\\PNAS\\Review\\Supplementary_data\\Spore_functions.csv")
 
-saveRDS(Li_tree, "C:\\Users\\Carlos\\Documents\\Professional\\SporeSizeAcrossFungKingdom\\Manuscript_submission_versions\\PNAS\\Review\\Supplementary_data\\Li_tree.RDS")
 
-saveRDS(tax_tree2, "C:\\Users\\Carlos\\Documents\\Professional\\SporeSizeAcrossFungKingdom\\Manuscript_submission_versions\\PNAS\\Review\\Supplementary_data\\tax_tree2.RDS")
+ape::write.tree(Li_tree, "C:\\Users\\Carlos\\Documents\\Professional\\SporeSizeAcrossFungKingdom\\Manuscript_submission_versions\\PNAS\\Review\\Supplementary_data\\Li_tree.txt")
+
+
+ape::write.tree(tax_tree2, "C:\\Users\\Carlos\\Documents\\Professional\\SporeSizeAcrossFungKingdom\\Manuscript_submission_versions\\PNAS\\Review\\Supplementary_data\\tax_tree2.txt")
 
 
 ```
@@ -425,7 +427,11 @@ Running the code below produces tables S3, S4 and S5 (as stated in the resubmiss
 The tables are stored in the folder model_outputs of this r project.
 
 ```{r}
-source("analysis_forPNAS_Aug22.R")
+#source("analysis_forPNAS_Aug22.R")
+source("analysis_forNM_March23.R")
+
+# Fix the entries with double "Plant pathogen" and also the two categories for necrotrophs
+
 ```
 
 
@@ -1258,7 +1264,7 @@ Table S9. Number of unique species (accepted species names) for which we obtaine
 
 ```{r}
 contando_grupos<-
-To_Analysis_c%>% 
+To_Analysis%>% 
   #filter(!Life_style=="Fungi") %>%
   #filter(!simpleFunct == "Animal") %>%
   filter(!simpleFunct == "Ants") %>%
@@ -1441,19 +1447,157 @@ temp <- data.frame(names=
 temp <- data.frame(names = temp$names[order(temp$names)],
                    simpleFunct = c(carto_pal(12, "Safe")[1],
                                    carto_pal(7, "Peach")[3],
-                                   carto_pal(12, "Safe")[2:12]))
+                                   carto_pal(12, "Safe")[2:9]))
 
 #predicted_mitos_Li <- cleaning_functions(predicted_mitos_Li)
 
-#New figure 2. 
-
-#I need to check that in all of them color is simplefunct
-
-carto_pal(12, "Safe")[1]
-carto_pal(7, "Peach")[1]
 
 
-pdf("Figures/Figure_2/PNAS_Figure2_bubbleplot.pdf",
+```
+
+Simplifying the figure for Ecology Letters
+
+```{r}
+temp2 <- temp
+
+temp2$simpleFunct <- c("#44AA99",rep("#882255", 9))
+
+predicted_ascos_basidios$Lifestyle <- predicted_ascos_basidios$simpleFunct
+predicted_ascos_basidios$Lifestyle[grep("Asymbiotic",
+                                   predicted_ascos_basidios$simpleFunct)] <- "Asymbiotic fungi"
+predicted_ascos_basidios$Lifestyle[-grep("Asymbiotic",
+                                   predicted_ascos_basidios$simpleFunct)] <- "Symbiotic fungi"
+#
+predicted_mitos$Lifestyle <- predicted_mitos$simpleFunct
+predicted_mitos$Lifestyle[grep("Asymbiotic",
+                                   predicted_mitos$simpleFunct)] <- "Asymbiotic fungi"
+predicted_mitos$Lifestyle[-grep("Asymbiotic",
+                                   predicted_mitos$simpleFunct)] <- "Symbiotic fungi"
+
+pdf("Figures/Figure_2/EL_Figure2.pdf",
+    width = 23,
+    height = 28)
+cowplot::plot_grid(
+coloreando(predicted_ascos_basidios,
+           temp2) %>% 
+  ggplot() +
+  geom_hline(yintercept = 10^2.08, color = "#44AA99",
+             linetype = "solid", linewidth = 2, alpha = 0.2) +
+  geom_hline(yintercept = 10^2.24, color = "#44AA99",
+             linetype = "solid", linewidth = 2, alpha = 0.2) +
+  geom_pointrange(aes(x = simpleFunct, y = 10^Estimate,
+                      ymin = 10^lower, ymax = 10^upper,
+                      color = colores), size = 2) + 
+  labs(y = expression("Sexual spore size ("*mu*"m³)")) +
+  scale_color_identity() +
+  facet_wrap(phylum~., scales = "free_x")+ #, scales = "free_y") +
+  scale_y_log10(#limits=c(10^1, 10^5),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  theme_1,
+
+coloreando(predicted_mitos,
+           temp2) %>% 
+  filter(grepl("Asco|Basidio", phylum)) %>% 
+  ggplot() +
+  geom_hline(yintercept = 10^1.67, color = "#44AA99",
+             linetype = "solid", linewidth = 2, alpha = 0.2) +
+  geom_hline(yintercept = 10^1.73, color = "#44AA99",
+             linetype = "solid", linewidth = 2, alpha = 0.2) +
+  geom_pointrange(aes(x = simpleFunct, y = 10^Estimate,
+                      ymin = 10^lower, ymax = 10^upper,
+                      color = colores), size = 2) +
+  labs(y = expression("Asexual spore size ("*mu*"m³)")) +
+  scale_color_identity() +
+  facet_wrap(phylum~., scales = "free_x")+ #, scales = "free_y") +
+  scale_y_log10(#limits=c(10^1, 10^5),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  theme_1,
+  
+  coloreando(predicted_mitos,
+           temp2) %>% 
+  filter(!grepl("Asco|Basidio", phylum)) %>% 
+  ggplot() +
+  geom_hline(yintercept = 10^2.41, color = "#44AA99",
+             linetype = "solid", linewidth = 2, alpha = 0.2) +
+  geom_pointrange(aes(x = simpleFunct, y = 10^Estimate,
+                      ymin = 10^lower, ymax = 10^upper,
+                      color = colores), size = 2) +
+  labs(y = expression("Asexual spore size ("*mu*"m³)")) +
+  scale_color_identity() +
+  facet_wrap(phylum~., scales = "free_x")+ #, scales = "free_y") +
+  scale_y_log10(breaks = c(10^2,10^2.5,10^3,10^3.5),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  theme_1,
+  ncol = 1, align = "v",
+rel_heights = c(1,1,0.7), labels = "auto", label_size = 35)
+dev.off()
+
+
+
+ggsave(filename="Figures\\Figure_2\\EL_Figure2.svg",
+       plot =cowplot::plot_grid(
+         coloreando(predicted_ascos_basidios,
+           temp2) %>% 
+  ggplot() +
+  geom_hline(yintercept = 10^2.08, color = "#44AA99",
+             linetype = "solid", linewidth = 2, alpha = 0.2) +
+  geom_hline(yintercept = 10^2.24, color = "#44AA99",
+             linetype = "solid", linewidth = 2, alpha = 0.2) +
+  geom_pointrange(aes(x = simpleFunct, y = 10^Estimate,
+                      ymin = 10^lower, ymax = 10^upper,
+                      color = colores), size = 2) + 
+  labs(y = expression("Sexual spore size ("*mu*"m³)")) +
+  scale_color_identity() +
+  facet_wrap(phylum~., scales = "free_x")+ #, scales = "free_y") +
+  scale_y_log10(#limits=c(10^1, 10^5),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  theme_1,
+
+coloreando(predicted_mitos,
+           temp2) %>% 
+  filter(grepl("Asco|Basidio", phylum)) %>% 
+  ggplot() +
+  geom_hline(yintercept = 10^1.67, color = "#44AA99",
+             linetype = "solid", linewidth = 2, alpha = 0.2) +
+  geom_hline(yintercept = 10^1.73, color = "#44AA99",
+             linetype = "solid", linewidth = 2, alpha = 0.2) +
+  geom_pointrange(aes(x = simpleFunct, y = 10^Estimate,
+                      ymin = 10^lower, ymax = 10^upper,
+                      color = colores), size = 2) +
+  labs(y = expression("Asexual spore size ("*mu*"m³)")) +
+  scale_color_identity() +
+  facet_wrap(phylum~., scales = "free_x")+ #, scales = "free_y") +
+  scale_y_log10(#limits=c(10^1, 10^5),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  theme_1,
+  
+  coloreando(bind_rows(predicted_mitos_Li[grep("Micro|Zoo", predicted_mitos_Li$phylum), ],
+                       predicted_mitos[grep("Zygo", predicted_mitos$phylum), ]),
+           temp2) %>% 
+  filter(!grepl("Asco|Basidio", phylum)) %>% 
+  ggplot() +
+  geom_hline(yintercept = 10^1.83, color = "#44AA99",
+             linetype = "solid", linewidth = 2, alpha = 0.2) +
+  geom_hline(yintercept = 10^2.41, color = "#44AA99",
+             linetype = "solid", linewidth = 2, alpha = 0.2) +
+  geom_pointrange(aes(x = simpleFunct, y = 10^Estimate,
+                      ymin = 10^lower, ymax = 10^upper,
+                      color = colores), size = 2) +
+  labs(y = expression("Asexual spore size ("*mu*"m³)")) +
+  scale_color_identity() +
+  facet_wrap(phylum~., scales = "free_x")+ #, scales = "free_y") +
+  scale_y_log10(breaks = c(10^0,10^1,10^2,10^3,10^4),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  theme_1,
+  ncol = 1, align = "v",
+rel_heights = c(1,1,0.7), labels = "auto", label_size = 35),
+height = 28, width = 21,device="svg")
+```
+
+Figure S3
+
+```{r}
+pdf("Figures/Figure_2/FigureS3_bubbleplot.pdf",
     width = 23,
     height = 28)
 cowplot::plot_grid(
@@ -1547,7 +1691,6 @@ rel_heights = c(1,1,0.7), labels = "auto", label_size = 35)
 dev.off()
 
 ```
-
 
 
 
@@ -1869,7 +2012,7 @@ dev.off()
 
 
 
-Figure S3
+Figure S4
 
 ```{r}
 # For plant associated fungi # For faculatative vs obligate symbionts
@@ -1925,9 +2068,10 @@ names(predicted_pa_mi_as)[5] <- "Life_style"
 
 leyenda <- 
   temp %>% 
-  mutate(dumb_y = rep(c(2,1), c(7,6)),
-         dumb_x = c(1:7,1:6)) %>% 
-  mutate(names = gsub(" ", "\n", names)) %>% 
+  mutate(dumb_y = rep(c(2,1), c(5,5)),
+         dumb_x = c(1:5,1:5)) %>% 
+  mutate(names = gsub("\\d+_|\\d+\\.\\d_", "", names)) %>% 
+  mutate(names = gsub("\\n", " ", names)) %>% 
   
   ggplot() +
   aes(x = dumb_x, y = dumb_y, color = simpleFunct) +
@@ -1944,7 +2088,7 @@ leyenda <-
         axis.text.y = element_blank())
 
 
-pdf("Figures/Figure_2/PNAS_FigureS2_bubbleplot.pdf",
+pdf("Figures/Figure_2/EL_FigureS4_bubbleplot.pdf",
     width = 23,
     height = 28)
 cowplot::plot_grid(
